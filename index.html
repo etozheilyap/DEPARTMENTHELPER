@@ -51,7 +51,7 @@
     .article:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(53,36,21,.09)}
     .article.selected{border-color:var(--accent);box-shadow:inset 4px 0 0 var(--accent)}
     .article-top{display:flex;gap:9px;align-items:flex-start;justify-content:space-between}
-    .code{font-weight:700;color:var(--accent);white-space:nowrap}
+    .code{font-weight:700;color:var(--accent);white-space:nowrap}.legal-category{display:inline-block;margin-left:5px;color:var(--ink);font-size:11px;opacity:.9}
     .badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:3px 6px;color:var(--muted);border-radius:999px}
     .article-title{margin:7px 0 5px;font-weight:700;font-size:15px;line-height:1.3}
     .article-text{margin:0;color:#d1bdaa;font-size:13px;line-height:1.45}
@@ -135,7 +135,7 @@
   <main class="wrap no-print">
     <section id="laws" class="grid">
       <div class="card">
-        <div class="card-head"><h2>Статьи</h2><p>Ищите по номеру, ключевым словам или формулировке. Нажмите на статью, чтобы добавить её в калькулятор.</p></div>
+        <div class="card-head"><h2>Статьи</h2><p>Ищите по номеру, ключевым словам или формулировке. Нажмите на статью, чтобы добавить её в калькулятор.</p><p class="subtle" style="margin-top:7px">Категории: <strong>(i)</strong> — административное правонарушение · <strong>(m)</strong> — проступок · <strong>(f)</strong> — уголовное преступление.</p></div>
         <div class="card-body">
           <div class="search-row">
             <input id="lawSearch" class="control" type="search" placeholder="Например: 3.4, разбой, взятка…">
@@ -197,7 +197,7 @@
           </select></div>
           <div><label for="rank">Звание сотрудника</label><input id="rank" class="field" value="сержант"></div>
           <div><label for="issueDate">Дата выписки (Москва)</label><input id="issueDate" class="field" type="text" readonly></div>
-          <div class="span-2"><label for="articlesInput">Номера статей</label><input id="articlesInput" class="field" placeholder="3.4, 5.1, 8.1"></div>
+          <div class="span-2"><label for="articlesInput">Номера статей</label><input id="articlesInput" class="field" placeholder="3.4 (f), 5.1 (f), 8.1 (m)"></div>
           <div><label for="fineInput">Сумма штрафа ($)</label><input id="fineInput" class="field" type="number" min="0" step="1" value="0"></div>
           <div><label for="termInput">Количество сроков</label><input id="termInput" class="field" type="number" min="0" step="1" value="0"></div>
         </div>
@@ -283,8 +283,22 @@
       LAW('12.2','Незаконный вылов водных ресурсов','Первичное нарушение','Первичное использование рыболовных сетей в запрещённых акваториях.',40,0,'and',{special:'Изъятие незаконно добытых водных ресурсов; сети при первом нарушении не изымаются.'}),
       LAW('12.3','Незаконный вылов водных ресурсов','Повторное нарушение','Повторное использование рыболовных сетей в запрещённых акваториях.',80,15,'and',{special:'Рыболовные сети подлежат обязательному изъятию без права возврата.'}),
     ];
+    const LEGAL_CATEGORY_BY_CODE = {
+      '2.1':'i','2.2':'m','2.3':'m','2.4':'i','2.5':'i','2.6':'m',
+      '3.1':'m','3.2':'m','3.3':'m','3.4':'f','3.5':'m','3.6':'m','3.7':'m',
+      '4.1':'m','4.2':'m','4.3':'f','4.4':'f','4.5':'f','4.6':'f','4.6-покушение':'f','4.7':'m','4.8':'m',
+      '5.1':'f','5.2':'m','5.3':'m','5.4':'m','5.5':'f','5.6':'f',
+      '6.1':'m','6.2':'f','6.3':'f','6.4':'m','6.5':'f','6.6':'f',
+      '7.3':'m','8.1':'m','8.2':'m','9.1 до 5 унций':'m','9.1 свыше 5 унций':'f',
+      '11.3 первичное':'m','11.3 повторное':'m','11.4':'m','12.2':'m','12.3':'m'
+    };
+    const VALID_LEGAL_CATEGORIES=new Set(['i','m','f']);
+    function inferLegalCategory(code, fallback='m'){ return LEGAL_CATEGORY_BY_CODE[code] || (VALID_LEGAL_CATEGORIES.has(fallback)?fallback:'m'); }
+    function articleLabel(l){ return `${l.code} (${l.legalCategory || inferLegalCategory(l.code)})`; }
+
     const LAW_STORAGE_KEY='san_denis_laws_v1';
     let laws = loadSavedLaws();
+    defaultLaws.forEach(l=>{ if(!l.legalCategory) l.legalCategory=inferLegalCategory(l.code); });
 
     function loadSavedLaws(){
       try{
@@ -299,6 +313,7 @@
       return {
         code:String(l.code??'').trim(),
         category:String(l.category??'Общие положения').trim()||'Общие положения',
+        legalCategory:inferLegalCategory(String(l.code??'').trim(), l.legalCategory),
         title:String(l.title??'Новая статья').trim()||'Новая статья',
         text:String(l.text??'').trim(),
         fineMax:(l.fineMax===null||l.fineMax===''||Number.isNaN(Number(l.fineMax)))?null:Math.max(0,Number(l.fineMax)),
@@ -310,7 +325,7 @@
         dynamicFine:Boolean(l.dynamicFine)
       };
     }
-    function saveLaws(){ localStorage.setItem(LAW_STORAGE_KEY, JSON.stringify(laws)); }
+    function saveLaws(){ localStorage.setItem(LAW_STORAGE_KEY, JSON.stringify(laws.map(normalizeLaw))); }
     function resetLaws(){ laws=defaultLaws.map(x=>({...x})); saveLaws(); selected.clear(); refreshCategories(); render(); renderSelected(); calc(); updatePreview(); }
     function refreshCategories(){
       const current=categoryEl?.value||'all';
@@ -367,7 +382,7 @@
       visible.forEach(l=>{
         const d=document.createElement('article'); d.className='article'+(selected.has(l.code)?' selected':'');
         const badge=l.code.startsWith('2.')||l.code.startsWith('6.')||l.code.startsWith('7.')||l.code.startsWith('8.')||l.code.startsWith('11.')||l.code.startsWith('12.')?'Код':'Статья';
-        d.innerHTML=`<div class="article-top"><span class="code">${escapeHtml(l.code)}</span><span class="badge">${escapeHtml(badge)}</span></div><div class="article-title">${escapeHtml(l.title)}</div><p class="article-text">${escapeHtml(l.text)}</p><div class="article-penalty">${escapeHtml(penalty(l))}</div>${l.special?`<div class="subtle" style="margin-top:6px">${escapeHtml(l.special)}</div>`:''}`;
+        d.innerHTML=`<div class="article-top"><span class="code">${escapeHtml(articleLabel(l))}</span><span class="badge">${escapeHtml(badge)}</span></div><div class="article-title">${escapeHtml(l.title)}</div><p class="article-text">${escapeHtml(l.text)}</p><div class="article-penalty">${escapeHtml(penalty(l))}</div>${l.special?`<div class="subtle" style="margin-top:6px">${escapeHtml(l.special)}</div>`:''}`;
         d.addEventListener('click',()=>toggle(l.code)); listEl.appendChild(d);
       });
     }
@@ -375,7 +390,7 @@
     function renderSelected(){
       selectedBox.innerHTML='';
       if(!selected.size){selectedBox.innerHTML='<span class="subtle">Пока ничего не выбрано</span>';return}
-      [...selected].forEach(code=>{const b=document.createElement('button');b.className='chip';b.textContent=code;b.title='Убрать';b.onclick=()=>toggle(code);selectedBox.appendChild(b)});
+      [...selected].forEach(code=>{const b=document.createElement('button');b.className='chip';const law=laws.find(x=>x.code===code); b.textContent=law?articleLabel(law):code;b.title='Убрать';b.onclick=()=>toggle(code);selectedBox.appendChild(b)});
     }
     function calc(){
       const items=laws.filter(l=>selected.has(l.code));
@@ -383,8 +398,8 @@
       items.forEach(l=>{
         if(l.fineMax===null) unknownFine=true; else fine+=l.fineMax;
         term+=l.termMax||0;
-        if(l.mode==='or') notes.push(`Ст. ${l.code}: санкции альтернативные — одновременно штраф и арест применять нельзя по формулировке статьи.`);
-        if(l.special) notes.push(`Ст. ${l.code}: ${l.special}`);
+        if(l.mode==='or') notes.push(`Ст. ${articleLabel(l)}: санкции альтернативные — одновременно штраф и арест применять нельзя по формулировке статьи.`);
+        if(l.special) notes.push(`Ст. ${articleLabel(l)}: ${l.special}`);
       });
       const cappedFine=Math.min(fine,750), cappedTerm=Math.min(term,60);
       document.getElementById('maxFine').textContent=unknownFine?(fine?`${cappedFine}$*`:'—'):`${cappedFine}$`;
@@ -398,7 +413,7 @@
     document.getElementById('lawSearch').addEventListener('input',render); categoryEl.addEventListener('change',render);
     document.getElementById('clearSelection').addEventListener('click',()=>{selected.clear();render();renderSelected();calc()});
     document.getElementById('toForm').addEventListener('click',()=>{
-      document.getElementById('articlesInput').value=[...selected].join(', ');
+      document.getElementById('articlesInput').value=[...selected].map(code=>{const l=laws.find(x=>x.code===code); return l?articleLabel(l):code}).join(', ');
       document.getElementById('fineInput').value=fineRange.disabled ? 0 : Number(fineRange.value)||0;
       document.getElementById('termInput').value=Number(termRange.value)||0;
       updatePreview();
@@ -477,6 +492,7 @@
         row.innerHTML=`
           <div class="law-edit-grid">
             <div><label>Номер</label><input class="field ed-code" value="${escapeHtml(l.code)}" placeholder="2.1"></div>
+            <div><label>Категория статьи</label><select class="field ed-legal-category"><option value="i" ${l.legalCategory==='i'?'selected':''}>(i) — административное правонарушение</option><option value="m" ${l.legalCategory==='m'?'selected':''}>(m) — проступок</option><option value="f" ${l.legalCategory==='f'?'selected':''}>(f) — уголовное преступление</option></select></div>
             <div><label>Раздел</label><input class="field ed-category" value="${escapeHtml(l.category)}" placeholder="Мелкие правонарушения"></div>
             <div><label>Название</label><input class="field ed-title" value="${escapeHtml(l.title)}" placeholder="Название статьи"></div>
             <div class="wide"><label>Текст / описание</label><textarea class="field ed-text" rows="3" placeholder="Формулировка статьи">${escapeHtml(l.text)}</textarea></div>
@@ -492,6 +508,7 @@
         const bind=(selector,fn)=>row.querySelector(selector).addEventListener('input',fn);
         bind('.ed-code',e=>editorDraft[i].code=e.target.value.trim());
         bind('.ed-category',e=>editorDraft[i].category=e.target.value.trim());
+        row.querySelector('.ed-legal-category').addEventListener('change',e=>editorDraft[i].legalCategory=e.target.value);
         bind('.ed-title',e=>editorDraft[i].title=e.target.value.trim());
         bind('.ed-text',e=>editorDraft[i].text=e.target.value);
         bind('.ed-fine',e=>editorDraft[i].fineMax=e.target.value===''?null:Math.max(0,Number(e.target.value)||0));
@@ -506,7 +523,7 @@
     function saveEditorDraft(){
       const seen=new Set();
       for(const l of editorDraft){
-        l.code=String(l.code||'').trim(); l.category=String(l.category||'').trim()||'Общие положения'; l.title=String(l.title||'').trim()||'Новая статья';
+        l.code=String(l.code||'').trim(); l.category=String(l.category||'').trim()||'Общие положения'; l.legalCategory=inferLegalCategory(l.code,l.legalCategory); l.title=String(l.title||'').trim()||'Новая статья';
         l.text=String(l.text||'').trim(); l.termMax=Math.max(0,Number(l.termMax)||0); l.mode=l.mode==='or'?'or':'and';
         l.fineMax=(l.fineMax===null||l.fineMax===''||Number.isNaN(Number(l.fineMax)))?null:Math.max(0,Number(l.fineMax)||0);
         l.fineMin=(l.fineMin===null||l.fineMin===''||Number.isNaN(Number(l.fineMin)))?null:Math.max(0,Number(l.fineMin)||0);
@@ -521,7 +538,7 @@
     document.getElementById('closeLawEditor').addEventListener('click',closeLawEditor);
     document.getElementById('saveLawsBtn').addEventListener('click',saveEditorDraft);
     document.getElementById('addLawBtn').addEventListener('click',()=>{
-      editorDraft.push(normalizeLaw({code:`новая-${editorDraft.length+1}`,category:'Новый раздел',title:'Новая статья',text:'',fineMax:null,termMax:0,mode:'and',fineMin:null,special:''}));
+      editorDraft.push(normalizeLaw({code:`новая-${editorDraft.length+1}`,category:'Новый раздел',legalCategory:'m',title:'Новая статья',text:'',fineMax:null,termMax:0,mode:'and',fineMin:null,special:''}));
       renderEditor(); editorList.lastElementChild?.scrollIntoView({behavior:'smooth'});
     });
     document.getElementById('resetLawsBtn').addEventListener('click',()=>{
