@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ПОМОЩЬ МАЛЮТКАМ ШЕРИФАМ</title>
+  <meta name="description" content="Оффлайн RP-подсказка: Свод законов, калькулятор наказаний и генератор штрафного бланка.">
+  <style>
+    :root{
+      --paper:#1b120d; --paper-2:#251913; --paper-3:#2d1f17; --ink:#f0e2d0; --muted:#bfa995; --line:#5b4332;
+      --accent:#d7a86e; --accent-2:#9b6a45; --accent-3:#6f4932; --shadow:rgba(0,0,0,.48); --warn:#c47f57; --ok:#879c72;
+      --serif: Georgia, 'Times New Roman', serif; --hand:'Segoe Print','Bradley Hand','Comic Sans MS',cursive;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--ink); font-family:var(--serif); background:
+      radial-gradient(circle at 20% 10%, rgba(197,154,98,.09), transparent 35%),
+      radial-gradient(circle at 80% 40%, rgba(255,255,255,.025), transparent 40%),
+      linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px) 0 0/24px 24px,
+      var(--paper);
+    }
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:radial-gradient(rgba(255,255,255,.18) .6px, transparent .7px);background-size:7px 7px;mix-blend-mode:screen}
+    a{color:inherit}
+    button,input,select,textarea{font:inherit}
+    .wrap{max-width:1250px;margin:0 auto;padding:0 22px}
+    .masthead{padding:28px 0 20px;text-align:center;position:relative}
+    .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+    h1{font-size:clamp(34px,5vw,64px);letter-spacing:.05em;margin:6px 0 2px;text-transform:uppercase;font-weight:700}
+    .tagline{font-family:var(--hand);font-size:18px;color:var(--accent);margin:0}
+    .rule{height:1px;background:var(--line);margin:20px auto 0;max-width:900px;position:relative}
+    .rule:after{content:'✦';position:absolute;left:50%;top:-13px;transform:translateX(-50%);background:var(--paper);padding:0 13px;color:var(--accent)}
+    nav{position:sticky;top:0;z-index:10;background:rgba(27,18,13,.94);backdrop-filter:blur(6px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .nav-in{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:8px 0}
+    nav a{text-decoration:none;padding:8px 14px;border:1px solid transparent;border-radius:3px;font-size:14px}
+    nav a:hover{border-color:var(--line);background:rgba(255,255,255,.045)}
+    .grid{display:grid;grid-template-columns:1.35fr .9fr;gap:18px;margin:22px 0 34px}
+    @media(max-width:950px){.grid{grid-template-columns:1fr}}
+    .card{background:rgba(37,25,19,.93);border:1px solid var(--line);box-shadow:0 10px 25px var(--shadow);border-radius:3px;position:relative;overflow:hidden}
+    .card:after{content:"";position:absolute;inset:5px;border:1px solid rgba(215,168,110,.4);pointer-events:none}
+    .card-head{padding:20px 22px 12px;border-bottom:1px solid var(--line)}
+    .card-head h2{margin:0;font-size:25px;text-transform:uppercase;letter-spacing:.06em}
+    .card-head p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+    .card-body{padding:18px 22px 22px}
+    .search-row{display:grid;grid-template-columns:1fr 180px;gap:10px;margin-bottom:13px}
+    @media(max-width:600px){.search-row{grid-template-columns:1fr}}
+    .control,.field{width:100%;border:1px solid var(--line);background:#21150f;color:var(--ink);padding:11px 12px;border-radius:2px;outline:none}
+    .control:focus,.field:focus{border-color:var(--accent-2);box-shadow:0 0 0 2px rgba(139,98,67,.12)}
+    .article-list{display:grid;gap:9px;max-height:560px;overflow:auto;padding-right:3px}
+    .article{border:1px solid rgba(155,106,69,.9);background:#21150f;padding:13px 14px;border-radius:2px;cursor:pointer;transition:.15s}
+    .article:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(53,36,21,.09)}
+    .article.selected{border-color:var(--accent);box-shadow:inset 4px 0 0 var(--accent)}
+    .article-top{display:flex;gap:9px;align-items:flex-start;justify-content:space-between}
+    .code{font-weight:700;color:var(--accent);white-space:nowrap}
+    .badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:3px 6px;color:var(--muted);border-radius:999px}
+    .article-title{margin:7px 0 5px;font-weight:700;font-size:15px;line-height:1.3}
+    .article-text{margin:0;color:#d1bdaa;font-size:13px;line-height:1.45}
+    .article-penalty{margin-top:9px;font-size:12px;font-weight:700;color:var(--ink)}
+    .empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line)}
+    .calc{position:sticky;top:62px;align-self:start}
+    .selected-box{display:flex;flex-wrap:wrap;gap:6px;min-height:48px;padding:10px;border:1px dashed var(--line);background:rgba(59,39,28,.72)}
+    .chip{border:1px solid var(--accent-2);color:var(--accent);padding:5px 8px;font-size:12px;background:rgba(197,154,98,.06);cursor:pointer;border-radius:2px}
+    .chip:hover{background:rgba(139,98,67,.13)}
+    .totals{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+    .metric{border:1px solid var(--line);padding:13px;background:#2a1c15;text-align:center}
+    .metric .n{display:block;font-size:29px;font-weight:700;color:var(--accent)}
+    .metric small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    .cap{margin-top:10px;padding:10px 12px;border-left:3px solid var(--accent-2);background:rgba(197,154,98,.08);font-size:12px;line-height:1.45}
+    .notice{margin-top:10px;padding:10px 12px;border-left:3px solid var(--warn);background:rgba(184,112,77,.08);font-size:12px;line-height:1.45;display:none}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+    .btn{border:1px solid var(--accent);background:var(--accent);color:#191612;padding:10px 13px;border-radius:2px;cursor:pointer;font-size:13px}
+    .btn.secondary{background:transparent;color:var(--accent)}
+    .btn:hover{filter:brightness(1.04)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .span-2{grid-column:span 2}
+    @media(max-width:700px){.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}}
+    label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--muted);letter-spacing:.03em}
+    .section-title{font-family:var(--hand);font-size:21px;color:var(--accent);margin:20px 0 9px}
+    textarea.field{min-height:230px;resize:vertical;line-height:1.6}
+    .preview{margin-top:15px;border:1px solid var(--line);background:#22160f;padding:22px;box-shadow:inset 0 0 0 1px rgba(215,168,110,.35)}
+    .preview h3{text-align:center;text-transform:uppercase;letter-spacing:.08em;font-size:17px;margin:0 0 16px}
+    .preview-body{white-space:pre-wrap;line-height:1.7;font-family:Georgia,'Times New Roman',serif;font-size:14px}
+    .subtle{color:var(--muted);font-size:12px;line-height:1.5}
+    .footer{padding:20px 0 45px;text-align:center;color:var(--muted);font-size:12px}
+    .footer strong{color:var(--accent)}
+    .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+    .mini{padding:10px;border-top:1px solid var(--line);text-align:center;font-size:12px}.mini b{display:block;font-size:18px;color:var(--accent)}
+    .checkrow{display:flex;gap:8px;align-items:center;font-size:13px;margin:9px 0}.checkrow input{accent-color:var(--accent)}
+    .range-row{margin-top:13px;padding:13px 14px;border:1px solid var(--line);background:#2a1c15;border-radius:2px}
+    .range-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:7px}
+    .range-head strong{color:var(--accent);font-size:19px}
+    .range-head span{color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+    .range{width:100%;margin:2px 0 6px;accent-color:var(--accent);cursor:pointer}
+    .range-scale{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+    .range:disabled{opacity:.45;cursor:not-allowed}
+    .calc-note{margin-top:8px;color:var(--muted);font-size:11px;line-height:1.45}
+    .print-only{display:none}
+    .nav-editor-btn{padding:7px 11px;font-size:12px;margin-left:4px}
+    .modal-backdrop{position:fixed;inset:0;z-index:100;background:rgba(10,6,4,.82);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-backdrop.open{display:flex}
+    .editor-modal{width:min(1180px,100%);max-height:92vh;display:flex;flex-direction:column;background:#24160f;border:1px solid var(--accent-2);box-shadow:0 25px 70px rgba(0,0,0,.65);border-radius:4px;overflow:hidden}
+    .editor-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);background:#2d1d14}
+    .editor-head h2{margin:0;text-transform:uppercase;letter-spacing:.06em;font-size:21px}
+    .editor-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .editor-list{padding:16px;overflow:auto;display:grid;gap:12px}
+    .law-edit{border:1px solid var(--line);background:#1f130d;padding:14px;position:relative}
+    .law-edit-grid{display:grid;grid-template-columns:120px 1.1fr 1.2fr;gap:10px}
+    .law-edit-grid .wide{grid-column:1/-1}
+    @media(max-width:800px){.law-edit-grid{grid-template-columns:1fr}.law-edit-grid .wide{grid-column:auto}}
+    .editor-actions{display:flex;gap:8px;flex-wrap:wrap;padding:13px 16px;border-top:1px solid var(--line);background:#2a1a12}
+    .editor-actions .spacer{flex:1}
+    .editor-footnote{color:var(--muted);font-size:11px;line-height:1.4;padding:0 16px 12px;background:#2a1a12}
+    .delete-law{background:transparent;color:#d59a7a;border:1px solid #744936;padding:8px 10px;border-radius:2px;cursor:pointer}
+    .delete-law:hover{background:rgba(184,112,77,.08)}
+    .editor-empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed var(--line)}
+    @media print{
+      body{background:#fff;color:#000}.wrap,nav,.masthead,.no-print{display:none!important}.print-only{display:block!important}
+      .print-sheet{padding:40px;max-width:800px;margin:0 auto}.print-sheet h1{font-size:28px;text-align:center}.preview{border:none;padding:0;box-shadow:none;background:#fff}
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead no-print">
+    <div class="wrap">
+      <h1>ПОМОЩЬ МАЛЮТКАМ ШЕРИФАМ</h1>
+      <p class="tagline">Служебная подсказка по Своду Законов</p>
+      <div class="rule"></div>
+    </div>
+  </header>
+
+  <nav class="no-print"><div class="wrap nav-in">
+    <a href="#laws">Свод законов</a><a href="#calculator">Калькулятор</a><a href="#form">Штрафной бланк</a><button class="btn nav-editor-btn" id="openLawEditor">Редактор свода</button>
+  </div></nav>
+
+  <main class="wrap no-print">
+    <section id="laws" class="grid">
+      <div class="card">
+        <div class="card-head"><h2>Статьи</h2><p>Ищите по номеру, ключевым словам или формулировке. Нажмите на статью, чтобы добавить её в калькулятор.</p></div>
+        <div class="card-body">
+          <div class="search-row">
+            <input id="lawSearch" class="control" type="search" placeholder="Например: 3.4, разбой, взятка…">
+            <select id="categoryFilter" class="control"><option value="all">Все разделы</option></select>
+          </div>
+          <div class="mini-stats"><div class="mini"><b id="countVisible">0</b>найдено</div><div class="mini"><b id="countSelected">0</b>выбрано</div><div class="mini"><b>12</b>разделов</div></div>
+          <div id="articleList" class="article-list" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <aside id="calculator" class="card calc">
+        <div class="card-head"><h2>Калькулятор</h2><p>Суммирует максимальные санкции по выбранным статьям и применяет общий предел Свода.</p></div>
+        <div class="card-body">
+          <div class="subtle" style="margin-bottom:7px">Выбранные статьи:</div>
+          <div id="selectedBox" class="selected-box"><span class="subtle">Пока ничего не выбрано</span></div>
+          <div class="totals">
+            <div class="metric"><span id="maxFine" class="n">0$</span><small>штраф максимум</small></div>
+            <div class="metric"><span id="maxTerm" class="n">0</span><small>сроков максимум</small></div>
+          </div>
+          <div class="range-row">
+            <div class="range-head"><span>Назначаемый штраф</span><strong id="fineRangeValue">$0</strong></div>
+            <input id="fineRange" class="range" type="range" min="0" max="0" value="0" step="1" disabled>
+            <div class="range-scale"><span>$0</span><span id="fineRangeMax">$0</span></div>
+          </div>
+          <div class="range-row">
+            <div class="range-head"><span>Назначаемые сроки</span><strong id="termRangeValue">0</strong></div>
+            <input id="termRange" class="range" type="range" min="0" max="0" value="0" step="1" disabled>
+            <div class="range-scale"><span>0</span><span id="termRangeMax">0</span></div>
+          </div>
+          <div class="calc-note">Ползунки задают фактически назначаемое наказание. Максимум рассчитывается по выбранным статьям с учётом общего предела Свода.</div>
+          <div id="capNotice" class="cap">Предел совокупности по ст. 1.9: не более 60 сроков лишения свободы и $750 штрафа.</div>
+          <div id="specialNotice" class="notice"></div>
+          <div class="actions">
+            <button class="btn secondary" id="clearSelection">Очистить</button>
+            <button class="btn" id="toForm">Перенести в бланк</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="form" class="card" style="margin-bottom:28px">
+      <div class="card-head"><h2>Помощник штрафного бланка</h2><p>Заполните поля — готовый текст появится справа/ниже и его можно скопировать или распечатать.</p></div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div><label for="citizenName">Имя Фамилия обвиняемого</label><input id="citizenName" class="field" placeholder="Иван Иванов"></div>
+          <div><label for="passport">№ паспорта обвиняемого</label><input id="passport" class="field" placeholder="123456"></div>
+          <div><label for="officerName">Имя Фамилия сотрудника</label><input id="officerName" class="field" placeholder="Алексей Петров"></div>
+          <div><label for="department">Департамент</label><select id="department" class="field">
+            <option>Полицейский департамент Сен-Дени</option>
+            <option>Полицейский департамент Блэквотер</option>
+            <option>Шерифский офис Армадилло</option>
+            <option>Шерифский офис Валентайн</option>
+            <option>Шерифский офис Аннесбург</option>
+            <option>Шерифский офис Ван-Хорн</option>
+            <option>Шерифский офис Роудс</option>
+            <option>Шерифский офис Лимпани</option>
+            <option>Шерифский офис Строуберри</option>
+            <option>Шерифский офис Тамблвид</option>
+          </select></div>
+          <div><label for="rank">Звание сотрудника</label><input id="rank" class="field" value="сержант"></div>
+          <div><label for="issueDate">Дата выписки (Москва)</label><input id="issueDate" class="field" type="text" readonly></div>
+          <div class="span-2"><label for="articlesInput">Номера статей</label><input id="articlesInput" class="field" placeholder="3.4, 5.1, 8.1"></div>
+          <div><label for="fineInput">Сумма штрафа ($)</label><input id="fineInput" class="field" type="number" min="0" step="1" value="0"></div>
+          <div><label for="termInput">Количество сроков</label><input id="termInput" class="field" type="number" min="0" step="1" value="0"></div>
+        </div>
+
+        <div class="section-title">Текст бланка</div>
+        <div id="preview" class="preview"><h3>Штрафной бланк</h3><div id="previewText" class="preview-body"></div></div>
+        <div class="actions">
+          <button class="btn" id="copyBtn">Скопировать текст</button>
+          <button class="btn secondary" id="printBtn">Печать</button>
+          <button class="btn secondary" id="resetForm">Сбросить</button>
+        </div>
+        <p class="subtle" style="margin-top:12px">Срок оплаты автоматически считается как 3 календарных дня с даты выписки в соответствии со ст. 6.1.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="lawEditor" aria-hidden="true">
+    <div class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+      <div class="editor-head">
+        <div><h2 id="editorTitle">Редактор свода законов</h2><p>Меняйте существующие статьи, добавляйте новые или удаляйте ненужные. Изменения сохраняются только в этом браузере.</p></div>
+        <button class="btn secondary" id="closeLawEditor">Закрыть</button>
+      </div>
+      <div class="editor-list" id="editorList"></div>
+      <div class="editor-actions">
+        <button class="btn secondary" id="addLawBtn">+ Добавить статью</button>
+        <span class="spacer"></span>
+        <button class="btn secondary" id="resetLawsBtn">Вернуть исходный Свод</button>
+        <button class="btn" id="saveLawsBtn">Сохранить изменения</button>
+      </div>
+      <div class="editor-footnote">Для максимального штрафа оставляйте поле пустым, если в статье верхний предел не указан. Для альтернативной санкции используйте «Штраф ИЛИ арест».</div>
+    </div>
+  </div>
+
+  <section class="print-only"><div class="print-sheet"><h1>Штрафной бланк</h1><div class="preview"><div id="printText" class="preview-body"></div></div></div></section>
+
+  <footer class="footer no-print"><div class="wrap"><strong>ОФФЛАЙН RP-ПОДСКАЗКА</strong> · данные внесены по прикреплённому Своду Законов</div></footer>
+
+  <script>
+    const LAW = (code, category, title, text, fineMax, termMax, mode='and', extra={}) => ({code,category,title,text,fineMax,termMax,mode,...extra});
+    const defaultLaws = [
+      LAW('2.1','Мелкие правонарушения','Нарушение общественного порядка','Нарушение общественного порядка, включая хулиганство, непристойное поведение и опасную езду в черте города.',20,0),
+      LAW('2.2','Мелкие правонарушения','Надругательство над телами умерших','Надругательство над телами умерших либо осквернение мест захоронения.',50,15,'or',{alt:true}),
+      LAW('2.3','Мелкие правонарушения','Безосновательная стрельба','Безосновательная стрельба в черте города.',null,15,'or',{fineMin:15,alt:true,special:'Максимальный штраф прямо не указан; указана сумма от $15. При выборе альтернативного наказания доступен арест до 15 сроков.'}),
+      LAW('2.4','Мелкие правонарушения','Охота в черте города','Охота в черте города.',15,0),
+      LAW('2.5','Мелкие правонарушения','Несогласованное массовое мероприятие','Участие в несогласованном массовом мероприятии.',25,15,'or',{alt:true,special:'Для организатора наказание в двойном размере в пределах общих ограничений.'}),
+      LAW('2.6','Мелкие правонарушения','Незаконная добыча золота','Добыча золота вне установленных ограничений; запрещены стационарные установки и иные технические средства.',50,15,'and',{special:'Также предусмотрена конфискация инструментов, оборудования и незаконно добытых ресурсов.'}),
+      LAW('3.1','Имущественные преступления','Ограбление / попытка ограбления','Ограбление либо попытка ограбления.',150,35),
+      LAW('3.2','Имущественные преступления','Кража имущества','Тайное хищение чужого имущества.',75,15),
+      LAW('3.3','Имущественные преступления','Угон движимого имущества','Угон движимого имущества, включая лошадей и повозки.',50,15),
+      LAW('3.4','Имущественные преступления','Разбой','Нападение с целью хищения с применением насилия или угрозой его применения.',200,40),
+      LAW('3.5','Имущественные преступления','Вымогательство','Требование передачи имущества под угрозой.',100,15),
+      LAW('3.6','Имущественные преступления','Мошенничество','Хищение путём обмана или злоупотребления доверием.',75,15),
+      LAW('3.7','Имущественные преступления','Приобретение / сбыт преступного имущества','Приобретение либо сбыт имущества, заведомо добытого преступным путём.',50,15),
+      LAW('4.1','Преступления против личности и здоровья','Лёгкий вред здоровью / домогательства','Нанесение лёгкого вреда здоровью либо домогательства, включая физические или серьёзные вербальные угрозы.',35,15),
+      LAW('4.2','Преступления против личности и здоровья','Тяжкий вред здоровью','Нанесение тяжкого вреда здоровью.',75,15),
+      LAW('4.3','Преступления против личности и здоровья','Насильственные действия сексуального характера','Насильственные действия сексуального характера.',150,45),
+      LAW('4.4','Преступления против личности и здоровья','Похищение / удержание человека','Похищение либо удержание человека против его воли.',150,40),
+      LAW('4.5','Преступления против личности и здоровья','Рабовладение','Рабовладение.',120,35),
+      LAW('4.6','Преступления против личности и здоровья','Убийство человека','Убийство человека.',350,60),
+      LAW('4.6-покушение','Преступления против личности и здоровья','Покушение на убийство','Покушение на убийство.',175,45),
+      LAW('4.7','Преступления против личности и здоровья','Клевета','Распространение заведомо ложных сведений, порочащих честь, достоинство либо репутацию.',100,15),
+      LAW('4.8','Преступления против личности и здоровья','Противоестественные развратные деяния','Мужеложство, скотоложство и иные противоестественные развратные деяния, включая публичное обнажение срамных мест.',50,15),
+      LAW('5.1','Преступления против власти и правосудия','Нападение на представителя закона','Нападение на представителя закона при исполнении обязанностей.',175,45),
+      LAW('5.2','Преступления против власти и правосудия','Создание помех представителю закона','Создание помех представителю закона при исполнении законных обязанностей.',35,15),
+      LAW('5.3','Преступления против власти и правосудия','Неподчинение законному требованию','Неподчинение законному требованию представителя закона.',35,15),
+      LAW('5.4','Преступления против власти и правосудия','Предложение взятки','Предложение взятки должностному лицу.',35,15),
+      LAW('5.5','Преступления против власти и правосудия','Присвоение полномочий','Незаконное присвоение полномочий должностного лица либо представителя закона.',120,35),
+      LAW('5.6','Преступления против власти и правосудия','Уклонение от правосудия','Уклонение от правосудия, включая побег из-под стражи, уничтожение/сокрытие улик и содействие беглецу.',120,45),
+      LAW('6.1','Экономические и должностные преступления','Неуплата штрафа','Штраф выплачивается в течение трёх дней; после этого он считается неуплаченным. Неуплата наказывается удвоением суммы и арестом.',null,15,'and',{dynamicFine:true,special:'Сумма наказания зависит от исходного штрафа; расчёт удвоения вводится вручную.'}),
+      LAW('6.2','Экономические и должностные преступления','Дача / получение взятки','Дача или получение взятки, а также использование государственной должности в личных корыстных целях.',120,45),
+      LAW('6.3','Экономические и должностные преступления','Подделка официальных документов','Подделка официальных документов.',150,35),
+      LAW('6.4','Экономические и должностные преступления','Предпринимательство до 21 года','Ведение предпринимательской деятельности лицом, не достигшим 21 года.',80,0,'and',{special:'Штраф оплачивается опекуном.'}),
+      LAW('6.5','Экономические и должностные преступления','Превышение полномочий / халатность','Превышение должностных полномочий либо халатность представителя власти, повлёкшая существенный ущерб.',300,50,'and',{special:'Может повлечь лишение должности.'}),
+      LAW('6.6','Экономические и должностные преступления','Неоказание первой помощи','Умышленное неоказание первой помощи нуждающемуся представителем закона либо медицинским работником при реальной возможности оказать помощь.',200,15,'or',{alt:true,special:'В статье указано: арест или штраф до $200.'}),
+      LAW('7.3','Исправительные работы','Уклонение от исправительных работ','Умышленное уклонение от назначенных исправительных работ.',0,45),
+      LAW('8.1','Огнестрельное оружие','Торговля оружием вне лицензированных магазинов','Торговля оружием вне лицензированных оружейных магазинов.',90,15),
+      LAW('8.2','Огнестрельное оружие','Незарегистрированное / чужое оружие','Хранение незарегистрированного оружия либо оружия другого лица без законного основания.',45,15,'or',{alt:true,special:'Оружие подлежит конфискации либо возвращается законному владельцу.'}),
+      LAW('9.1 до 5 унций','Наркотические вещества','Наркотики до 5 унций','Хранение либо распространение наркотических веществ в объёме до 5 унций включительно.',35,15),
+      LAW('9.1 свыше 5 унций','Наркотические вещества','Наркотики свыше 5 унций','Хранение либо распространение наркотических веществ в объёме свыше 5 унций.',75,35),
+      LAW('11.3 первичное','Браконьерство','Незаконная охота на легендарного лося — первичное','Первичное нарушение правил охоты на перечисленных легендарных лосей.',45,0,'and',{special:'Изъятие всех незаконно добытых материалов.'}),
+      LAW('11.3 повторное','Браконьерство','Незаконная охота на легендарного лося — повторное','Повторное нарушение правил охоты на перечисленных легендарных лосей.',95,15,'and',{special:'Изъятие оружия и незаконно добытых материалов.'}),
+      LAW('11.4','Браконьерство','Причинение вреда легендарному животному','Причинение вреда указанным животным без добычи материалов.',50,15),
+      LAW('12.2','Незаконный вылов водных ресурсов','Первичное нарушение','Первичное использование рыболовных сетей в запрещённых акваториях.',40,0,'and',{special:'Изъятие незаконно добытых водных ресурсов; сети при первом нарушении не изымаются.'}),
+      LAW('12.3','Незаконный вылов водных ресурсов','Повторное нарушение','Повторное использование рыболовных сетей в запрещённых акваториях.',80,15,'and',{special:'Рыболовные сети подлежат обязательному изъятию без права возврата.'}),
+    ];
+    const LAW_STORAGE_KEY='san_denis_laws_v1';
+    let laws = loadSavedLaws();
+
+    function loadSavedLaws(){
+      try{
+        const raw=localStorage.getItem(LAW_STORAGE_KEY);
+        if(!raw) return defaultLaws.map(x=>({...x}));
+        const parsed=JSON.parse(raw);
+        if(!Array.isArray(parsed)) return defaultLaws.map(x=>({...x}));
+        return parsed.map(normalizeLaw).filter(x=>x.code);
+      }catch(e){ return defaultLaws.map(x=>({...x})); }
+    }
+    function normalizeLaw(l){
+      return {
+        code:String(l.code??'').trim(),
+        category:String(l.category??'Общие положения').trim()||'Общие положения',
+        title:String(l.title??'Новая статья').trim()||'Новая статья',
+        text:String(l.text??'').trim(),
+        fineMax:(l.fineMax===null||l.fineMax===''||Number.isNaN(Number(l.fineMax)))?null:Math.max(0,Number(l.fineMax)),
+        termMax:Math.max(0,Number(l.termMax)||0),
+        mode:l.mode==='or'?'or':'and',
+        alt:Boolean(l.alt),
+        fineMin:(l.fineMin===''||l.fineMin===undefined||l.fineMin===null||Number.isNaN(Number(l.fineMin)))?null:Math.max(0,Number(l.fineMin)),
+        special:String(l.special??'').trim(),
+        dynamicFine:Boolean(l.dynamicFine)
+      };
+    }
+    function saveLaws(){ localStorage.setItem(LAW_STORAGE_KEY, JSON.stringify(laws)); }
+    function resetLaws(){ laws=defaultLaws.map(x=>({...x})); saveLaws(); selected.clear(); refreshCategories(); render(); renderSelected(); calc(); updatePreview(); }
+    function refreshCategories(){
+      const current=categoryEl?.value||'all';
+      if(!categoryEl) return;
+      categoryEl.innerHTML='<option value="all">Все разделы</option>';
+      [...new Set(laws.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru')).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;categoryEl.appendChild(o)});
+      categoryEl.value=[...categoryEl.options].some(o=>o.value===current)?current:'all';
+    }
+
+    const categoryEl=document.getElementById('categoryFilter');
+    refreshCategories();
+    const listEl=document.getElementById('articleList'), selectedBox=document.getElementById('selectedBox');
+    const selected=new Set();
+    const fineRange=document.getElementById('fineRange');
+    const termRange=document.getElementById('termRange');
+    const fineRangeValue=document.getElementById('fineRangeValue');
+    const termRangeValue=document.getElementById('termRangeValue');
+    const fineRangeMax=document.getElementById('fineRangeMax');
+    const termRangeMax=document.getElementById('termRangeMax');
+
+    function syncRanges(maxFine, maxTerm, unknownFine=false, preserve=false){
+      const oldFine=Number(fineRange.value)||0, oldTerm=Number(termRange.value)||0;
+      fineRange.max=String(maxFine);
+      termRange.max=String(maxTerm);
+      fineRange.disabled=unknownFine || maxFine<=0;
+      termRange.disabled=maxTerm<=0;
+      if(!preserve){
+        fineRange.value=String(Math.min(oldFine,maxFine));
+        termRange.value=String(Math.min(oldTerm,maxTerm));
+      }else{
+        fineRange.value=String(Math.min(Number(fineRange.value)||0,maxFine));
+        termRange.value=String(Math.min(Number(termRange.value)||0,maxTerm));
+      }
+      fineRangeMax.textContent=`$${maxFine}`;
+      termRangeMax.textContent=String(maxTerm);
+      fineRangeValue.textContent=unknownFine ? '—' : `$${Number(fineRange.value)||0}`;
+      termRangeValue.textContent=String(Number(termRange.value)||0);
+    }
+
+    function penalty(l){
+      const f=l.fineMax===null?'штраф: не указан':`$${l.fineMax}`;
+      const t=l.termMax?`до ${l.termMax} сроков`:'без лишения свободы';
+      if(l.code==='7.3') return t;
+      if(l.mode==='or') return `${f} ИЛИ ${t}`;
+      if(l.fineMax===0) return t;
+      return `${t} + ${f}`;
+    }
+    function render(){
+      const q=document.getElementById('lawSearch').value.trim().toLowerCase(), cat=categoryEl.value;
+      const visible=laws.filter(l=>(cat==='all'||l.category===cat) && (!q||`${l.code} ${l.title} ${l.text} ${l.category}`.toLowerCase().includes(q)));
+      document.getElementById('countVisible').textContent=visible.length; document.getElementById('countSelected').textContent=selected.size;
+      listEl.innerHTML='';
+      if(!visible.length){listEl.innerHTML='<div class="empty">Ничего не найдено по заданному запросу.</div>';return}
+      visible.forEach(l=>{
+        const d=document.createElement('article'); d.className='article'+(selected.has(l.code)?' selected':'');
+        const badge=l.code.startsWith('2.')||l.code.startsWith('6.')||l.code.startsWith('7.')||l.code.startsWith('8.')||l.code.startsWith('11.')||l.code.startsWith('12.')?'Код':'Статья';
+        d.innerHTML=`<div class="article-top"><span class="code">${escapeHtml(l.code)}</span><span class="badge">${escapeHtml(badge)}</span></div><div class="article-title">${escapeHtml(l.title)}</div><p class="article-text">${escapeHtml(l.text)}</p><div class="article-penalty">${escapeHtml(penalty(l))}</div>${l.special?`<div class="subtle" style="margin-top:6px">${escapeHtml(l.special)}</div>`:''}`;
+        d.addEventListener('click',()=>toggle(l.code)); listEl.appendChild(d);
+      });
+    }
+    function toggle(code){selected.has(code)?selected.delete(code):selected.add(code);render();renderSelected();calc();}
+    function renderSelected(){
+      selectedBox.innerHTML='';
+      if(!selected.size){selectedBox.innerHTML='<span class="subtle">Пока ничего не выбрано</span>';return}
+      [...selected].forEach(code=>{const b=document.createElement('button');b.className='chip';b.textContent=code;b.title='Убрать';b.onclick=()=>toggle(code);selectedBox.appendChild(b)});
+    }
+    function calc(){
+      const items=laws.filter(l=>selected.has(l.code));
+      let fine=0, term=0, unknownFine=false; const notes=[];
+      items.forEach(l=>{
+        if(l.fineMax===null) unknownFine=true; else fine+=l.fineMax;
+        term+=l.termMax||0;
+        if(l.mode==='or') notes.push(`Ст. ${l.code}: санкции альтернативные — одновременно штраф и арест применять нельзя по формулировке статьи.`);
+        if(l.special) notes.push(`Ст. ${l.code}: ${l.special}`);
+      });
+      const cappedFine=Math.min(fine,750), cappedTerm=Math.min(term,60);
+      document.getElementById('maxFine').textContent=unknownFine?(fine?`${cappedFine}$*`:'—'):`${cappedFine}$`;
+      document.getElementById('maxTerm').textContent=cappedTerm;
+      syncRanges(cappedFine,cappedTerm,unknownFine,true);
+      const n=document.getElementById('specialNotice');
+      let msg=notes.slice(0,4).join(' '); if(notes.length>4) msg+=' …';
+      n.textContent=msg; n.style.display=msg?'block':'none';
+    }
+
+    document.getElementById('lawSearch').addEventListener('input',render); categoryEl.addEventListener('change',render);
+    document.getElementById('clearSelection').addEventListener('click',()=>{selected.clear();render();renderSelected();calc()});
+    document.getElementById('toForm').addEventListener('click',()=>{
+      document.getElementById('articlesInput').value=[...selected].join(', ');
+      document.getElementById('fineInput').value=fineRange.disabled ? 0 : Number(fineRange.value)||0;
+      document.getElementById('termInput').value=Number(termRange.value)||0;
+      updatePreview();
+      document.getElementById('form').scrollIntoView({behavior:'smooth'});
+    });
+
+    function moscowIssuedDate(){
+      const now=new Date();
+      const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+      const get=(type)=>parts.find(p=>p.type===type)?.value||'';
+      return {year:1901,month:get('month'),day:get('day')};
+    }
+    function issueDateISO(){const d=moscowIssuedDate(); return `1901-${d.month}-${d.day}`;}
+    function fmtDate(s){if(!s)return '00.00.1901'; const [y,m,d]=s.split('-'); return `${d}.${m}.${y}`}
+    function addDays(s,n){const p=s.split('-').map(Number);const date=new Date(Date.UTC(p[0],p[1]-1,p[2]));date.setUTCDate(date.getUTCDate()+n);return date.toISOString().slice(0,10)}
+    function syncIssueDate(){
+      const el=document.getElementById('issueDate');
+      if(el){el.value=issueDateISO(); el.title=`Автоматически: ${fmtDate(el.value)} по московской дате`;}
+    }
+    function buildText(){
+      const citizen=document.getElementById('citizenName').value.trim()||'Имя Фамилия';
+      const passport=document.getElementById('passport').value.trim()||'№паспорта';
+      const officer=document.getElementById('officerName').value.trim()||'Имя Фамилия';
+      const dept=document.getElementById('department').value||'Полицейский департамент Сен-Дени';
+      const rank=document.getElementById('rank').value.trim()||'сержант';
+      const issue=issueDateISO();
+      const due=addDays(issue,3);
+      const articles=document.getElementById('articlesInput').value.trim()||'номера статей';
+      const fine=document.getElementById('fineInput').value||'0';
+      const term=document.getElementById('termInput').value||'0';
+      return `Гражданин: "${citizen}" ${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в "${term}" сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} "${officer}".\n\n"${citizen}" ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
+    }
+    function updatePreview(){const t=buildText();document.getElementById('previewText').textContent=t;document.getElementById('printText').textContent=t}
+    fineRange.addEventListener('input',()=>{document.getElementById('fineInput').value=Number(fineRange.value)||0;fineRangeValue.textContent=fineRange.disabled?'—':`$${Number(fineRange.value)||0}`;updatePreview()});
+    termRange.addEventListener('input',()=>{document.getElementById('termInput').value=Number(termRange.value)||0;termRangeValue.textContent=String(Number(termRange.value)||0);updatePreview()});
+    document.getElementById('fineInput').addEventListener('input',()=>{const max=Number(fineRange.max)||0;const v=Math.max(0,Math.min(Number(document.getElementById('fineInput').value)||0,max));fineRange.value=String(v);fineRangeValue.textContent=fineRange.disabled?'—':`$${v}`;});
+    document.getElementById('termInput').addEventListener('input',()=>{const max=Number(termRange.max)||0;const v=Math.max(0,Math.min(Number(document.getElementById('termInput').value)||0,max));termRange.value=String(v);termRangeValue.textContent=String(v);});
+    document.querySelectorAll('.field').forEach(el=>el.addEventListener('input',updatePreview)); document.getElementById('department').addEventListener('change',updatePreview);
+    document.getElementById('copyBtn').addEventListener('click',async()=>{const t=buildText();try{await navigator.clipboard.writeText(t);const b=document.getElementById('copyBtn'),old=b.textContent;b.textContent='Скопировано';setTimeout(()=>b.textContent=old,1200)}catch(e){alert('Не удалось скопировать автоматически. Выделите текст и скопируйте его вручную.')}});
+    document.getElementById('printBtn').addEventListener('click',()=>window.print());
+    document.getElementById('resetForm').addEventListener('click',()=>{
+      document.querySelectorAll('#form .field').forEach(el=>{
+        if(el.id==='department')el.selectedIndex=0;
+        else if(el.id==='rank')el.value='сержант';
+        else if(el.id==='issueDate'){}
+        else if(el.type==='number')el.value='0';
+        else el.value='';
+      });
+      fineRange.value='0'; termRange.value='0';
+      fineRangeValue.textContent=fineRange.disabled?'—':'$0';
+      termRangeValue.textContent='0';
+      syncIssueDate(); updatePreview();
+    });
+
+    const lawEditor=document.getElementById('lawEditor');
+    const editorList=document.getElementById('editorList');
+    let editorDraft=[];
+
+    function openLawEditor(){
+      editorDraft=laws.map(x=>({...x}));
+      renderEditor();
+      lawEditor.classList.add('open');
+      lawEditor.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    function closeLawEditor(){
+      lawEditor.classList.remove('open');
+      lawEditor.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    function renderEditor(){
+      editorList.innerHTML='';
+      if(!editorDraft.length){editorList.innerHTML='<div class="editor-empty">Свод пуст. Добавьте первую статью.</div>';return}
+      editorDraft.forEach((l,i)=>{
+        const row=document.createElement('div'); row.className='law-edit';
+        row.innerHTML=`
+          <div class="law-edit-grid">
+            <div><label>Номер</label><input class="field ed-code" value="${escapeHtml(l.code)}" placeholder="2.1"></div>
+            <div><label>Раздел</label><input class="field ed-category" value="${escapeHtml(l.category)}" placeholder="Мелкие правонарушения"></div>
+            <div><label>Название</label><input class="field ed-title" value="${escapeHtml(l.title)}" placeholder="Название статьи"></div>
+            <div class="wide"><label>Текст / описание</label><textarea class="field ed-text" rows="3" placeholder="Формулировка статьи">${escapeHtml(l.text)}</textarea></div>
+            <div><label>Макс. штраф ($)</label><input class="field ed-fine" type="number" min="0" step="1" value="${l.fineMax===null?'':l.fineMax}" placeholder="Не указан"></div>
+            <div><label>Макс. сроков</label><input class="field ed-term" type="number" min="0" step="1" value="${Number(l.termMax)||0}"></div>
+            <div><label>Тип наказания</label><select class="field ed-mode"><option value="and" ${l.mode==='and'?'selected':''}>Штраф И срок</option><option value="or" ${l.mode==='or'?'selected':''}>Штраф ИЛИ арест</option></select></div>
+            <div><label>Мин. штраф ($)</label><input class="field ed-finemin" type="number" min="0" step="1" value="${l.fineMin==null?'':l.fineMin}" placeholder="Не указан"></div>
+            <div class="wide"><label>Особые примечания</label><input class="field ed-special" value="${escapeHtml(l.special||'')}" placeholder="Конфискация, компенсация, особые условия…"></div>
+          </div>
+          <div class="actions" style="margin-top:10px"><button class="delete-law" data-index="${i}">Удалить статью</button></div>`;
+        editorList.appendChild(row);
+
+        const bind=(selector,fn)=>row.querySelector(selector).addEventListener('input',fn);
+        bind('.ed-code',e=>editorDraft[i].code=e.target.value.trim());
+        bind('.ed-category',e=>editorDraft[i].category=e.target.value.trim());
+        bind('.ed-title',e=>editorDraft[i].title=e.target.value.trim());
+        bind('.ed-text',e=>editorDraft[i].text=e.target.value);
+        bind('.ed-fine',e=>editorDraft[i].fineMax=e.target.value===''?null:Math.max(0,Number(e.target.value)||0));
+        bind('.ed-term',e=>editorDraft[i].termMax=Math.max(0,Number(e.target.value)||0));
+        bind('.ed-finemin',e=>editorDraft[i].fineMin=e.target.value===''?null:Math.max(0,Number(e.target.value)||0));
+        bind('.ed-special',e=>editorDraft[i].special=e.target.value);
+        row.querySelector('.ed-mode').addEventListener('change',e=>editorDraft[i].mode=e.target.value);
+        row.querySelector('.delete-law').addEventListener('click',()=>{editorDraft.splice(i,1);renderEditor();});
+      });
+    }
+    function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));}
+    function saveEditorDraft(){
+      const seen=new Set();
+      for(const l of editorDraft){
+        l.code=String(l.code||'').trim(); l.category=String(l.category||'').trim()||'Общие положения'; l.title=String(l.title||'').trim()||'Новая статья';
+        l.text=String(l.text||'').trim(); l.termMax=Math.max(0,Number(l.termMax)||0); l.mode=l.mode==='or'?'or':'and';
+        l.fineMax=(l.fineMax===null||l.fineMax===''||Number.isNaN(Number(l.fineMax)))?null:Math.max(0,Number(l.fineMax)||0);
+        l.fineMin=(l.fineMin===null||l.fineMin===''||Number.isNaN(Number(l.fineMin)))?null:Math.max(0,Number(l.fineMin)||0);
+        if(!l.code) {alert('У каждой статьи должен быть номер.');return;}
+        if(seen.has(l.code)){alert(`Повторяющийся номер статьи: ${l.code}`);return;}
+        seen.add(l.code);
+      }
+      laws=editorDraft.map(normalizeLaw); saveLaws();
+      selected.clear(); refreshCategories(); render(); renderSelected(); calc(); updatePreview(); closeLawEditor();
+    }
+    document.getElementById('openLawEditor').addEventListener('click',openLawEditor);
+    document.getElementById('closeLawEditor').addEventListener('click',closeLawEditor);
+    document.getElementById('saveLawsBtn').addEventListener('click',saveEditorDraft);
+    document.getElementById('addLawBtn').addEventListener('click',()=>{
+      editorDraft.push(normalizeLaw({code:`новая-${editorDraft.length+1}`,category:'Новый раздел',title:'Новая статья',text:'',fineMax:null,termMax:0,mode:'and',fineMin:null,special:''}));
+      renderEditor(); editorList.lastElementChild?.scrollIntoView({behavior:'smooth'});
+    });
+    document.getElementById('resetLawsBtn').addEventListener('click',()=>{
+      if(!confirm('Вернуть исходный Свод и удалить все сохранённые изменения?')) return;
+      editorDraft=defaultLaws.map(x=>({...x})); renderEditor();
+    });
+    lawEditor.addEventListener('click',e=>{if(e.target===lawEditor)closeLawEditor();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lawEditor.classList.contains('open'))closeLawEditor();});
+
+    syncIssueDate(); render();renderSelected();calc();updatePreview();
+  </script>
+</body>
+</html>
