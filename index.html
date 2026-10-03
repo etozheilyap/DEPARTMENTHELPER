@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ПОМОЩЬ МАЛЮТКАМ ШЕРИФАМ</title>
+  <title>ПОМОЩЬ МАЛЮТКАМ ШЕРИФАМ</title>    
   <meta name="description" content="Оффлайн RP-подсказка: Свод законов, калькулятор наказаний и генератор штрафного бланка.">
-  <style>
+  <style>  
     :root{
       --paper:#1b120d; --paper-2:#251913; --paper-3:#2d1f17; --ink:#f0e2d0; --muted:#bfa995; --line:#5b4332;
       --accent:#d7a86e; --accent-2:#9b6a45; --accent-3:#6f4932; --shadow:rgba(0,0,0,.48); --warn:#c47f57; --ok:#879c72;
@@ -180,9 +180,9 @@
       <div class="card-head"><h2>Помощник штрафного бланка</h2><p>Заполните поля — готовый текст появится справа/ниже и его можно скопировать или распечатать.</p></div>
       <div class="card-body">
         <div class="form-grid">
-          <div><label for="citizenName">Имя Фамилия обвиняемого</label><input id="citizenName" class="field" placeholder="Иван Иванов"></div>
+          <div><label for="citizenName">Имя Фамилия обвиняемого</label><input id="citizenName" class="field" placeholder="Джей Мэй"></div>
           <div><label for="passport">№ паспорта обвиняемого</label><input id="passport" class="field" placeholder="123456"></div>
-          <div><label for="officerName">Имя Фамилия сотрудника</label><input id="officerName" class="field" placeholder="Алексей Петров"></div>
+          <div><label for="officerName">Имя Фамилия сотрудника</label><input id="officerName" class="field" placeholder="Виктор Барри"></div>
           <div><label for="department">Департамент</label><select id="department" class="field">
             <option>Полицейский департамент Сен-Дени</option>
             <option>Полицейский департамент Блэквотер</option>
@@ -444,7 +444,7 @@
       const articles=document.getElementById('articlesInput').value.trim()||'номера статей';
       const fine=document.getElementById('fineInput').value||'0';
       const term=document.getElementById('termInput').value||'0';
-      return `Гражданин: "${citizen}" ${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в "${term}" сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} "${officer}".\n\n"${citizen}" ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
+      return `Гражданин: "${citizen}" №${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в "${term}" сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} "${officer}".\n\n"${citizen}" ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
     }
     function updatePreview(){const t=buildText();document.getElementById('previewText').textContent=t;document.getElementById('printText').textContent=t}
     fineRange.addEventListener('input',()=>{document.getElementById('fineInput').value=Number(fineRange.value)||0;fineRangeValue.textContent=fineRange.disabled?'—':`$${Number(fineRange.value)||0}`;updatePreview()});
