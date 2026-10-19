@@ -424,10 +424,10 @@
       const now=new Date();
       const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
       const get=(type)=>parts.find(p=>p.type===type)?.value||'';
-      return {year:1901,month:get('month'),day:get('day')};
+      return {year:1918,month:get('month'),day:get('day')};
     }
-    function issueDateISO(){const d=moscowIssuedDate(); return `1901-${d.month}-${d.day}`;}
-    function fmtDate(s){if(!s)return '00.00.1901'; const [y,m,d]=s.split('-'); return `${d}.${m}.${y}`}
+    function issueDateISO(){const d=moscowIssuedDate(); return `1918-${d.month}-${d.day}`;}
+    function fmtDate(s){if(!s)return '00.00.1918'; const [y,m,d]=s.split('-'); return `${d}.${m}.${y}`}
     function addDays(s,n){const p=s.split('-').map(Number);const date=new Date(Date.UTC(p[0],p[1]-1,p[2]));date.setUTCDate(date.getUTCDate()+n);return date.toISOString().slice(0,10)}
     function syncIssueDate(){
       const el=document.getElementById('issueDate');
