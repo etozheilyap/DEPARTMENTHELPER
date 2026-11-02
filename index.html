@@ -147,7 +147,7 @@
     .page-layout.wrap{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;max-width:1380px;padding-top:48px;align-items:start}
     .sidebar{position:sticky;top:88px;align-self:start;max-height:calc(100vh - 108px);overflow:auto;padding:12px 0 28px;scrollbar-width:thin;scrollbar-color:#333 transparent}
     .sidebar-heading{margin:0 0 12px;color:#68686b;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
-    .section-nav{display:grid;gap:1px}
+    .section-nav{position:static;top:auto;z-index:auto;display:grid;gap:1px;background:transparent;backdrop-filter:none;border:0}
     .section-nav-item{display:grid;grid-template-columns:19px minmax(0,1fr);gap:4px;align-items:start;width:100%;padding:8px 0;border:0;background:transparent;color:#88888b;text-align:left;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:11px;font-weight:700;line-height:1.25;text-transform:uppercase;cursor:pointer}
     .section-nav-item:hover,.section-nav-item.active{color:#f1f1f1}
     .section-nav-item.active .nav-number{color:#c52a31}
@@ -712,10 +712,10 @@
       const now=new Date();
       const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
       const get=(type)=>parts.find(p=>p.type===type)?.value||'';
-      return {year:1918,month:get('month'),day:get('day')};
+      return {year:1901,month:get('month'),day:get('day')};
     }
-    function issueDateISO(){const d=moscowIssuedDate(); return `1918-${d.month}-${d.day}`;}
-    function fmtDate(s){if(!s)return '00.00.1918'; const [y,m,d]=s.split('-'); return `${d}.${m}.${y}`}
+    function issueDateISO(){const d=moscowIssuedDate(); return `1901-${d.month}-${d.day}`;}
+    function fmtDate(s){if(!s)return '00.00.1901'; const [y,m,d]=s.split('-'); return `${d}.${m}.${y}`}
     function addDays(s,n){const p=s.split('-').map(Number);const date=new Date(Date.UTC(p[0],p[1]-1,p[2]));date.setUTCDate(date.getUTCDate()+n);return date.toISOString().slice(0,10)}
     function syncIssueDate(){
       const el=document.getElementById('issueDate');
