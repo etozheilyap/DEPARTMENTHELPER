@@ -244,6 +244,9 @@
     #form{scroll-margin-top:82px}
     #snowCanvas{position:fixed;inset:0;z-index:999;width:100%;height:100%;display:none;pointer-events:none}
     body.snow-active #snowCanvas{display:block}
+    .snow-dusted{position:relative}
+    body.snow-active .snow-dusted:after{content:"";position:absolute;z-index:5;pointer-events:none;top:-3px;left:7%;width:86%;height:6px;border-radius:60% 45% 50% 35%;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(235,242,248,.72) 55%,rgba(210,220,230,.12));box-shadow:0 1px 4px rgba(255,255,255,.3);opacity:.9}
+    body.snow-blowing .snow-dusted:after{opacity:0;transform:translateX(40px);transition:opacity .35s,transform .55s}
     @media(max-width:1000px){
       .topbar-inner{gap:16px}.topnav{gap:14px}.topnav a{font-size:10px}
       .page-layout.wrap{grid-template-columns:155px minmax(0,1fr);gap:22px}
@@ -291,36 +294,15 @@
       .preview-body{color:#000!important}
     }
 
-  
-    /* Final clean layout: centered navigation and only lawbook + calculator */
-    .topbar-inner{position:relative;justify-content:center;gap:0}
-    .topnav{flex:0 0 auto;width:auto;justify-content:center;gap:34px;margin:0 auto}
-    .topbar-actions{position:absolute;right:0;top:0;height:100%;justify-content:flex-end}
-    .page-layout.wrap{display:block;max-width:1080px;padding-top:39px}
-    .content-column{width:100%;max-width:100%;padding:0 0 50px}
-    .sidebar,.brand{display:none!important}
-    @media(max-width:760px){
-      .topbar{height:auto;min-height:58px}
-      .topbar-inner{height:auto;min-height:58px;flex-wrap:wrap;gap:7px;padding-top:8px;padding-bottom:8px}
-      .topnav{order:0;flex:1 1 100%;height:30px;justify-content:center;gap:22px;overflow-x:auto}
-      .topbar-actions{position:static;order:1;height:auto;margin:0 auto}
-      .topbar-button{font-size:9px;padding:7px 10px}
-      .page-layout.wrap{padding-top:24px}
-    }
-    @media(max-width:430px){
-      .topnav{gap:16px}
-      .topnav a{font-size:9px;letter-spacing:.07em}
-      .page-title{font-size:clamp(39px,11vw,52px)}
-    }
-
   </style>
 </head>
 <body>
 
   <header class="topbar no-print">
     <div class="wrap topbar-inner">
+      <a class="brand" href="#laws" aria-label="На главную">hate</a>
       <nav class="topnav" aria-label="Основная навигация">
-        <a class="active" href="#laws">СВОД ЗАКОНОВ</a>
+        <a class="active" href="#laws">ПРАВИЛА</a>
         <a href="#calculator">КАЛЬКУЛЯТОР</a>
         <a href="#form">ШТРАФНОЙ БЛАНК</a>
       </nav>
@@ -333,12 +315,20 @@
 
 
   <main class="wrap page-layout no-print" id="top">
+    <aside class="sidebar">
+      <div class="sidebar-heading">РАЗДЕЛЫ СВОДА</div>
+      <nav id="sectionNav" class="section-nav" aria-label="Разделы свода законов"></nav>
+      <div class="sidebar-divider"></div>
+      <a class="sidebar-shortcut" href="#calculator">КАЛЬКУЛЯТОР НАКАЗАНИЙ</a>
+      <a class="sidebar-shortcut" href="#form">ШТРАФНОЙ БЛАНК</a>
+      <div class="sidebar-note">СЛУЖЕБНАЯ СПРАВКА<br>DEPARTMENT HELPER</div>
+    </aside>
     <div class="content-column">
       <section id="laws" class="law-page">
         <div class="page-heading">
-          <div class="page-kicker">СЛУЖЕБНЫЙ СПРАВОЧНИК</div>
-          <h1 class="page-title">СВОД ЗАКОНОВ</h1>
-          <p class="page-meta">Статьи, категории правонарушений и предусмотренные наказания</p>
+          <div class="page-kicker">HATE · СЕРВЕР</div>
+          <h1 class="page-title">ПРАВИЛА СЕРВЕРА</h1>
+          <p class="page-meta">Свод законов и служебная справка для сотрудников департаментов</p>
         </div>
         <div class="search-row">
           <div class="search-wrap">
@@ -393,7 +383,7 @@
           <div id="specialNotice" class="notice"></div>
           <div class="actions">
             <button class="btn secondary" id="clearSelection">Очистить</button>
-            <button class="btn" id="toForm" type="button">Перенести в бланк</button>
+            <button class="btn" id="toForm">Перенести в бланк</button>
           </div>
         </div>
       </section>
@@ -457,7 +447,7 @@
 
   <canvas id="snowCanvas" aria-hidden="true"></canvas>
 
-
+  <footer class="footer no-print"><div class="wrap"><strong>ОФФЛАЙН RP-ПОДСКАЗКА</strong> · данные внесены по прикреплённому Своду Законов</div></footer>
 
   <script>
     const LAW = (code, category, title, text, fineMax, termMax, mode='and', extra={}) => ({code,category,title,text,fineMax,termMax,mode,...extra});
@@ -934,8 +924,12 @@
       snowCanvas.style.height=window.innerHeight+'px';
       snowContext.setTransform(ratio,0,0,ratio,0,0);
     }
-    function applySnowDust(){}
-    function clearSnowDust(){}
+    function applySnowDust(){
+      document.querySelectorAll('.page-title,.brand,.law-group-head,.card-head,.btn,.topbar-button').forEach(element=>element.classList.add('snow-dusted'));
+    }
+    function clearSnowDust(){
+      document.querySelectorAll('.snow-dusted').forEach(element=>element.classList.remove('snow-dusted'));
+    }
     function finishSnow(){
       if(snowFrame)cancelAnimationFrame(snowFrame);
       snowFrame=0;snowEnabled=false;snowWind=false;snowflakes=[];
