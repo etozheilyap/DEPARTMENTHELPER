@@ -117,43 +117,256 @@
       body{background:#fff;color:#000}.wrap,nav,.masthead,.no-print{display:none!important}.print-only{display:block!important}
       .print-sheet{padding:40px;max-width:800px;margin:0 auto}.print-sheet h1{font-size:28px;text-align:center}.preview{border:none;padding:0;box-shadow:none;background:#fff}
     }
+  
+    /* HATE-inspired black and red interface */
+    :root{
+      --paper:#050506;--paper-2:#09090a;--paper-3:#101011;
+      --ink:#ededed;--muted:#8c8c8f;--line:#28282b;
+      --accent:#b51f26;--accent-2:#8c171d;--accent-3:#601217;
+      --shadow:rgba(0,0,0,.55);--warn:#c36d54;--ok:#879b76;
+      --serif:Georgia,"Times New Roman",serif;
+      --hand:"Brush Script MT","Segoe Script",cursive;
+    }
+    html{scroll-padding-top:82px}
+    body{min-width:320px;overflow-x:hidden;color:#e8e8e8;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(ellipse at 69% 24%,rgba(80,80,80,.075),transparent 39%),radial-gradient(ellipse at 16% 62%,rgba(55,55,55,.06),transparent 42%),linear-gradient(180deg,#080809 0%,#050506 54%,#080809 100%)}
+    body:before{opacity:.045;background-image:radial-gradient(rgba(255,255,255,.2) .5px,transparent .7px);background-size:5px 5px;mix-blend-mode:screen}
+    body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.15),transparent 22%,transparent 80%,rgba(0,0,0,.2))}
+    .wrap{max-width:1380px;padding-left:28px;padding-right:28px}
+    .topbar{position:sticky;top:0;z-index:80;height:62px;background:rgba(4,4,5,.97);backdrop-filter:blur(10px);border:0;border-bottom:1px solid #202023}
+    .topbar-inner{height:62px;display:flex;align-items:center;gap:28px}
+    .brand{flex:0 0 auto;color:#f4f4f4;text-decoration:none;font-family:"Brush Script MT","Segoe Script",cursive;font-style:italic;font-size:43px;line-height:1;letter-spacing:-.08em;padding:0 2px 7px}
+    .brand:hover{color:#fff}
+    .topnav{position:static;z-index:auto;display:flex;align-items:stretch;gap:23px;flex:1;min-width:0;height:100%;padding:0;margin:0;background:transparent;border:0;backdrop-filter:none}
+    .topnav a{position:relative;display:flex;align-items:center;padding:2px 0 0;margin:0;border:0;border-radius:0;background:transparent;text-decoration:none;color:#87878a;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.11em;white-space:nowrap}
+    .topnav a:hover,.topnav a.active{color:#f1f1f1;background:transparent}
+    .topnav a.active:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#9f1d23}
+    .topbar-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+    .topbar-button{border:1px solid #303034;background:#09090a;color:#c9c9ca;padding:8px 11px;border-radius:18px;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:.08em;white-space:nowrap}
+    .topbar-button:hover{border-color:#777;color:#fff}
+    .editor-top-button{border-color:#682126;color:#f0dfe0}
+    .page-layout.wrap{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;max-width:1380px;padding-top:48px;align-items:start}
+    .sidebar{position:sticky;top:88px;align-self:start;max-height:calc(100vh - 108px);overflow:auto;padding:12px 0 28px;scrollbar-width:thin;scrollbar-color:#333 transparent}
+    .sidebar-heading{margin:0 0 12px;color:#68686b;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+    .section-nav{display:grid;gap:1px}
+    .section-nav-item{display:grid;grid-template-columns:19px minmax(0,1fr);gap:4px;align-items:start;width:100%;padding:8px 0;border:0;background:transparent;color:#88888b;text-align:left;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:11px;font-weight:700;line-height:1.25;text-transform:uppercase;cursor:pointer}
+    .section-nav-item:hover,.section-nav-item.active{color:#f1f1f1}
+    .section-nav-item.active .nav-number{color:#c52a31}
+    .nav-number{color:#666;letter-spacing:.02em}
+    .sidebar-divider{height:1px;background:#252528;margin:17px 0 12px}
+    .sidebar-shortcut{display:block;padding:8px 0;color:#858589;text-decoration:none;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:11px;font-weight:700;line-height:1.25;letter-spacing:.03em}
+    .sidebar-shortcut:hover{color:#fff}
+    .sidebar-note{margin-top:25px;color:#55555a;font-size:9px;line-height:1.7;letter-spacing:.1em}
+    .content-column{min-width:0;padding:0 0 58px}
+    .law-page{margin:0 0 44px;padding:0;scroll-margin-top:82px}
+    .page-kicker{color:#77777b;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin:4px 0 0}
+    .page-title{position:relative;margin:0 0 1px;color:#a91c22;font-family:"Bodoni MT",Didot,"Times New Roman",serif;font-size:clamp(49px,5.4vw,76px);font-weight:400;line-height:1.04;letter-spacing:.015em;text-transform:uppercase}
+    .page-meta{margin:7px 0 20px;color:#88888b;font-size:13px}
+    .law-page .search-row{display:block;margin:0 0 12px}
+    .search-wrap{position:relative}
+    .search-symbol{position:absolute;left:15px;top:8px;color:#8a8a8d;font-size:25px;line-height:1;transform:rotate(-25deg);pointer-events:none}
+    #lawSearch{width:100%;height:44px;padding:10px 14px 10px 40px;border:1px solid #333337;border-radius:3px;background:#09090a;color:#e5e5e5;font-family:Arial,Helvetica,sans-serif;font-size:14px;box-shadow:none}
+    #lawSearch::placeholder{color:#69696d}
+    #lawSearch:focus{border-color:#666;box-shadow:0 0 0 1px rgba(255,255,255,.05)}
+    #categoryFilter{display:none!important}
+    .law-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:9px 0 13px}
+    .law-stats{display:flex;gap:18px;color:#747478;font-size:10px;letter-spacing:.08em}
+    .law-stats b{color:#c9c9cb;margin-left:4px}
+    .toolbar-actions{display:flex;justify-content:flex-end;align-items:center;gap:14px;flex-wrap:wrap}
+    .text-action{padding:2px 0;border:0;border-bottom:1px solid #858589;background:transparent;color:#c4c4c6;font-size:11px;cursor:pointer}
+    .text-action:hover{color:#fff;border-color:#fff}
+    .category-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 14px;margin:15px 0 13px;padding:13px 15px;border:1px solid #252528;background:rgba(11,11,12,.92);color:#c0c0c2;font-size:12px;line-height:1.4}
+    .category-legend .legend-label{grid-column:1/-1;color:#858589;font-size:9px;font-weight:700;letter-spacing:.13em}
+    .legend-code{display:inline-block;margin-right:6px;color:#f1f1f1;font-family:Georgia,serif;font-size:13px}
+    .legend-code.admin{color:#c3c3c5}.legend-code.misdemeanor{color:#d2ab62}.legend-code.felony{color:#c84a50}
+    .article-list{display:grid;gap:8px;max-height:none;overflow:visible;padding:0}
+    .law-group{border:1px solid #28282c;background:rgba(10,10,11,.94);scroll-margin-top:80px}
+    .law-group-head{display:flex;align-items:center;gap:12px;width:100%;min-height:51px;padding:13px 15px;border:0;background:transparent;color:#dedee0;text-align:left;cursor:pointer;font-family:"Arial Narrow",Impact,Arial,sans-serif}
+    .law-group-head:hover{background:rgba(255,255,255,.025)}
+    .group-number{color:#77777c;font-family:Georgia,serif;font-size:14px}
+    .group-title{font-size:16px;font-weight:700;letter-spacing:.015em;text-transform:uppercase}
+    .group-count{color:#79797d;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:400;margin-left:1px;text-transform:none}
+    .group-toggle{margin-left:auto;color:#a4a4a7;font-family:Arial,sans-serif;font-size:18px;font-weight:300}
+    .law-group-body{display:none;gap:7px;padding:8px;border-top:1px solid #232327}
+    .law-group.open .law-group-body{display:grid}
+    .article{padding:12px 13px;border:1px solid #242428;border-radius:0;background:#09090a;transition:border-color .15s,background .15s;box-shadow:none}
+    .article:hover{transform:none;border-color:#55555a;background:#0d0d0e;box-shadow:none}
+    .article.selected{border-color:#7e252a;box-shadow:inset 3px 0 0 #a51e25}
+    .article-top{align-items:center}
+    .code{color:#e0e0e1;font-family:Georgia,"Times New Roman",serif;font-size:14px}
+    .legal-category{color:#b0b0b2;font-size:11px}
+    .badge{border:1px solid #343438;border-radius:0;color:#8d8d91;font-size:9px}
+    .article-title{margin:6px 0 4px;color:#e1e1e2;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:14px;line-height:1.35}
+    .article-text{color:#aaaab0;font-size:12px;line-height:1.5}
+    .article-penalty{margin-top:7px;color:#dedee0;font-size:11px}
+    .empty{padding:23px;border:1px dashed #38383c;color:#929297;text-align:center}
+    .card{position:relative;overflow:hidden;border:1px solid #29292d;border-radius:0;background:rgba(9,9,10,.96);box-shadow:none}
+    .card:after{display:none}
+    .card-head{padding:17px 19px 12px;border-bottom:1px solid #28282c}
+    .card-head h2{color:#e4e4e5;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:22px;font-weight:700;letter-spacing:.035em}
+    .card-head p{color:#909095;font-size:12px}
+    .card-body{padding:17px 19px 20px}
+    .feature-card{margin:0 0 25px;scroll-margin-top:82px}
+    .calc{position:static;top:auto;align-self:auto}
+    .control,.field{border:1px solid #343438;border-radius:2px;background:#09090b;color:#e7e7e8;padding:11px 12px}
+    .control:focus,.field:focus{border-color:#76767b;box-shadow:0 0 0 1px rgba(255,255,255,.04)}
+    label{color:#929297;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+    .selected-box{border:1px dashed #39393e;background:#09090a}
+    .chip{border:1px solid #6e2227;border-radius:0;background:rgba(150,27,33,.12);color:#e2c4c6}
+    .chip:hover{background:rgba(150,27,33,.24)}
+    .totals{gap:10px}
+    .metric{border:1px solid #29292d;background:#0d0d0e}
+    .metric .n{color:#d0d0d2;font-family:Georgia,serif}
+    .metric small{color:#929297}
+    .range-row{border:1px solid #2e2e32;border-radius:0;background:#0c0c0d}
+    .range-head strong{color:#d8d8da}
+    .range-head span,.range-scale,.calc-note,.subtle{color:#929297}
+    .range{accent-color:#a91e25}
+    .cap{border-left-color:#8e242a;background:rgba(157,30,37,.09);color:#bdbdc0}
+    .notice{border-left-color:#aa5a4d;background:rgba(170,90,77,.08);color:#c5a8a4}
+    .btn{border:1px solid #9b1f26;border-radius:2px;background:#9e1c23;color:#fff;padding:10px 14px;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+    .btn:hover{filter:brightness(1.15)}
+    .btn.secondary{border-color:#444449;background:transparent;color:#c8c8ca}
+    .form-grid{gap:13px}
+    .section-title{font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:18px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c5c5c7}
+    .preview{border:1px solid #303034;background:#09090a;box-shadow:none;padding:21px}
+    .preview h3{color:#ddd;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:16px}
+    .preview-body{color:#ddd;font-family:Georgia,"Times New Roman",serif}
+    .footer{padding:19px 0 34px;border-top:1px solid #1e1e21;color:#67676b}
+    .footer strong{color:#a52a30}
+    .modal-backdrop{background:rgba(0,0,0,.86)}
+    .editor-modal{border:1px solid #515156;border-radius:0;background:#09090a}
+    .editor-head,.editor-actions{border-color:#29292d;background:#101011}
+    .editor-head h2{color:#ededed;font-family:"Arial Narrow",Impact,Arial,sans-serif}
+    .editor-head p,.editor-footnote{color:#88888d}
+    .law-edit{border:1px solid #303034;background:#0c0c0d}
+    .delete-law{border-color:#6f3034;border-radius:0;color:#d48b8f}
+    .editor-empty{border-color:#39393e;color:#96969b}
+    #form{scroll-margin-top:82px}
+    #snowCanvas{position:fixed;inset:0;z-index:999;width:100%;height:100%;display:none;pointer-events:none}
+    body.snow-active #snowCanvas{display:block}
+    .snow-dusted{position:relative}
+    body.snow-active .snow-dusted:after{content:"";position:absolute;z-index:5;pointer-events:none;top:-3px;left:7%;width:86%;height:6px;border-radius:60% 45% 50% 35%;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(235,242,248,.72) 55%,rgba(210,220,230,.12));box-shadow:0 1px 4px rgba(255,255,255,.3);opacity:.9}
+    body.snow-blowing .snow-dusted:after{opacity:0;transform:translateX(40px);transition:opacity .35s,transform .55s}
+    @media(max-width:1000px){
+      .topbar-inner{gap:16px}.topnav{gap:14px}.topnav a{font-size:10px}
+      .page-layout.wrap{grid-template-columns:155px minmax(0,1fr);gap:22px}
+      .toolbar-actions{gap:10px}
+    }
+    @media(max-width:760px){
+      .wrap{padding-left:17px;padding-right:17px}
+      .topbar{height:auto;min-height:58px}
+      .topbar-inner{min-height:58px;height:auto;flex-wrap:wrap;gap:8px 15px;padding-top:7px;padding-bottom:7px}
+      .brand{font-size:36px}
+      .topnav{order:3;flex-basis:100%;height:31px;gap:20px;overflow-x:auto}
+      .topnav a{font-size:10px;padding:4px 0}
+      .topbar-actions{margin-left:auto}
+      .topbar-button{font-size:9px;padding:7px 9px}
+      .page-layout.wrap{display:block;padding-top:25px}
+      .sidebar{position:static;max-height:none;margin:0 0 22px;padding:0 0 12px;border-bottom:1px solid #242428}
+      .sidebar-heading{margin-bottom:8px}
+      .section-nav{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px}
+      .section-nav-item{display:block;flex:0 0 auto;width:auto;max-width:210px;padding:7px 9px;border:1px solid #29292d;font-size:10px}
+      .nav-number{margin-right:5px}
+      .sidebar-divider,.sidebar-shortcut,.sidebar-note{display:none}
+      .page-title{font-size:clamp(41px,11vw,60px)}
+      .law-toolbar{align-items:flex-start}
+      .toolbar-actions{justify-content:flex-start}
+      .category-legend{grid-template-columns:1fr;gap:6px}
+      .category-legend .legend-label{grid-column:auto}
+      .group-title{font-size:14px}
+    }
+    @media(max-width:480px){
+      .law-stats{width:100%}.toolbar-actions{gap:12px}
+      .group-count{font-size:9px}
+      .law-group-head{gap:8px;padding:12px 10px}
+      .law-group-body{padding:6px}
+      .card-head,.card-body{padding-left:13px;padding-right:13px}
+      .form-grid{grid-template-columns:1fr}
+      .span-2{grid-column:auto}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.article,.snow-dusted:after{transition:none!important}}
+    @media print{
+      body{background:#fff!important;color:#000!important}
+      .page-layout,.topbar,.footer,.no-print{display:none!important}
+      .print-only{display:block!important}
+      .print-sheet{padding:40px;max-width:800px;margin:0 auto}
+      .preview{border:0!important;padding:0!important;box-shadow:none!important;background:#fff!important}
+      .preview-body{color:#000!important}
+    }
+
   </style>
 </head>
 <body>
-  <header class="masthead no-print">
-    <div class="wrap">
-      <h1>ПОМОЩЬ МАЛЮТКАМ ШЕРИФАМ</h1>
-      <p class="tagline">Служебная подсказка по Своду Законов</p>
-      <div class="rule"></div>
+
+  <header class="topbar no-print">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#laws" aria-label="На главную">hate</a>
+      <nav class="topnav" aria-label="Основная навигация">
+        <a class="active" href="#laws">ПРАВИЛА</a>
+        <a href="#calculator">КАЛЬКУЛЯТОР</a>
+        <a href="#form">ШТРАФНОЙ БЛАНК</a>
+      </nav>
+      <div class="topbar-actions">
+        <button type="button" class="topbar-button" id="snowToggle" aria-pressed="false">СНЕГ: ВЫКЛ</button>
+        <button type="button" class="topbar-button editor-top-button" id="openLawEditor">РЕДАКТОР</button>
+      </div>
     </div>
   </header>
 
-  <nav class="no-print"><div class="wrap nav-in">
-    <a href="#laws">Свод законов</a><a href="#calculator">Калькулятор</a><a href="#form">Штрафной бланк</a><button class="btn nav-editor-btn" id="openLawEditor">Редактор свода</button>
-  </div></nav>
 
-  <main class="wrap no-print">
-    <section id="laws" class="grid">
-      <div class="card">
-        <div class="card-head"><h2>Статьи</h2><p>Ищите по номеру, ключевым словам или формулировке. Нажмите на статью, чтобы добавить её в калькулятор.</p><p class="subtle" style="margin-top:7px">Категории: <strong>(i)</strong> — административное правонарушение · <strong>(m)</strong> — проступок · <strong>(f)</strong> — уголовное преступление.</p></div>
-        <div class="card-body">
-          <div class="search-row">
-            <input id="lawSearch" class="control" type="search" placeholder="Например: 3.4, разбой, взятка…">
-            <select id="categoryFilter" class="control"><option value="all">Все разделы</option></select>
-          </div>
-          <div class="mini-stats"><div class="mini"><b id="countVisible">0</b>найдено</div><div class="mini"><b id="countSelected">0</b>выбрано</div><div class="mini"><b>12</b>разделов</div></div>
-          <div id="articleList" class="article-list" style="margin-top:14px"></div>
+  <main class="wrap page-layout no-print" id="top">
+    <aside class="sidebar">
+      <div class="sidebar-heading">РАЗДЕЛЫ СВОДА</div>
+      <nav id="sectionNav" class="section-nav" aria-label="Разделы свода законов"></nav>
+      <div class="sidebar-divider"></div>
+      <a class="sidebar-shortcut" href="#calculator">КАЛЬКУЛЯТОР НАКАЗАНИЙ</a>
+      <a class="sidebar-shortcut" href="#form">ШТРАФНОЙ БЛАНК</a>
+      <div class="sidebar-note">СЛУЖЕБНАЯ СПРАВКА<br>DEPARTMENT HELPER</div>
+    </aside>
+    <div class="content-column">
+      <section id="laws" class="law-page">
+        <div class="page-heading">
+          <div class="page-kicker">HATE · СЕРВЕР</div>
+          <h1 class="page-title">ПРАВИЛА СЕРВЕРА</h1>
+          <p class="page-meta">Свод законов и служебная справка для сотрудников департаментов</p>
         </div>
-      </div>
+        <div class="search-row">
+          <div class="search-wrap">
+            <span class="search-symbol" aria-hidden="true">⌕</span>
+            <input id="lawSearch" class="control" type="search" placeholder="Поиск по статьям: разбой, стрельба, 3.4...">
+          </div>
+          <select id="categoryFilter" class="control" aria-hidden="true" tabindex="-1"><option value="all">Все разделы</option></select>
+        </div>
+        <div class="law-toolbar">
+          <div class="law-stats">
+            <span>НАЙДЕНО <b id="countVisible">0</b></span>
+            <span>ВЫБРАНО <b id="countSelected">0</b></span>
+          </div>
+          <div class="toolbar-actions">
+            <button type="button" class="text-action" id="expandAllBtn">Развернуть все</button>
+            <button type="button" class="text-action" id="collapseAllBtn">Свернуть все</button>
+            <button type="button" class="text-action" id="exportLawsBtn">Экспорт JSON ↓</button>
+            <button type="button" class="text-action" id="importLawsBtn">Импорт JSON ↑</button>
+            <input id="lawImportFile" type="file" accept=".json,application/json" hidden>
+          </div>
+        </div>
+        <div class="category-legend" aria-label="Категории правонарушений">
+          <span class="legend-label">КАТЕГОРИИ ПРАВОНАРУШЕНИЙ</span>
+          <span><b class="legend-code admin">(i)</b> Административное правонарушение</span>
+          <span><b class="legend-code misdemeanor">(m)</b> Проступок</span>
+          <span><b class="legend-code felony">(f)</b> Уголовное преступление</span>
+        </div>
+        <div id="articleList" class="article-list"></div>
+      </section>
 
-      <aside id="calculator" class="card calc">
-        <div class="card-head"><h2>Калькулятор</h2><p>Суммирует максимальные санкции по выбранным статьям и применяет общий предел Свода.</p></div>
+      <section id="calculator" class="card calc feature-card">
+        <div class="card-head"><h2>Калькулятор наказаний</h2><p>Суммирует максимальные санкции по выбранным статьям и учитывает общий предел Свода.</p></div>
         <div class="card-body">
-          <div class="subtle" style="margin-bottom:7px">Выбранные статьи:</div>
+          <div class="subtle" style="margin-bottom:7px">ВЫБРАННЫЕ СТАТЬИ</div>
           <div id="selectedBox" class="selected-box"><span class="subtle">Пока ничего не выбрано</span></div>
           <div class="totals">
-            <div class="metric"><span id="maxFine" class="n">0$</span><small>штраф максимум</small></div>
-            <div class="metric"><span id="maxTerm" class="n">0</span><small>сроков максимум</small></div>
+            <div class="metric"><span id="maxFine" class="n">0$</span><small>ШТРАФ МАКСИМУМ</small></div>
+            <div class="metric"><span id="maxTerm" class="n">0</span><small>СРОКОВ МАКСИМУМ</small></div>
           </div>
           <div class="range-row">
             <div class="range-head"><span>Назначаемый штраф</span><strong id="fineRangeValue">$0</strong></div>
@@ -173,9 +386,7 @@
             <button class="btn" id="toForm">Перенести в бланк</button>
           </div>
         </div>
-      </aside>
-    </section>
-
+      </section>
     <section id="form" class="card" style="margin-bottom:28px">
       <div class="card-head"><h2>Помощник штрафного бланка</h2><p>Заполните поля — готовый текст появится справа/ниже и его можно скопировать или распечатать.</p></div>
       <div class="card-body">
@@ -212,6 +423,7 @@
         <p class="subtle" style="margin-top:12px">Срок оплаты автоматически считается как 3 календарных дня с даты выписки в соответствии со ст. 6.1.</p>
       </div>
     </section>
+    </div>
   </main>
 
   <div class="modal-backdrop" id="lawEditor" aria-hidden="true">
@@ -232,6 +444,8 @@
   </div>
 
   <section class="print-only"><div class="print-sheet"><h1>Штрафной бланк</h1><div class="preview"><div id="printText" class="preview-body"></div></div></div></section>
+
+  <canvas id="snowCanvas" aria-hidden="true"></canvas>
 
   <footer class="footer no-print"><div class="wrap"><strong>ОФФЛАЙН RP-ПОДСКАЗКА</strong> · данные внесены по прикреплённому Своду Законов</div></footer>
 
@@ -313,7 +527,7 @@
       return {
         code:String(l.code??'').trim(),
         category:String(l.category??'Общие положения').trim()||'Общие положения',
-        legalCategory:inferLegalCategory(String(l.code??'').trim(), l.legalCategory),
+        legalCategory:VALID_LEGAL_CATEGORIES.has(l.legalCategory)?l.legalCategory:inferLegalCategory(String(l.code??'').trim()),
         title:String(l.title??'Новая статья').trim()||'Новая статья',
         text:String(l.text??'').trim(),
         fineMax:(l.fineMax===null||l.fineMax===''||Number.isNaN(Number(l.fineMax)))?null:Math.max(0,Number(l.fineMax)),
@@ -331,8 +545,41 @@
       const current=categoryEl?.value||'all';
       if(!categoryEl) return;
       categoryEl.innerHTML='<option value="all">Все разделы</option>';
-      [...new Set(laws.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru')).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;categoryEl.appendChild(o)});
+      [...new Set(laws.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru')).forEach(c=>{
+        const o=document.createElement('option');o.value=c;o.textContent=c;categoryEl.appendChild(o);
+      });
       categoryEl.value=[...categoryEl.options].some(o=>o.value===current)?current:'all';
+      renderSectionNav();
+    }
+    function renderSectionNav(){
+      const nav=document.getElementById('sectionNav');
+      if(!nav) return;
+      nav.innerHTML='';
+      const categories=[...new Set(laws.map(x=>x.category).filter(Boolean))];
+      categories.forEach((category,index)=>{
+        const first=laws.find(l=>l.category===category);
+        const match=first?String(first.code).match(/^([0-9]+)/):null;
+        const number=match?match[1]:String(index+1).padStart(2,'0');
+        const button=document.createElement('button');
+        button.type='button';
+        button.className='section-nav-item';
+        button.dataset.groupId='law-group-'+index;
+        button.innerHTML='<span class="nav-number">'+escapeHtml(number)+'.</span><span>'+escapeHtml(category)+'</span>';
+        button.addEventListener('click',()=>{
+          document.getElementById('lawSearch').value='';
+          categoryEl.value='all';
+          render();
+          const group=document.getElementById(button.dataset.groupId);
+          if(group){
+            group.classList.add('open');
+            const toggle=group.querySelector('.group-toggle');
+            if(toggle)toggle.textContent='−';
+            nav.querySelectorAll('.section-nav-item').forEach(item=>item.classList.toggle('active',item===button));
+            group.scrollIntoView({behavior:'smooth',block:'start'});
+          }
+        });
+        nav.appendChild(button);
+      });
     }
 
     const categoryEl=document.getElementById('categoryFilter');
@@ -374,17 +621,58 @@
       return `${t} + ${f}`;
     }
     function render(){
-      const q=document.getElementById('lawSearch').value.trim().toLowerCase(), cat=categoryEl.value;
-      const visible=laws.filter(l=>(cat==='all'||l.category===cat) && (!q||`${l.code} ${l.title} ${l.text} ${l.category}`.toLowerCase().includes(q)));
-      document.getElementById('countVisible').textContent=visible.length; document.getElementById('countSelected').textContent=selected.size;
+      const q=document.getElementById('lawSearch').value.trim().toLowerCase();
+      const cat=categoryEl.value;
+      const openCategories=new Set([...listEl.querySelectorAll('.law-group.open')].map(group=>group.dataset.category));
+      const visible=laws.filter(l=>(cat==='all'||l.category===cat)&&(!q||(''+l.code+' '+l.title+' '+l.text+' '+l.category).toLowerCase().includes(q)));
+      document.getElementById('countVisible').textContent=visible.length;
+      document.getElementById('countSelected').textContent=selected.size;
       listEl.innerHTML='';
-      if(!visible.length){listEl.innerHTML='<div class="empty">Ничего не найдено по заданному запросу.</div>';return}
-      visible.forEach(l=>{
-        const d=document.createElement('article'); d.className='article'+(selected.has(l.code)?' selected':'');
-        const badge=l.code.startsWith('2.')||l.code.startsWith('6.')||l.code.startsWith('7.')||l.code.startsWith('8.')||l.code.startsWith('11.')||l.code.startsWith('12.')?'Код':'Статья';
-        d.innerHTML=`<div class="article-top"><span class="code">${escapeHtml(articleLabel(l))}</span><span class="badge">${escapeHtml(badge)}</span></div><div class="article-title">${escapeHtml(l.title)}</div><p class="article-text">${escapeHtml(l.text)}</p><div class="article-penalty">${escapeHtml(penalty(l))}</div>${l.special?`<div class="subtle" style="margin-top:6px">${escapeHtml(l.special)}</div>`:''}`;
-        d.addEventListener('click',()=>toggle(l.code)); listEl.appendChild(d);
+      renderSectionNav();
+      if(!visible.length){
+        listEl.innerHTML='<div class="empty">Ничего не найдено по заданному запросу.</div>';
+        return;
+      }
+      const allCategories=[...new Set(laws.map(l=>l.category).filter(Boolean))];
+      const visibleCategories=[...new Set(visible.map(l=>l.category))];
+      visibleCategories.forEach(category=>{
+        const items=visible.filter(l=>l.category===category);
+        const categoryIndex=allCategories.indexOf(category);
+        const group=document.createElement('section');
+        group.className='law-group';
+        group.id='law-group-'+categoryIndex;
+        group.dataset.category=category;
+        const head=document.createElement('button');
+        head.type='button';
+        head.className='law-group-head';
+        const numMatch=String(items[0].code).match(/^([0-9]+)/);
+        const number=numMatch?numMatch[1]:String(categoryIndex+1).padStart(2,'0');
+        head.innerHTML='<span class="group-number">'+escapeHtml(number)+'.</span><span class="group-title">'+escapeHtml(category)+'</span><span class="group-count">'+items.length+' пунктов</span><span class="group-toggle">+</span>';
+        const body=document.createElement('div');
+        body.className='law-group-body';
+        head.addEventListener('click',()=>{
+          group.classList.toggle('open');
+          const sign=head.querySelector('.group-toggle');
+          if(sign)sign.textContent=group.classList.contains('open')?'−':'+';
+          const navButton=document.querySelector('.section-nav-item[data-group-id="'+group.id+'"]');
+          if(navButton)navButton.classList.toggle('active',group.classList.contains('open'));
+          if(document.body.classList.contains('snow-active'))applySnowDust();
+        });
+        items.forEach(l=>{
+          const d=document.createElement('article');
+          d.className='article'+(selected.has(l.code)?' selected':'');
+          const badge=l.code.startsWith('2.')||l.code.startsWith('6.')||l.code.startsWith('7.')||l.code.startsWith('8.')||l.code.startsWith('11.')||l.code.startsWith('12.')?'Код':'Статья';
+          d.innerHTML='<div class="article-top"><span class="code">'+escapeHtml(articleLabel(l))+'</span><span class="badge">'+escapeHtml(badge)+'</span></div><div class="article-title">'+escapeHtml(l.title)+'</div><p class="article-text">'+escapeHtml(l.text)+'</p><div class="article-penalty">'+escapeHtml(penalty(l))+'</div>'+(l.special?'<div class="subtle" style="margin-top:6px">'+escapeHtml(l.special)+'</div>':'');
+          d.addEventListener('click',()=>toggle(l.code));
+          body.appendChild(d);
+        });
+        group.appendChild(head);
+        group.appendChild(body);
+        if(q||openCategories.has(category))group.classList.add('open');
+        if(group.classList.contains('open'))head.querySelector('.group-toggle').textContent='−';
+        listEl.appendChild(group);
       });
+      if(document.body.classList.contains('snow-active'))applySnowDust();
     }
     function toggle(code){selected.has(code)?selected.delete(code):selected.add(code);render();renderSelected();calc();}
     function renderSelected(){
@@ -523,7 +811,7 @@
     function saveEditorDraft(){
       const seen=new Set();
       for(const l of editorDraft){
-        l.code=String(l.code||'').trim(); l.category=String(l.category||'').trim()||'Общие положения'; l.legalCategory=inferLegalCategory(l.code,l.legalCategory); l.title=String(l.title||'').trim()||'Новая статья';
+        l.code=String(l.code||'').trim(); l.category=String(l.category||'').trim()||'Общие положения'; l.legalCategory=VALID_LEGAL_CATEGORIES.has(l.legalCategory)?l.legalCategory:inferLegalCategory(l.code); l.title=String(l.title||'').trim()||'Новая статья';
         l.text=String(l.text||'').trim(); l.termMax=Math.max(0,Number(l.termMax)||0); l.mode=l.mode==='or'?'or':'and';
         l.fineMax=(l.fineMax===null||l.fineMax===''||Number.isNaN(Number(l.fineMax)))?null:Math.max(0,Number(l.fineMax)||0);
         l.fineMin=(l.fineMin===null||l.fineMin===''||Number.isNaN(Number(l.fineMin)))?null:Math.max(0,Number(l.fineMin)||0);
@@ -547,6 +835,162 @@
     });
     lawEditor.addEventListener('click',e=>{if(e.target===lawEditor)closeLawEditor();});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lawEditor.classList.contains('open'))closeLawEditor();});
+
+    function exportLawBook(){
+      const payload={format:'departmenthelper-lawbook',version:1,exportedAt:new Date().toISOString(),laws:laws.map(l=>normalizeLaw(l))};
+      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement('a');
+      link.href=url;
+      link.download='svod-zakonov-'+new Date().toISOString().slice(0,10)+'.json';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1500);
+    }
+    async function importLawBook(file){
+      if(!file)return;
+      if(file.size>2*1024*1024){alert('Файл слишком большой. Максимальный размер JSON — 2 МБ.');return;}
+      try{
+        const data=JSON.parse(await file.text());
+        const rows=Array.isArray(data)?data:(data&&Array.isArray(data.laws)?data.laws:null);
+        if(!rows)throw new Error('В JSON не найден массив статей. Ожидается массив или объект с полем "laws".');
+        if(!rows.length)throw new Error('В файле нет статей. Пустой Свод не был импортирован.');
+        if(rows.length>500)throw new Error('Слишком много статей. Максимум — 500.');
+        const imported=rows.map((row,index)=>{
+          if(!row||typeof row!=='object'||Array.isArray(row))throw new Error('Некорректная запись статьи №'+(index+1)+'.');
+          return normalizeLaw(row);
+        });
+        const seen=new Set();
+        for(const law of imported){
+          if(!law.code)throw new Error('У каждой статьи должен быть заполнен номер.');
+          if(seen.has(law.code))throw new Error('Повторяется номер статьи: '+law.code);
+          seen.add(law.code);
+        }
+        if(!confirm('Импортировать '+imported.length+' статей? Текущий Свод на этом устройстве будет заменён импортированным.'))return;
+        laws=imported;
+        saveLaws();
+        selected.clear();
+        refreshCategories();
+        render();
+        renderSelected();
+        calc();
+        updatePreview();
+        if(lawEditor.classList.contains('open')){
+          editorDraft=laws.map(l=>({...l}));
+          renderEditor();
+        }
+        alert('Свод законов успешно импортирован.');
+      }catch(error){
+        alert('Не удалось импортировать Свод: '+(error&&error.message?error.message:'проверьте JSON-файл.'));
+      }
+    }
+    const lawImportInput=document.getElementById('lawImportFile');
+    document.getElementById('exportLawsBtn').addEventListener('click',exportLawBook);
+    document.getElementById('importLawsBtn').addEventListener('click',()=>lawImportInput.click());
+    lawImportInput.addEventListener('change',async event=>{
+      const file=event.target.files&&event.target.files[0];
+      await importLawBook(file);
+      event.target.value='';
+    });
+    document.getElementById('expandAllBtn').addEventListener('click',()=>{
+      listEl.querySelectorAll('.law-group').forEach(group=>{
+        group.classList.add('open');
+        const sign=group.querySelector('.group-toggle');if(sign)sign.textContent='−';
+      });
+      document.querySelectorAll('.section-nav-item').forEach(item=>item.classList.remove('active'));
+      if(document.body.classList.contains('snow-active'))applySnowDust();
+    });
+    document.getElementById('collapseAllBtn').addEventListener('click',()=>{
+      listEl.querySelectorAll('.law-group').forEach(group=>{
+        group.classList.remove('open');
+        const sign=group.querySelector('.group-toggle');if(sign)sign.textContent='+';
+      });
+      document.querySelectorAll('.section-nav-item').forEach(item=>item.classList.remove('active'));
+    });
+
+    let snowEnabled=false;
+    let snowWind=false;
+    const snowCanvas=document.getElementById('snowCanvas');
+    const snowContext=snowCanvas.getContext('2d');
+    let snowflakes=[];
+    let snowFrame=0;
+    let windStarted=0;
+    function resizeSnowCanvas(){
+      const ratio=Math.min(window.devicePixelRatio||1,2);
+      snowCanvas.width=Math.round(window.innerWidth*ratio);
+      snowCanvas.height=Math.round(window.innerHeight*ratio);
+      snowCanvas.style.width=window.innerWidth+'px';
+      snowCanvas.style.height=window.innerHeight+'px';
+      snowContext.setTransform(ratio,0,0,ratio,0,0);
+    }
+    function applySnowDust(){
+      document.querySelectorAll('.page-title,.brand,.law-group-head,.card-head,.btn,.topbar-button').forEach(element=>element.classList.add('snow-dusted'));
+    }
+    function clearSnowDust(){
+      document.querySelectorAll('.snow-dusted').forEach(element=>element.classList.remove('snow-dusted'));
+    }
+    function finishSnow(){
+      if(snowFrame)cancelAnimationFrame(snowFrame);
+      snowFrame=0;snowEnabled=false;snowWind=false;snowflakes=[];
+      snowContext.clearRect(0,0,window.innerWidth,window.innerHeight);
+      document.body.classList.remove('snow-active','snow-blowing');
+      clearSnowDust();
+      const button=document.getElementById('snowToggle');
+      button.textContent='СНЕГ: ВЫКЛ';
+      button.setAttribute('aria-pressed','false');
+    }
+    function drawSnow(){
+      const width=window.innerWidth,height=window.innerHeight;
+      snowContext.clearRect(0,0,width,height);
+      const elapsed=snowWind?Date.now()-windStarted:0;
+      snowflakes.forEach(flake=>{
+        if(snowWind){
+          const power=1+Math.min(elapsed/700,2.5);
+          flake.x+=7+power*flake.radius*2.8;
+          flake.y-=1+power*flake.speed*.9;
+          flake.alpha=Math.max(0,flake.alpha-.012);
+        }else{
+          flake.x+=flake.drift+Math.sin((flake.y+flake.phase)/42)*.42;
+          flake.y+=flake.speed;
+          if(flake.y>height+8){flake.y=-8;flake.x=Math.random()*width;}
+          if(flake.x<-8)flake.x=width+8;
+          if(flake.x>width+8)flake.x=-8;
+        }
+        snowContext.beginPath();
+        snowContext.arc(flake.x,flake.y,flake.radius,0,Math.PI*2);
+        snowContext.fillStyle='rgba(245,248,255,'+flake.alpha+')';
+        snowContext.fill();
+      });
+      if(snowWind&&elapsed>950){finishSnow();return;}
+      snowFrame=requestAnimationFrame(drawSnow);
+    }
+    function startSnow(){
+      resizeSnowCanvas();
+      snowflakes=Array.from({length:Math.max(75,Math.min(180,Math.round(window.innerWidth/8)))},()=>({
+        x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,
+        radius:.7+Math.random()*2.2,speed:.65+Math.random()*1.8,
+        drift:-.45+Math.random()*.9,phase:Math.random()*100,alpha:.28+Math.random()*.62
+      }));
+      snowEnabled=true;snowWind=false;
+      document.body.classList.add('snow-active');
+      applySnowDust();
+      const button=document.getElementById('snowToggle');
+      button.textContent='СДУТЬ СНЕГ';
+      button.setAttribute('aria-pressed','true');
+      if(snowFrame)cancelAnimationFrame(snowFrame);
+      snowFrame=requestAnimationFrame(drawSnow);
+    }
+    function blowSnowAway(){
+      if(!snowEnabled||snowWind)return;
+      snowWind=true;windStarted=Date.now();
+      document.body.classList.add('snow-blowing');
+      document.getElementById('snowToggle').textContent='ВЕТЕР СДУВАЕТ СНЕГ…';
+    }
+    document.getElementById('snowToggle').addEventListener('click',()=>{
+      if(!snowEnabled)startSnow();else blowSnowAway();
+    });
+    window.addEventListener('resize',()=>{if(snowEnabled)resizeSnowCanvas();});
 
     syncIssueDate(); render();renderSelected();calc();updatePreview();
   </script>
