@@ -731,7 +731,7 @@
       const articles=document.getElementById('articlesInput').value.trim()||'номера статей';
       const fine=document.getElementById('fineInput').value||'0';
       const term=document.getElementById('termInput').value||'0';
-      return `Гражданин: "${citizen}" №${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в "${term}" сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} "${officer}".\n\n"${citizen}" ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
+      return `Гражданин: ${citizen} №${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в ${term} сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} ${officer}.\n\n${citizen} ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
     }
     function updatePreview(){const t=buildText();document.getElementById('previewText').textContent=t;document.getElementById('printText').textContent=t}
     fineRange.addEventListener('input',()=>{document.getElementById('fineInput').value=Number(fineRange.value)||0;fineRangeValue.textContent=fineRange.disabled?'—':`$${Number(fineRange.value)||0}`;updatePreview()});
