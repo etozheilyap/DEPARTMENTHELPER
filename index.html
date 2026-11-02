@@ -299,7 +299,6 @@
     .page-layout.wrap{display:block;max-width:1080px;padding-top:39px}
     .content-column{width:100%;max-width:100%;padding:0 0 50px}
     .sidebar,.brand{display:none!important}
-    #toForm{display:none!important}
     @media(max-width:760px){
       .topbar{height:auto;min-height:58px}
       .topbar-inner{height:auto;min-height:58px;flex-wrap:wrap;gap:7px;padding-top:8px;padding-bottom:8px}
@@ -323,6 +322,7 @@
       <nav class="topnav" aria-label="Основная навигация">
         <a class="active" href="#laws">СВОД ЗАКОНОВ</a>
         <a href="#calculator">КАЛЬКУЛЯТОР</a>
+        <a href="#form">ШТРАФНОЙ БЛАНК</a>
       </nav>
       <div class="topbar-actions">
         <button type="button" class="topbar-button" id="snowToggle" aria-pressed="false">СНЕГ: ВЫКЛ</button>
@@ -393,11 +393,11 @@
           <div id="specialNotice" class="notice"></div>
           <div class="actions">
             <button class="btn secondary" id="clearSelection">Очистить</button>
-            <button class="btn" id="toForm" type="button" hidden>Перенести в бланк</button>
+            <button class="btn" id="toForm" type="button">Перенести в бланк</button>
           </div>
         </div>
       </section>
-    <section id="form" class="card" hidden aria-hidden="true" style="margin-bottom:28px">
+    <section id="form" class="card" style="margin-bottom:28px">
       <div class="card-head"><h2>Помощник штрафного бланка</h2><p>Заполните поля — готовый текст появится справа/ниже и его можно скопировать или распечатать.</p></div>
       <div class="card-body">
         <div class="form-grid">
