@@ -416,7 +416,6 @@
         <div id="preview" class="preview"><h3>Штрафной бланк</h3><div id="previewText" class="preview-body"></div></div>
         <div class="actions">
           <button class="btn" id="copyBtn">Скопировать текст</button>
-          <button class="btn secondary" id="printBtn">Печать</button>
           <button class="btn secondary" id="resetForm">Сбросить</button>
         </div>
         <p class="subtle" style="margin-top:12px">Срок оплаты автоматически считается как 3 календарных дня с даты выписки в соответствии со ст. 6.1.</p>
@@ -740,7 +739,6 @@
     document.getElementById('termInput').addEventListener('input',()=>{const max=Number(termRange.max)||0;const v=Math.max(0,Math.min(Number(document.getElementById('termInput').value)||0,max));termRange.value=String(v);termRangeValue.textContent=String(v);});
     document.querySelectorAll('.field').forEach(el=>el.addEventListener('input',updatePreview)); document.getElementById('department').addEventListener('change',updatePreview);
     document.getElementById('copyBtn').addEventListener('click',async()=>{const t=buildText();try{await navigator.clipboard.writeText(t);const b=document.getElementById('copyBtn'),old=b.textContent;b.textContent='Скопировано';setTimeout(()=>b.textContent=old,1200)}catch(e){alert('Не удалось скопировать автоматически. Выделите текст и скопируйте его вручную.')}});
-    document.getElementById('printBtn').addEventListener('click',()=>window.print());
     document.getElementById('resetForm').addEventListener('click',()=>{
       document.querySelectorAll('#form .field').forEach(el=>{
         if(el.id==='department')el.selectedIndex=0;
