@@ -204,12 +204,16 @@
     .group-number{color:#77777c;font-family:Georgia,serif;font-size:14px}
     .group-title{font-size:16px;font-weight:700;letter-spacing:.015em;text-transform:uppercase}
     .group-count{color:#79797d;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:400;margin-left:1px;text-transform:none}
-    .group-toggle{margin-left:auto;color:#a4a4a7;font-family:Arial,sans-serif;font-size:18px;font-weight:300}
-    .law-group-body{display:none;gap:7px;padding:8px;border-top:1px solid #232327}
-    .law-group.open .law-group-body{display:grid}
-    .article{padding:12px 13px;border:1px solid #242428;border-radius:0;background:#09090a;transition:border-color .15s,background .15s;box-shadow:none}
+    .group-toggle{position:relative;margin-left:auto;width:16px;height:18px;color:#a4a4a7;font-family:Arial,sans-serif;font-size:18px;font-weight:300}
+    .group-toggle i{position:absolute;left:50%;top:50%;font-style:normal;line-height:1;transform:translate(-50%,-50%) rotate(0);opacity:1;transition:opacity .2s ease,transform .34s cubic-bezier(.22,.61,.36,1)}
+    .law-group.open .tg-plus{opacity:0;transform:translate(-50%,-50%) rotate(90deg)}
+    .law-group.open .tg-minus{opacity:1;transform:translate(-50%,-50%) rotate(180deg)}
+    .tg-minus{opacity:0;transform:translate(-50%,-50%) rotate(-90deg)}
+    .law-group-body{display:grid;grid-template-rows:0fr;padding:0;border-top-width:0;overflow:hidden;transition:grid-template-rows .34s cubic-bezier(.22,.61,.36,1),padding .34s ease,border-top-width .34s ease}
+    .law-group-body>.law-inner{min-height:0;display:grid;gap:7px}
+    .law-group.open .law-group-body{grid-template-rows:1fr;padding:8px;border-top-width:1px}
+    .article{position:relative;padding:12px 13px;border:1px solid #242428;border-radius:0;background:#09090a;transition:border-color .15s,background .15s;box-shadow:none}
     .article:hover{transform:none;border-color:#55555a;background:#0d0d0e;box-shadow:none}
-    .article.selected{border-color:#7e252a;box-shadow:inset 3px 0 0 #a51e25}
     .article-top{align-items:center}
     .code{color:#e0e0e1;font-family:Georgia,"Times New Roman",serif;font-size:14px}
     .legal-category{color:#b0b0b2;font-size:11px}
@@ -311,11 +315,125 @@
       .print-sheet{padding:40px;max-width:800px;margin:0 auto}
       .preview{border:0!important;padding:0!important;box-shadow:none!important;background:#fff!important}
       .preview-body{color:#000!important}
+      .parallax-bg{display:none!important}
+    }
+
+    /* ===== АНИМАЦИИ И ПАРАЛЛАКС-ФОН ===== */
+    .parallax-bg{position:fixed;inset:-12vh -12vw;z-index:-2;pointer-events:none;overflow:hidden;will-change:transform}
+    .parallax-layer{position:absolute;inset:0;will-change:transform}
+    .pl-glow-a{background:radial-gradient(ellipse 46% 52% at 30% 22%,rgba(165,28,34,.17),transparent 62%)}
+    .pl-glow-b{background:radial-gradient(ellipse 42% 48% at 76% 68%,rgba(120,20,26,.15),transparent 60%)}
+    .pl-glow-c{background:radial-gradient(ellipse 60% 40% at 55% 4%,rgba(255,255,255,.035),transparent 55%)}
+    .pl-grid{background-image:linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px);background-size:120px 120px;-webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 42%,#000 25%,transparent 78%);mask-image:radial-gradient(ellipse 75% 65% at 50% 42%,#000 25%,transparent 78%)}
+    .pl-noise{opacity:.05;background-image:radial-gradient(rgba(255,255,255,.5) .5px,transparent .6px);background-size:3px 3px}
+    .pl-vignette{background:radial-gradient(ellipse 90% 80% at 50% 45%,transparent 55%,rgba(0,0,0,.5))}
+    .pl-orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.5;animation:orbFloat 16s ease-in-out infinite alternate}
+    .pl-orb.o1{width:5px;height:5px;left:12%;top:30%;background:rgba(181,31,38,.55)}
+    .pl-orb.o2{width:3px;height:3px;left:82%;top:20%;background:rgba(255,255,255,.28);animation-duration:21s;animation-delay:-6s}
+    .pl-orb.o3{width:6px;height:6px;left:68%;top:74%;background:rgba(181,31,38,.4);animation-duration:25s;animation-delay:-12s}
+    .pl-orb.o4{width:4px;height:4px;left:34%;top:82%;background:rgba(255,255,255,.2);animation-duration:19s;animation-delay:-3s}
+    @keyframes orbFloat{from{transform:translate3d(0,0,0)}to{transform:translate3d(26px,-34px,0)}}
+
+    /* появление секций при прокрутке */
+    .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.61,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    /* карточки и группы статей */
+    .card{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(0,0,0,.5);border-color:#3a3a3f}
+    .law-group{transition:border-color .25s ease,box-shadow .25s ease}
+    .law-group:hover{border-color:#3a3a3f;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+    .law-group-head .group-toggle{transition:transform .25s ease,color .2s ease}
+    .law-group.open .group-toggle{transform:rotate(180deg);color:#c52a31}
+    .law-group-head:focus-visible,.section-nav-item:focus-visible,.text-action:focus-visible,.btn:focus-visible,.topbar-button:focus-visible,.chip:focus-visible,.delete-law:focus-visible{outline:1px solid #b51f26;outline-offset:2px}
+
+    /* кнопки */
+    .btn,.topbar-button,.text-action,.delete-law{position:relative;transition:transform .16s ease,filter .16s ease,background .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease}
+    .btn:hover,.topbar-button:hover,.delete-law:hover{transform:translateY(-1px)}
+    .btn:active,.topbar-button:active,.text-action:active,.delete-law:active,.chip:active{transform:translateY(1px) scale(.985)}
+    .btn::after,.topbar-button::after,.delete-law::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),rgba(255,255,255,.28),transparent 62%);opacity:0;transform:scale(.5);pointer-events:none}
+    .btn.rippling::after,.topbar-button.rippling::after,.delete-law.rippling::after{animation:ripple .55s ease-out}
+    @keyframes ripple{0%{opacity:.85;transform:scale(.25)}100%{opacity:0;transform:scale(2.4)}}
+    .text-action{position:relative;transition:color .2s ease,border-color .2s ease}
+    .text-action:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+    .text-action:hover:after{transform:scaleX(1)}
+
+    /* статьи */
+    .article{cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease}
+    .article:hover{transform:translateY(-2px);border-color:#55555a;background:#0d0d0e;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+    .article:active{transform:scale(.995)}
+    .article.selected{border-color:#7e252a;background:#100a0b;box-shadow:inset 3px 0 0 #a51e25}
+    .article.selected:hover{border-color:#a51e25;background:#160d0f;box-shadow:inset 3px 0 0 #a51e25,0 6px 18px rgba(0,0,0,.4)}
+    .article.just-toggled{animation:selectGlow .7s ease-out}
+    @keyframes selectGlow{0%{box-shadow:inset 3px 0 0 #a51e25,0 0 0 0 rgba(181,31,38,.35)}45%{box-shadow:inset 3px 0 0 #a51e25,0 0 0 5px rgba(181,31,38,.12)}100%{box-shadow:inset 3px 0 0 #a51e25,0 0 0 0 rgba(181,31,38,0)}}
+
+    /* чипы выбранных статей */
+    .chip{transition:transform .15s ease,background .15s ease,border-color .15s ease}
+    .chip:hover{transform:translateY(-1px);border-color:#a51e25}
+    .chip.pop{animation:chipPop .32s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes chipPop{0%{opacity:0;transform:scale(.6) translateY(6px)}100%{opacity:1;transform:none}}
+
+    /* метрики калькулятора */
+    .metric{transition:border-color .25s ease,background .25s ease}
+    .metric:hover{border-color:#3a3a3f}
+    .metric .n.tick{animation:numTick .4s ease}
+    @keyframes numTick{0%{transform:translateY(7px);opacity:.25;color:#e05a60}100%{transform:none;opacity:1}}
+
+    /* модальное окно редактора */
+    .modal-backdrop{opacity:0;visibility:hidden;transition:opacity .28s ease,visibility 0s linear .28s}
+    .modal-backdrop.open{opacity:1;visibility:visible;transition:opacity .28s ease,visibility 0s}
+    .editor-modal{transform:translateY(28px) scale(.965);opacity:0;transition:transform .34s cubic-bezier(.22,.61,.36,1),opacity .3s ease}
+    .modal-backdrop.open .editor-modal{transform:none;opacity:1}
+
+    /* навигация */
+    .topnav a,.sidebar-shortcut{transition:color .2s ease}
+    .topnav a:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#9f1d23;transform:scaleX(0);transform-origin:center;transition:transform .25s ease}
+    .topnav a:hover:after{transform:scaleX(1)}
+    .topnav a.active:after{transform:scaleX(1);animation:underlineIn .3s ease}
+    @keyframes underlineIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .section-nav-item{transition:color .2s ease,transform .2s ease}
+    .section-nav-item:hover{transform:translateX(3px)}
+    .brand{transition:color .25s ease,text-shadow .25s ease}
+    .brand:hover{text-shadow:0 0 22px rgba(181,31,38,.55)}
+
+    /* заголовки и поиск */
+    .page-title{animation:titleGlow 7s ease-in-out infinite alternate}
+    @keyframes titleGlow{from{text-shadow:0 0 0 rgba(181,31,38,0)}to{text-shadow:0 0 34px rgba(181,31,38,.28)}}
+    .search-wrap .search-symbol{transition:transform .3s ease,color .3s ease}
+    .search-wrap:focus-within .search-symbol{transform:rotate(0deg) scale(1.12);color:#c52a31}
+    #lawSearch{transition:border-color .25s ease,box-shadow .25s ease}
+    .control,.field{transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+
+    /* плавающие подсказки */
+    .toast{position:fixed;left:50%;bottom:26px;z-index:200;transform:translate(-50%,16px);background:#141416;border:1px solid #515156;color:#ededed;font-size:13px;padding:11px 18px;border-radius:3px;box-shadow:0 14px 40px rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1)}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .shake{animation:shake .4s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+      html{scroll-behavior:auto}
+      .reveal{opacity:1!important;transform:none!important}
+      .parallax-bg{display:none}
     }
 
   </style>
 </head>
 <body>
+
+  <div class="parallax-bg" aria-hidden="true">
+    <div class="parallax-layer pl-glow-a" data-depth="14"></div>
+    <div class="parallax-layer pl-glow-b" data-depth="26"></div>
+    <div class="parallax-layer pl-glow-c" data-depth="8"></div>
+    <div class="parallax-layer pl-grid" data-depth="40"></div>
+    <div class="parallax-layer pl-noise" data-depth="18"></div>
+    <div class="parallax-layer pl-orb o1" data-depth="55"><i></i></div>
+    <div class="parallax-layer pl-orb o2" data-depth="70"></div>
+    <div class="parallax-layer pl-orb o3" data-depth="48"></div>
+    <div class="parallax-layer pl-orb o4" data-depth="62"></div>
+    <div class="parallax-layer pl-vignette" data-depth="4"></div>
+  </div>
+
 
   <header class="topbar no-print">
     <div class="wrap topbar-inner">
@@ -664,13 +782,14 @@
         head.className='law-group-head';
         const numMatch=String(items[0].code).match(/^([0-9]+)/);
         const number=numMatch?numMatch[1]:String(categoryIndex+1).padStart(2,'0');
-        head.innerHTML='<span class="group-number">'+escapeHtml(number)+'.</span><span class="group-title">'+escapeHtml(category)+'</span><span class="group-count">'+items.length+' пунктов</span><span class="group-toggle">+</span>';
+        head.innerHTML='<span class="group-number">'+escapeHtml(number)+'.</span><span class="group-title">'+escapeHtml(category)+'</span><span class="group-count">'+items.length+' пунктов</span><span class="group-toggle" aria-hidden="true"><i class="tg-plus">+</i><i class="tg-minus">−</i></span>';
         const body=document.createElement('div');
         body.className='law-group-body';
+        const inner=document.createElement('div');
+        inner.className='law-inner';
+        body.appendChild(inner);
         head.addEventListener('click',()=>{
           group.classList.toggle('open');
-          const sign=head.querySelector('.group-toggle');
-          if(sign)sign.textContent=group.classList.contains('open')?'−':'+';
           const navButton=document.querySelector('.section-nav-item[data-group-id="'+group.id+'"]');
           if(navButton)navButton.classList.toggle('active',group.classList.contains('open'));
           if(document.body.classList.contains('snow-active'))applySnowDust();
@@ -681,7 +800,7 @@
           const badge=l.code.startsWith('2.')||l.code.startsWith('6.')||l.code.startsWith('7.')||l.code.startsWith('8.')||l.code.startsWith('11.')||l.code.startsWith('12.')?'Код':'Статья';
           d.innerHTML='<div class="article-top"><span class="code">'+escapeHtml(articleLabel(l))+'</span><span class="badge">'+escapeHtml(badge)+'</span></div><div class="article-title">'+escapeHtml(l.title)+'</div><p class="article-text">'+escapeHtml(l.text)+'</p><div class="article-penalty">'+escapeHtml(penalty(l))+'</div>'+(l.special?'<div class="subtle" style="margin-top:6px">'+escapeHtml(l.special)+'</div>':'');
           d.addEventListener('click',()=>toggle(l.code));
-          body.appendChild(d);
+          inner.appendChild(d);
         });
         group.appendChild(head);
         group.appendChild(body);
@@ -1009,6 +1128,163 @@
     window.addEventListener('resize',()=>{if(snowEnabled)resizeSnowCanvas();});
 
     syncIssueDate(); render();renderSelected();calc();updatePreview();
+
+    /* ===== АНИМАЦИИ И ПАРАЛЛАКС ===== */
+    const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* фон с параллаксом: мышь + прокрутка */
+    (function initParallax(){
+      if(reduceMotion) return;
+      const bg=document.querySelector('.parallax-bg');
+      if(!bg) return;
+      const layers=[...bg.querySelectorAll('.parallax-layer')].map(el=>({el,depth:Number(el.dataset.depth)||20}));
+      let mx=0,my=0,tx=0,ty=0,scrollY=0,raf=0;
+      function frame(){
+        mx+=(tx-mx)*.06; my+=(ty-my)*.06;
+        layers.forEach(l=>{
+          const px=mx*l.depth, py=my*l.depth*.6 - scrollY*(l.depth/140);
+          l.el.style.transform='translate3d('+px.toFixed(2)+'px,'+py.toFixed(2)+'px,0)';
+        });
+        raf=0;
+        if(Math.abs(tx-mx)>.001||Math.abs(ty-my)>.001) raf=requestAnimationFrame(frame);
+      }
+      function kick(){ if(!raf) raf=requestAnimationFrame(frame); }
+      window.addEventListener('mousemove',e=>{
+        tx=(e.clientX/window.innerWidth-.5)*2; ty=(e.clientY/window.innerHeight-.5)*2; kick();
+      },{passive:true});
+      window.addEventListener('scroll',()=>{ scrollY=window.scrollY||document.documentElement.scrollTop; kick(); },{passive:true});
+      kick();
+    })();
+
+    /* плавное появление блоков при прокрутке */
+    (function initReveal(){
+      const targets=document.querySelectorAll('#laws .page-heading,#laws .search-row,#laws .law-toolbar,#laws .category-legend,.feature-card,#form');
+      if(reduceMotion || !('IntersectionObserver' in window)){ targets.forEach(el=>el.classList.add('in')); return; }
+      targets.forEach(el=>el.classList.add('reveal'));
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+      },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+      targets.forEach(el=>io.observe(el));
+    })();
+
+    /* ripple-эффект на всех кнопках */
+    (function initRipple(){
+      document.addEventListener('pointerdown',e=>{
+        const btn=e.target.closest('.btn,.topbar-button,.delete-law');
+        if(!btn || reduceMotion) return;
+        const r=btn.getBoundingClientRect();
+        btn.style.setProperty('--rx',((e.clientX-r.left)/r.width*100)+'%');
+        btn.style.setProperty('--ry',((e.clientY-r.top)/r.height*100)+'%');
+        btn.classList.remove('rippling'); void btn.offsetWidth; btn.classList.add('rippling');
+      },{passive:true});
+    })();
+
+    /* анимация чисел в метриках калькулятора: цель считается по selected, а не читается из текста */
+    (function initCounters(){
+      const fineEl=document.getElementById('maxFine');
+      const termEl=document.getElementById('maxTerm');
+      if(!fineEl || !termEl) return;
+      const st={fine:{cur:0,tween:null},term:{cur:0,tween:null}};
+      let pending=null;
+      function runTween(s,el,to,suffix){
+        if(s.tween) cancelAnimationFrame(s.tween);
+        const from=s.cur;
+        if(from===to){ el.textContent=to+suffix; return; }
+        const dur=Math.min(650,180+Math.abs(to-from)*9); const t0=performance.now();
+        function step(t){
+          const p=Math.min(1,(t-t0)/dur); const e=1-Math.pow(1-p,3);
+          const v=Math.round(from+(to-from)*e);
+          el.textContent=v+suffix; s.cur=v;
+          if(p<1) s.tween=requestAnimationFrame(step); else s.tween=null;
+        }
+        s.tween=requestAnimationFrame(step);
+      }
+      function applyTargets(fineNum,fineSuffix,termNum){
+        if(reduceMotion){
+          fineEl.textContent=fineNum+fineSuffix; st.fine.cur=fineNum;
+          termEl.textContent=String(termNum); st.term.cur=termNum;
+          return;
+        }
+        fineEl.classList.remove('tick'); void fineEl.offsetWidth; fineEl.classList.add('tick');
+        termEl.classList.remove('tick'); void termEl.offsetWidth; termEl.classList.add('tick');
+        runTween(st.fine,fineEl,fineNum,fineSuffix);
+        runTween(st.term,termEl,termNum,'');
+      }
+      window.__calcMetrics=function(){
+        const items=laws.filter(l=>selected.has(l.code));
+        let fine=0, term=0, unknownFine=false;
+        items.forEach(l=>{ if(l.fineMax===null) unknownFine=true; else fine+=l.fineMax; term+=l.termMax||0; });
+        const cappedFine=Math.min(fine,750), cappedTerm=Math.min(term,60);
+        const suffix = unknownFine ? (fine?'$*':'') : '$';
+        const fineNum = (!unknownFine && !fine) ? 0 : cappedFine;
+        applyTargets(fineNum,suffix,cappedTerm);
+      };
+      const origCalc=window.calc;
+      window.calc=function(){
+        origCalc.apply(this,arguments);
+        if(pending) cancelAnimationFrame(pending);
+        pending=requestAnimationFrame(()=>{ pending=null; window.__calcMetrics(); });
+      };
+    })();
+
+    /* лёгкая вибрация при попытке сохранить некорректный свод */
+    (function initShake(){
+      const modal=document.querySelector('.editor-modal');
+      if(!modal) return;
+      const origAlert=window.alert;
+      window.alert=function(msg){
+        modal.classList.remove('shake'); void modal.offsetWidth; modal.classList.add('shake');
+        return origAlert.apply(window,arguments);
+      };
+      setTimeout(()=>{ modal.classList.remove('shake'); },600);
+    })();
+
+    /* мягкая подсветка только что ВЫБРАННОЙ статьи (при снятии — мгновенно, без вспышки) */
+    (function initArticlePulse(){
+      const listEl=document.getElementById('articleList');
+      if(!listEl || reduceMotion) return;
+      let pendingEl=null;
+      // клик ловим на capture, чтобы прочитать состояние selected ДО перерисовки от toggle()
+      listEl.addEventListener('click',e=>{
+        const art=e.target.closest('.article');
+        if(!art){ pendingEl=null; return; }
+        const wasSelected=art.classList.contains('selected');
+        // запоминаем сам узел (уникален), а не его номер
+        pendingEl = wasSelected ? null : art;
+      },true);
+      new MutationObserver(()=>{
+        const el=pendingEl; pendingEl=null;
+        if(!el || !el.isConnected) return;
+        el.classList.remove('just-toggled'); void el.offsetWidth; el.classList.add('just-toggled');
+        setTimeout(()=>el.classList.remove('just-toggled'),800);
+      }).observe(listEl,{childList:true,subtree:false});
+    })();
+
+    /* всплывающие подсказки вместо нативных alert для мягких действий */
+    function showToast(text){
+      if(reduceMotion){ return; }
+      let t=document.querySelector('.toast');
+      if(!t){ t=document.createElement('div'); t.className='toast'; document.body.appendChild(t); }
+      t.textContent=text; t.classList.add('show');
+      clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),2200);
+    }
+
+    /* подсветка активного пункта бокового навигатора при прокрутке */
+    (function initScrollSpy(){
+      const nav=document.getElementById('sectionNav');
+      if(!nav || !('IntersectionObserver' in window)) return;
+      const items=[...nav.querySelectorAll('.section-nav-item')];
+      if(!items.length) return;
+      const groups=items.map(i=>document.getElementById(i.dataset.groupId)).filter(Boolean);
+      const spy=new IntersectionObserver(entries=>{
+        entries.forEach(en=>{
+          if(en.isIntersecting){
+            items.forEach(it=>it.classList.toggle('active',it.dataset.groupId===en.target.id));
+          }
+        });
+      },{rootMargin:'-82px 0px -60% 0px',threshold:0});
+      groups.forEach(g=>spy.observe(g));
+    })();
   </script>
 </body>
 </html>
