@@ -471,6 +471,64 @@
     }
     @media print{.devlog-widget{display:none!important}}
 
+    /* ===== КОМПАКТНЫЙ РЕЖИМ СПИСКА ЗАКОНОВ ===== */
+    .article-list.compact .law-group.open .law-group-body{padding:4px;border-top-width:1px}
+    .article-list.compact .law-group-body>.law-inner{gap:0}
+    .article-list.compact .article{
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr) 25px auto;
+      align-items:center;
+      gap:8px;
+      min-height:37px;
+      padding:5px 9px;
+      border-left:0;
+      border-right:0;
+      border-top:0;
+    }
+    .article-list.compact .article + .article{border-top:1px solid #202024}
+    .article-list.compact .article-top{display:contents}
+    .article-list.compact .code{grid-column:1;grid-row:1;font-size:12px}
+    .article-list.compact .badge,
+    .article-list.compact .article-text,
+    .article-list.compact .article-penalty,
+    .article-list.compact .article>.subtle{display:none!important}
+    .article-list.compact .article-title{
+      grid-column:2;grid-row:1;min-width:0;margin:0;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+      font-size:12px;line-height:1.25;
+    }
+    .article-list.compact .favorite-btn{grid-column:3;grid-row:1;margin:0;width:23px;height:23px;font-size:15px}
+    .article-list.compact .copy-law-btn{grid-column:4;grid-row:1;padding:4px 6px;font-size:8px}
+    .article-list.compact .article:hover{transform:none}
+    @media(max-width:480px){
+      .article-list.compact .article{grid-template-columns:auto minmax(0,1fr) 23px auto;gap:5px;padding:5px 6px}
+      .article-list.compact .article-title{font-size:11px}
+      .article-list.compact .copy-law-btn{padding:4px 5px;font-size:8px}
+    }
+
+    /* ===== ПОЛЬЗОВАТЕЛЬСКИЙ ШАБЛОН ШТРАФНОГО БЛАНКА ===== */
+    .template-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+    .template-heading .section-title{margin:0}
+    .template-heading .btn{flex:0 0 auto}
+    .fine-template-editor{margin-top:12px;padding:15px;border:1px solid #303034;background:#0b0b0c}
+    .fine-template-editor[hidden]{display:none!important}
+    .fine-template-intro{margin:0 0 13px;color:#a0a0a5;font-size:12px;line-height:1.55}
+    .fine-template-input{display:block;width:100%;min-height:230px;margin-top:6px;resize:vertical;font-family:Consolas,"Courier New",monospace;font-size:12px;line-height:1.6;white-space:pre}
+    .fine-template-help{margin-top:13px;color:#939399;font-size:11px;line-height:1.55}
+    .fine-template-help>strong{display:block;margin-bottom:8px;color:#d0d0d2;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+    .fine-template-tokens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px}
+    .fine-template-tokens span{min-width:0}
+    .fine-template-tokens code{display:inline-block;margin-right:5px;padding:2px 5px;border:1px solid #3b3032;background:#151011;color:#e1b5b8;font-size:10px}
+    .fine-template-help p{margin:10px 0 0}
+    .fine-template-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid #29292e}
+    #fineTemplateStatus{color:#8dba8d;font-size:11px}
+    @media(max-width:600px){
+      .template-heading{align-items:flex-start;flex-direction:column}
+      .fine-template-editor{padding:11px}
+      .fine-template-tokens{grid-template-columns:1fr}
+      .fine-template-input{font-size:11px}
+    }
+
   </style>
 </head>
 <body>
@@ -534,6 +592,7 @@
             <span>ВЫБРАНО <b id="countSelected">0</b></span>
           </div>
           <div class="toolbar-actions">
+            <button type="button" class="text-action" id="toggleLawViewBtn" aria-pressed="false" title="Переключить плотность списка">Компактный вид</button>
             <button type="button" class="text-action" id="expandAllBtn">Развернуть все</button>
             <button type="button" class="text-action" id="collapseAllBtn">Свернуть все</button>
             <button type="button" class="text-action" id="exportLawsBtn">Экспорт JSON ↓</button>
@@ -604,7 +663,39 @@
           <div><label for="termInput">Количество сроков</label><input id="termInput" class="field" type="number" min="0" step="1" value="0"></div>
         </div>
 
-        <div class="section-title">Текст бланка</div>
+        <div class="template-heading">
+          <div class="section-title">Текст бланка</div>
+          <button class="btn secondary" id="toggleFineTemplate" type="button" aria-expanded="false" aria-controls="fineTemplateEditor">Настроить шаблон</button>
+        </div>
+        <section class="fine-template-editor" id="fineTemplateEditor" hidden aria-label="Настройка шаблона штрафного бланка">
+          <p class="fine-template-intro">Измените текст ниже. Значения в фигурных скобках будут автоматически заменены данными из заполненной формы. Шаблон применяется к предпросмотру, копированию и печати.</p>
+          <label for="fineTemplateInput">Ваш шаблон</label>
+          <textarea id="fineTemplateInput" class="field fine-template-input" rows="13" spellcheck="false"></textarea>
+          <div class="fine-template-help">
+            <strong>Доступные переменные:</strong>
+            <div class="fine-template-tokens">
+              <span><code>{citizen}</code> Имя обвиняемого</span>
+              <span><code>{passport}</code> Номер паспорта</span>
+              <span><code>{citizenPassport}</code> Имя и паспорт вместе</span>
+              <span><code>{articles}</code> Статьи обвинения</span>
+              <span><code>{fine}</code> Сумма штрафа</span>
+              <span><code>{term}</code> Количество сроков</span>
+              <span><code>{department}</code> Департамент</span>
+              <span><code>{rank}</code> Звание сотрудника</span>
+              <span><code>{officer}</code> Имя сотрудника</span>
+              <span><code>{issueDate}</code> Дата выписки</span>
+              <span><code>{dueDate}</code> Срок оплаты</span>
+              <span><code>{issueDateISO}</code> Дата выписки в формате ГГГГ-ММ-ДД</span>
+              <span><code>{dueDateISO}</code> Срок оплаты в формате ГГГГ-ММ-ДД</span>
+            </div>
+            <p>Переменные можно размещать в любом месте и повторять. Переносы строк сохраняются. Неизвестные переменные остаются в тексте без изменений.</p>
+          </div>
+          <div class="fine-template-actions">
+            <button class="btn" id="saveFineTemplate" type="button">Сохранить и применить</button>
+            <button class="btn secondary" id="resetFineTemplate" type="button">Вернуть стандартный</button>
+            <span id="fineTemplateStatus" role="status" aria-live="polite"></span>
+          </div>
+        </section>
         <div id="preview" class="preview"><h3>Штрафной бланк</h3><div id="previewText" class="preview-body"></div></div>
         <div class="actions">
           <button class="btn" id="copyBtn">Скопировать текст</button>
@@ -676,6 +767,16 @@
       Для нового обновления скопируйте один объект { date, title, description }.
     */
     const DEVLOG_UPDATES = [
+      {
+        date: '22.11.2026',
+        title: 'СВОЙ ШАБЛОН БЛАНКОВ!',
+        description: 'Добавлен редактор шаблона штрафного бланка. Можно настроить собственный текст, использовать переменные для данных формы и сохранять шаблон в браузере.'
+      },
+      {
+        date: '22.11.2026',
+        title: 'Компактный список законов',
+        description: 'Добавлено переключение между обычным и компактным отображением. В компактном режиме законы занимают меньше места, а выбранный режим запоминается в браузере.'
+      },
       {
         date: '22.11.2026',
         title: 'Копирование законов',
@@ -760,6 +861,9 @@
     let favoriteCodes = loadFavoriteCodes();
     let showFavoritesOnly = false;
     let savedCases = loadSavedCases();
+    const COMPACT_VIEW_STORAGE_KEY='departmenthelper_compact_law_view_v1';
+    let compactLawView=false;
+    try{compactLawView=localStorage.getItem(COMPACT_VIEW_STORAGE_KEY)==='1';}catch(error){}
     defaultLaws.forEach(l=>{ if(!l.legalCategory) l.legalCategory=inferLegalCategory(l.code); });
 
     function loadFavoriteCodes(){
@@ -872,6 +976,21 @@
     const categoryEl=document.getElementById('categoryFilter');
     refreshCategories();
     const listEl=document.getElementById('articleList'), selectedBox=document.getElementById('selectedBox');
+    const toggleLawViewBtn=document.getElementById('toggleLawViewBtn');
+    function applyLawViewPreference(){
+      listEl.classList.toggle('compact',compactLawView);
+      if(toggleLawViewBtn){
+        toggleLawViewBtn.textContent=compactLawView?'Обычный вид':'Компактный вид';
+        toggleLawViewBtn.setAttribute('aria-pressed',compactLawView?'true':'false');
+        toggleLawViewBtn.title=compactLawView?'Переключить на обычный список':'Переключить на компактный список';
+      }
+    }
+    toggleLawViewBtn?.addEventListener('click',()=>{
+      compactLawView=!compactLawView;
+      applyLawViewPreference();
+      try{localStorage.setItem(COMPACT_VIEW_STORAGE_KEY,compactLawView?'1':'0');}catch(error){}
+    });
+    applyLawViewPreference();
     const selected=new Set();
     const fineRange=document.getElementById('fineRange');
     const termRange=document.getElementById('termRange');
@@ -1076,20 +1195,103 @@
       const el=document.getElementById('issueDate');
       if(el){el.value=issueDateISO(); el.title=`Автоматически: ${fmtDate(el.value)} по московской дате`;}
     }
+    /*
+      ===== НАСТРОЙКА ШАБЛОНА ШТРАФНОГО БЛАНКА =====
+      Шаблон можно менять через кнопку «Настроить шаблон» в разделе бланка.
+      Значения в фигурных скобках заменяются данными формы. Ключи ниже также
+      можно использовать в собственном тексте: citizen, passport, articles,
+      fine, term, department, rank, officer, issueDate, dueDate,
+      issueDateISO, dueDateISO, citizenPassport.
+    */
+    const FINE_TEMPLATE_STORAGE_KEY='departmenthelper_fine_template_v1';
+    const DEFAULT_FINE_TEMPLATE=[
+      'Гражданин: {citizen} №{passport}',
+      'Обвиняется в нарушении статей: {articles}',
+      'Приговорен к тюремному заключению в {term} сроков и штрафу ${fine}.',
+      'Приговор был приведен к исполнению в {department}.',
+      'Штраф обязан выплатить до {dueDate} (3 дня) в {department}.',
+      'В случае не оплаты штрафа подлежит подачи в розыск и аресту.',
+      'Штраф выписал {rank} {department} {officer}.',
+      '',
+      '{citizen} {passport} до {dueDate} - НЕ ОПЛАЧЕН'
+    ].join('\n');
+    function loadFineTemplate(){
+      try{
+        const saved=localStorage.getItem(FINE_TEMPLATE_STORAGE_KEY);
+        return saved&&saved.trim()?saved:DEFAULT_FINE_TEMPLATE;
+      }catch(error){return DEFAULT_FINE_TEMPLATE;}
+    }
+    let fineTemplate=loadFineTemplate();
+
     function buildText(){
       const citizen=document.getElementById('citizenName').value.trim()||'Имя Фамилия';
-      const passport=document.getElementById('passport').value.trim()||'№паспорта';
+      const passport=document.getElementById('passport').value.trim()||'паспорта';
       const officer=document.getElementById('officerName').value.trim()||'Имя Фамилия';
-      const dept=document.getElementById('department').value||'Полицейский департамент Сен-Дени';
+      const department=document.getElementById('department').value||'Полицейский департамент Сен-Дени';
       const rank=document.getElementById('rank').value.trim()||'сержант';
       const issue=issueDateISO();
       const due=addDays(issue,3);
       const articles=document.getElementById('articlesInput').value.trim()||'номера статей';
       const fine=document.getElementById('fineInput').value||'0';
       const term=document.getElementById('termInput').value||'0';
-      return `Гражданин: ${citizen} №${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в ${term} сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} ${officer}.\n\n${citizen} ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
+      const values={
+        citizen,
+        passport,
+        citizenPassport:`${citizen} №${passport}`,
+        articles,
+        fine,
+        term,
+        department,
+        rank,
+        officer,
+        issueDate:fmtDate(issue),
+        dueDate:fmtDate(due),
+        issueDateISO:issue,
+        dueDateISO:due
+      };
+      return fineTemplate.replace(/\{([a-zA-Z][a-zA-Z0-9_]*)\}/g,(placeholder,key)=>
+        Object.prototype.hasOwnProperty.call(values,key)?String(values[key]):placeholder
+      );
     }
     function updatePreview(){const t=buildText();document.getElementById('previewText').textContent=t;document.getElementById('printText').textContent=t}
+
+    const fineTemplateInput=document.getElementById('fineTemplateInput');
+    const fineTemplateEditor=document.getElementById('fineTemplateEditor');
+    const toggleFineTemplateButton=document.getElementById('toggleFineTemplate');
+    fineTemplateInput.value=fineTemplate;
+    toggleFineTemplateButton.addEventListener('click',()=>{
+      const willOpen=fineTemplateEditor.hidden;
+      fineTemplateEditor.hidden=!willOpen;
+      toggleFineTemplateButton.setAttribute('aria-expanded',willOpen?'true':'false');
+      toggleFineTemplateButton.textContent=willOpen?'Скрыть настройки':'Настроить шаблон';
+      if(willOpen)fineTemplateInput.focus();
+    });
+    document.getElementById('saveFineTemplate').addEventListener('click',()=>{
+      const nextTemplate=fineTemplateInput.value;
+      if(!nextTemplate.trim()){
+        showToast('Шаблон не может быть пустым.');
+        fineTemplateInput.focus();
+        return;
+      }
+      fineTemplate=nextTemplate;
+      let persisted=true;
+      try{localStorage.setItem(FINE_TEMPLATE_STORAGE_KEY,fineTemplate);}
+      catch(error){persisted=false;}
+      updatePreview();
+      document.getElementById('fineTemplateStatus').textContent=persisted?'Шаблон сохранён в этом браузере.':'Применено до закрытия страницы; браузер не разрешил сохранить шаблон.';
+      showToast(persisted?'Шаблон сохранён и применён.':'Шаблон применён только до закрытия страницы.');
+    });
+    document.getElementById('resetFineTemplate').addEventListener('click',()=>{
+      if(!confirm('Вернуть стандартный шаблон штрафного бланка? Ваш текущий шаблон будет заменён.'))return;
+      fineTemplate=DEFAULT_FINE_TEMPLATE;
+      fineTemplateInput.value=DEFAULT_FINE_TEMPLATE;
+      let persisted=true;
+      try{localStorage.setItem(FINE_TEMPLATE_STORAGE_KEY,DEFAULT_FINE_TEMPLATE);}
+      catch(error){persisted=false;}
+      document.getElementById('fineTemplateStatus').textContent=persisted?'Используется стандартный шаблон.':'Стандартный шаблон применён только до закрытия страницы.';
+      updatePreview();
+      showToast('Стандартный шаблон восстановлен.');
+    });
 
     function caseText(entry){
       return [
