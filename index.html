@@ -221,10 +221,30 @@
     .article-title{margin:6px 0 4px;color:#e1e1e2;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:14px;line-height:1.35}
     .article-text{color:#aaaab0;font-size:12px;line-height:1.5}
     .article-penalty{margin-top:7px;color:#dedee0;font-size:11px}
-    .copy-law-btn{flex:0 0 auto;margin-left:auto;padding:5px 8px;border:1px solid #46464b;background:#101012;color:#a9a9ad;border-radius:2px;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:.035em;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+    .copy-law-btn{flex:0 0 auto;margin-left:0;padding:5px 8px;border:1px solid #46464b;background:#101012;color:#a9a9ad;border-radius:2px;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:.035em;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
     .copy-law-btn:hover{border-color:#8c292f;background:#190c0e;color:#fff}
     .copy-law-btn:focus-visible{outline:1px solid #b51f26;outline-offset:2px}
     .copy-law-btn.copied{border-color:#496247;color:#b6d5ad}
+    .favorite-btn{flex:0 0 auto;margin-left:auto;width:25px;height:25px;padding:0;border:1px solid #3a3a3e;background:#101012;color:#77777d;font-size:17px;line-height:1;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+    .favorite-btn:hover{border-color:#865d32;color:#d8ad70}
+    .favorite-btn.active{border-color:#76542e;background:rgba(180,128,59,.1);color:#e0b46e}
+    .favorite-btn:focus-visible,.case-action:focus-visible{outline:1px solid #b51f26;outline-offset:2px}
+    .favorites-nav-item{margin-bottom:7px;border-bottom:1px solid #242428;padding-bottom:12px}
+    .case-list{display:grid;gap:10px}
+    .case-card{border:1px solid #2b2b30;background:#0a0a0b;padding:15px}
+    .case-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+    .case-person{color:#ededee;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:17px;font-weight:700;letter-spacing:.025em}
+    .case-date{color:#77777d;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+    .case-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;margin-top:12px;color:#b8b8bc;font-size:12px;line-height:1.5}
+    .case-details strong{color:#85858b;font-size:10px;letter-spacing:.07em;text-transform:uppercase}
+    .case-penalty{color:#e0e0e2;font-weight:700}
+    .case-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px;padding-top:11px;border-top:1px solid #252529}
+    .case-action{padding:6px 9px;border:1px solid #414146;background:transparent;color:#bcbcc0;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+    .case-action:hover{border-color:#8c292f;color:#fff}
+    .case-action.delete:hover{border-color:#9e454a;color:#e6a2a5}
+    .case-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;color:#85858a;font-size:10px;letter-spacing:.07em}
+    .case-empty{padding:25px;border:1px dashed #38383c;color:#929297;text-align:center;font-size:13px;line-height:1.6}
+    @media(max-width:560px){.case-details{grid-template-columns:1fr}.favorite-btn{margin-left:auto}}
     .empty{padding:23px;border:1px dashed #38383c;color:#929297;text-align:center}
     .card{position:relative;overflow:hidden;border:1px solid #29292d;border-radius:0;background:rgba(9,9,10,.96);box-shadow:none}
     .card:after{display:none}
@@ -421,6 +441,36 @@
       .parallax-bg{display:none}
     }
 
+
+
+    /* ===== НЕБОЛЬШОЕ НЕМОДАЛЬНОЕ ОКНО ДЕВЛОГА ===== */
+    .devlog-widget{position:fixed;right:22px;bottom:18px;z-index:85;width:min(340px,calc(100vw - 28px));pointer-events:none}
+    .devlog-panel{display:flex;flex-direction:column;max-height:min(430px,calc(100vh - 36px));overflow:hidden;border:1px solid #3a3a40;background:rgba(9,9,11,.97);box-shadow:0 16px 42px rgba(0,0,0,.62);pointer-events:auto;backdrop-filter:blur(10px)}
+    .devlog-header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;border-bottom:1px solid #29292e;background:linear-gradient(110deg,rgba(126,22,29,.22),rgba(12,12,14,.95) 60%)}
+    .devlog-heading{min-width:0}
+    .devlog-kicker{display:block;margin-bottom:3px;color:#85858a;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:8px;font-weight:700;letter-spacing:.16em}
+    .devlog-header h2{margin:0;color:#ededee;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:19px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+    .devlog-toggle{flex:0 0 27px;width:27px;height:27px;border:1px solid #45454b;background:#101013;color:#d1d1d3;font-size:19px;line-height:1;cursor:pointer}
+    .devlog-toggle:hover{border-color:#9b292f;color:#fff}
+    .devlog-toggle:focus-visible{outline:1px solid #b51f26;outline-offset:2px}
+    .devlog-content{overflow-y:auto;padding:12px 14px 14px;scrollbar-width:thin;scrollbar-color:#414147 transparent}
+    .devlog-panel.collapsed .devlog-content{display:none}
+    .devlog-day + .devlog-day{margin-top:14px;padding-top:12px;border-top:1px solid #29292e}
+    .devlog-date{margin:0 0 9px;color:#b32a31;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:.11em}
+    .devlog-entry{padding:0 0 10px 10px;border-left:2px solid #672126}
+    .devlog-entry + .devlog-entry{margin-top:9px}
+    .devlog-entry:last-child{padding-bottom:0}
+    .devlog-entry h3{margin:0 0 4px;color:#e4e4e6;font-size:12px;font-weight:700;line-height:1.35}
+    .devlog-entry p{margin:0;color:#a6a6ab;font-size:11px;line-height:1.5}
+    .devlog-empty{color:#8e8e94;font-size:11px;line-height:1.5}
+    @media(max-width:600px){
+      .devlog-widget{right:12px;bottom:12px;width:min(320px,calc(100vw - 24px))}
+      .devlog-panel{max-height:min(380px,calc(100vh - 24px))}
+      .devlog-header{padding:10px 12px}
+      .devlog-content{padding:10px 12px 12px}
+    }
+    @media print{.devlog-widget{display:none!important}}
+
   </style>
 </head>
 <body>
@@ -445,6 +495,7 @@
         <a class="active" href="#laws">ПРАВИЛА</a>
         <a href="#calculator">КАЛЬКУЛЯТОР</a>
         <a href="#form">ШТРАФНОЙ БЛАНК</a>
+        <a href="#cases">МОИ ДЕЛА</a>
       </nav>
       <div class="topbar-actions">
         <button type="button" class="topbar-button" id="snowToggle" aria-pressed="false">СНЕГ: ВЫКЛ</button>
@@ -557,11 +608,20 @@
         <div id="preview" class="preview"><h3>Штрафной бланк</h3><div id="previewText" class="preview-body"></div></div>
         <div class="actions">
           <button class="btn" id="copyBtn">Скопировать текст</button>
+          <button class="btn secondary" id="addToCasesBtn">В мои дела</button>
           <button class="btn secondary" id="resetForm">Сбросить</button>
         </div>
         <p class="subtle" style="margin-top:12px">Срок оплаты автоматически считается как 3 календарных дня с даты выписки в соответствии со ст. 6.1.</p>
       </div>
     </section>
+
+      <section id="cases" class="card feature-card" style="margin-bottom:28px">
+        <div class="card-head"><h2>Мои дела</h2><p>Локальный журнал задержаний и назначенных наказаний. Записи хранятся только в этом браузере.</p></div>
+        <div class="card-body">
+          <div class="case-toolbar"><span>СОХРАНЕНО ДЕЛ: <b id="caseCount">0</b></span></div>
+          <div id="caseList" class="case-list"><div class="case-empty">Пока нет сохранённых дел. Заполните штрафной бланк и нажмите «В мои дела».</div></div>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -586,9 +646,53 @@
 
   <canvas id="snowCanvas" aria-hidden="true"></canvas>
 
+
+
+  <!-- НЕМОДАЛЬНЫЙ ДЕВЛОГ: небольшое окно в правом нижнем углу -->
+  <aside class="devlog-widget no-print" id="devlogWidget" aria-label="Девлог — последние обновления сайта">
+    <section class="devlog-panel" id="devlogPanel" aria-labelledby="devlogHeading">
+      <header class="devlog-header">
+        <div class="devlog-heading">
+          <span class="devlog-kicker">ОБНОВЛЕНИЯ САЙТА</span>
+          <h2 id="devlogHeading">Девлог</h2>
+        </div>
+        <button class="devlog-toggle" id="devlogToggle" type="button" aria-controls="devlogContent" aria-expanded="true" aria-label="Свернуть девлог" title="Свернуть">−</button>
+      </header>
+      <div class="devlog-content" id="devlogContent">
+        <div id="devlogEntries"></div>
+      </div>
+    </section>
+  </aside>
+
   <footer class="footer no-print"><div class="wrap"><strong>ОФФЛАЙН RP-ПОДСКАЗКА</strong> · данные внесены по прикреплённому Своду Законов</div></footer>
 
   <script>
+    /*
+      ===== НАСТРОЙКА ДЕВЛОГА =====
+      Чтобы изменить обновления, редактируйте только массив DEVLOG_UPDATES:
+      date        — дата обновления;
+      title       — короткое название добавления;
+      description — описание, которое увидят посетители.
+      Для нового обновления скопируйте один объект { date, title, description }.
+    */
+    const DEVLOG_UPDATES = [
+      {
+        date: '22.11.2026',
+        title: 'Копирование законов',
+        description: 'В карточке каждого закона появилась кнопка «Скопировать». Она копирует номер, тяжесть и название в готовом формате.'
+      },
+      {
+        date: '22.11.2026',
+        title: 'Избранные статьи',
+        description: 'Теперь статью можно отметить звёздочкой. Все отмеченные законы собираются в отдельной категории «Избранные».'
+      },
+      {
+        date: '22.11.2026',
+        title: 'Раздел «Мои дела»',
+        description: 'В штрафном бланке появилась кнопка «В мои дела». Она сохраняет обвиняемого, статьи и назначенное наказание в личный журнал браузера.'
+      }
+    ];
+
     const LAW = (code, category, title, text, fineMax, termMax, mode='and', extra={}) => ({code,category,title,text,fineMax,termMax,mode,...extra});
     const defaultLaws = [
       LAW('2.1','Мелкие правонарушения','Нарушение общественного порядка','Нарушение общественного порядка, включая хулиганство, непристойное поведение и опасную езду в черте города.',20,0),
@@ -650,8 +754,34 @@
     function articleLabel(l){ return `${l.code} (${l.legalCategory || inferLegalCategory(l.code)})`; }
 
     const LAW_STORAGE_KEY='san_denis_laws_v1';
+    const FAVORITES_STORAGE_KEY='departmenthelper_favorite_laws_v1';
+    const CASES_STORAGE_KEY='departmenthelper_cases_v1';
     let laws = loadSavedLaws();
+    let favoriteCodes = loadFavoriteCodes();
+    let showFavoritesOnly = false;
+    let savedCases = loadSavedCases();
     defaultLaws.forEach(l=>{ if(!l.legalCategory) l.legalCategory=inferLegalCategory(l.code); });
+
+    function loadFavoriteCodes(){
+      try{
+        const value=JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY)||'[]');
+        return new Set(Array.isArray(value)?value.map(String).filter(code=>laws.some(law=>law.code===code)):[]);
+      }catch(error){return new Set();}
+    }
+    function saveFavoriteCodes(){
+      try{localStorage.setItem(FAVORITES_STORAGE_KEY,JSON.stringify([...favoriteCodes]));}
+      catch(error){showToast('Не удалось сохранить избранное в этом браузере.');}
+    }
+    function loadSavedCases(){
+      try{
+        const value=JSON.parse(localStorage.getItem(CASES_STORAGE_KEY)||'[]');
+        return Array.isArray(value)?value.filter(item=>item&&typeof item==='object'):[];
+      }catch(error){return [];}
+    }
+    function saveCases(){
+      try{localStorage.setItem(CASES_STORAGE_KEY,JSON.stringify(savedCases));}
+      catch(error){showToast('Не удалось сохранить дело. Возможно, переполнено хранилище браузера.');}
+    }
 
     function loadSavedLaws(){
       try{
@@ -694,6 +824,22 @@
       const nav=document.getElementById('sectionNav');
       if(!nav) return;
       nav.innerHTML='';
+
+      const favoritesButton=document.createElement('button');
+      favoritesButton.type='button';
+      favoritesButton.className='section-nav-item favorites-nav-item'+(showFavoritesOnly?' active':'');
+      favoritesButton.dataset.groupId='law-group-favorites';
+      favoritesButton.innerHTML='<span class="nav-number">★</span><span>ИЗБРАННЫЕ <small>('+favoriteCodes.size+')</small></span>';
+      favoritesButton.addEventListener('click',()=>{
+        showFavoritesOnly=true;
+        document.getElementById('lawSearch').value='';
+        categoryEl.value='all';
+        render();
+        const group=document.getElementById('law-group-favorites');
+        if(group){group.classList.add('open');group.scrollIntoView({behavior:'smooth',block:'start'});}
+      });
+      nav.appendChild(favoritesButton);
+
       const categories=[...new Set(laws.map(x=>x.category).filter(Boolean))];
       categories.forEach((category,index)=>{
         const first=laws.find(l=>l.category===category);
@@ -705,6 +851,7 @@
         button.dataset.groupId='law-group-'+index;
         button.innerHTML='<span class="nav-number">'+escapeHtml(number)+'.</span><span>'+escapeHtml(category)+'</span>';
         button.addEventListener('click',()=>{
+          showFavoritesOnly=false;
           document.getElementById('lawSearch').value='';
           categoryEl.value='all';
           render();
@@ -713,7 +860,8 @@
             group.classList.add('open');
             const toggle=group.querySelector('.group-toggle');
             if(toggle)toggle.textContent='−';
-            nav.querySelectorAll('.section-nav-item').forEach(item=>item.classList.toggle('active',item===button));
+            const currentButton=nav.querySelector('.section-nav-item[data-group-id="'+group.id+'"]');
+            nav.querySelectorAll('.section-nav-item').forEach(item=>item.classList.toggle('active',item===currentButton));
             group.scrollIntoView({behavior:'smooth',block:'start'});
           }
         });
@@ -797,29 +945,32 @@
       const q=document.getElementById('lawSearch').value.trim().toLowerCase();
       const cat=categoryEl.value;
       const openCategories=new Set([...listEl.querySelectorAll('.law-group.open')].map(group=>group.dataset.category));
-      const visible=laws.filter(l=>(cat==='all'||l.category===cat)&&(!q||(''+l.code+' '+l.title+' '+l.text+' '+l.category).toLowerCase().includes(q)));
+      const filtered=laws.filter(l=>(cat==='all'||l.category===cat)&&(!q||(''+l.code+' '+l.title+' '+l.text+' '+l.category).toLowerCase().includes(q)));
+      const visible=showFavoritesOnly?filtered.filter(l=>favoriteCodes.has(l.code)):filtered;
       document.getElementById('countVisible').textContent=visible.length;
       document.getElementById('countSelected').textContent=selected.size;
       listEl.innerHTML='';
       renderSectionNav();
       if(!visible.length){
-        listEl.innerHTML='<div class="empty">Ничего не найдено по заданному запросу.</div>';
+        listEl.innerHTML=showFavoritesOnly
+          ?'<div class="empty">'+(favoriteCodes.size?'По запросу ничего не найдено в избранном.':'Пока нет избранных статей. Нажмите ★ в карточке закона, чтобы добавить его сюда.')+'</div>'
+          :'<div class="empty">Ничего не найдено по заданному запросу.</div>';
         return;
       }
       const allCategories=[...new Set(laws.map(l=>l.category).filter(Boolean))];
-      const visibleCategories=[...new Set(visible.map(l=>l.category))];
+      const visibleCategories=showFavoritesOnly?['Избранные']:[...new Set(visible.map(l=>l.category))];
       visibleCategories.forEach(category=>{
-        const items=visible.filter(l=>l.category===category);
-        const categoryIndex=allCategories.indexOf(category);
+        const items=showFavoritesOnly?visible:visible.filter(l=>l.category===category);
+        const categoryIndex=showFavoritesOnly?-1:allCategories.indexOf(category);
         const group=document.createElement('section');
         group.className='law-group';
-        group.id='law-group-'+categoryIndex;
-        group.dataset.category=category;
+        group.id=showFavoritesOnly?'law-group-favorites':'law-group-'+categoryIndex;
+        group.dataset.category=showFavoritesOnly?'__favorites__':category;
         const head=document.createElement('button');
         head.type='button';
         head.className='law-group-head';
         const numMatch=String(items[0].code).match(/^([0-9]+)/);
-        const number=numMatch?numMatch[1]:String(categoryIndex+1).padStart(2,'0');
+        const number=showFavoritesOnly?'★':(numMatch?numMatch[1]:String(categoryIndex+1).padStart(2,'0'));
         head.innerHTML='<span class="group-number">'+escapeHtml(number)+'.</span><span class="group-title">'+escapeHtml(category)+'</span><span class="group-count">'+items.length+' пунктов</span><span class="group-toggle" aria-hidden="true"><i class="tg-plus">+</i><i class="tg-minus">−</i></span>';
         const body=document.createElement('div');
         body.className='law-group-body';
@@ -847,19 +998,38 @@
             event.stopPropagation();
             copyLawToClipboard(l,copyButton);
           });
+          const favoriteButton=document.createElement('button');
+          favoriteButton.type='button';
+          favoriteButton.className='favorite-btn'+(favoriteCodes.has(l.code)?' active':'');
+          favoriteButton.textContent=favoriteCodes.has(l.code)?'★':'☆';
+          favoriteButton.setAttribute('aria-label',favoriteCodes.has(l.code)?'Убрать из избранного':'Добавить в избранное');
+          favoriteButton.setAttribute('aria-pressed',favoriteCodes.has(l.code)?'true':'false');
+          favoriteButton.title=favoriteCodes.has(l.code)?'Убрать из избранного':'Добавить в избранное';
+          favoriteButton.addEventListener('click',event=>{
+            event.preventDefault();
+            event.stopPropagation();
+            toggleFavorite(l.code);
+          });
+          d.querySelector('.article-top').appendChild(favoriteButton);
           d.querySelector('.article-top').appendChild(copyButton);
           d.addEventListener('click',()=>toggle(l.code));
           inner.appendChild(d);
         });
         group.appendChild(head);
         group.appendChild(body);
-        if(q||openCategories.has(category))group.classList.add('open');
+        if(q||showFavoritesOnly||openCategories.has(category))group.classList.add('open');
         if(group.classList.contains('open'))head.querySelector('.group-toggle').textContent='−';
         listEl.appendChild(group);
       });
       if(document.body.classList.contains('snow-active'))applySnowDust();
     }
     function toggle(code){selected.has(code)?selected.delete(code):selected.add(code);render();renderSelected();calc();}
+    function toggleFavorite(code){
+      if(favoriteCodes.has(code))favoriteCodes.delete(code);else favoriteCodes.add(code);
+      saveFavoriteCodes();
+      render();
+      showToast(favoriteCodes.has(code)?'Статья добавлена в избранное.':'Статья удалена из избранного.');
+    }
     function renderSelected(){
       selectedBox.innerHTML='';
       if(!selected.size){selectedBox.innerHTML='<span class="subtle">Пока ничего не выбрано</span>';return}
@@ -920,6 +1090,106 @@
       return `Гражданин: ${citizen} №${passport}\nОбвиняется в нарушении статей: ${articles}\nПриговорен к тюремному заключению в ${term} сроков и штрафу $${fine}.\nПриговор был приведен к исполнению в ${dept}.\nШтраф обязан выплатить до ${fmtDate(due)} (3 дня) в ${dept}.\nВ случае не оплаты штрафа подлежит подачи в розыск и аресту.\nШтраф выписал ${rank} ${dept} ${officer}.\n\n${citizen} ${passport} до ${fmtDate(due)} - НЕ ОПЛАЧЕН`;
     }
     function updatePreview(){const t=buildText();document.getElementById('previewText').textContent=t;document.getElementById('printText').textContent=t}
+
+    function caseText(entry){
+      return [
+        `Гражданин: ${entry.citizen}${entry.passport?' №'+entry.passport:''}`,
+        `Статьи: ${entry.articles}`,
+        `Наказание: ${entry.term} сроков, штраф $${entry.fine}`,
+        `Дата выписки: ${entry.issueDate?(typeof fmtDate==='function'?fmtDate(entry.issueDate):entry.issueDate):'не указана'}`,
+        `Департамент: ${entry.department}`,
+        `Сотрудник: ${entry.rank} ${entry.officer}`
+      ].join('\n');
+    }
+    async function copyTextValue(value){
+      try{
+        if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(value);return true;}
+      }catch(error){}
+      const textarea=document.createElement('textarea');
+      textarea.value=value;textarea.setAttribute('readonly','');
+      textarea.style.position='fixed';textarea.style.left='-9999px';
+      document.body.appendChild(textarea);textarea.focus();textarea.select();
+      let copied=false;
+      try{copied=document.execCommand('copy');}catch(error){}
+      textarea.remove();
+      return copied;
+    }
+    function addCurrentCase(){
+      const citizen=document.getElementById('citizenName').value.trim();
+      const articles=document.getElementById('articlesInput').value.trim();
+      if(!citizen){showToast('Укажите имя и фамилию обвиняемого.');document.getElementById('citizenName').focus();return;}
+      if(!articles){showToast('Укажите статьи обвинения.');document.getElementById('articlesInput').focus();return;}
+      const entry={
+        id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),
+        savedAt:new Date().toISOString(),
+        citizen,
+        passport:document.getElementById('passport').value.trim(),
+        officer:document.getElementById('officerName').value.trim()||'Не указан',
+        rank:document.getElementById('rank').value.trim()||'Сотрудник',
+        department:document.getElementById('department').value||'Не указан',
+        issueDate:document.getElementById('issueDate').value||issueDateISO(),
+        articles,
+        fine:Math.max(0,Number(document.getElementById('fineInput').value)||0),
+        term:Math.max(0,Number(document.getElementById('termInput').value)||0)
+      };
+      savedCases.unshift(entry);
+      saveCases();
+      renderCases();
+      showToast('Дело сохранено в разделе «Мои дела».');
+      const button=document.getElementById('addToCasesBtn');
+      const previous=button.textContent;
+      button.textContent='Добавлено';
+      setTimeout(()=>{if(button.isConnected)button.textContent=previous;},1300);
+    }
+    function renderCases(){
+      const list=document.getElementById('caseList');
+      const count=document.getElementById('caseCount');
+      if(!list||!count)return;
+      count.textContent=savedCases.length;
+      list.innerHTML='';
+      if(!savedCases.length){
+        list.innerHTML='<div class="case-empty">Пока нет сохранённых дел.<br>Заполните штрафной бланк и нажмите «В мои дела».</div>';
+        return;
+      }
+      savedCases.forEach(entry=>{
+        const card=document.createElement('article');
+        card.className='case-card';
+        let savedAt='Дата сохранения не указана';
+        if(entry.savedAt){const date=new Date(entry.savedAt);if(!Number.isNaN(date.getTime()))savedAt=date.toLocaleString('ru-RU');}
+        const passport=entry.passport?` · паспорт ${entry.passport}`:'';
+        card.innerHTML=`
+          <div class="case-card-head">
+            <div><div class="case-person">${escapeHtml(entry.citizen||'Без имени')}${escapeHtml(passport)}</div><div class="case-date">Добавлено: ${escapeHtml(savedAt)}</div></div>
+          </div>
+          <div class="case-details">
+            <div><strong>Статьи обвинения</strong><br>${escapeHtml(entry.articles||'Не указаны')}</div>
+            <div><strong>Назначенное наказание</strong><br><span class="case-penalty">${Number(entry.term)||0} сроков · $${Number(entry.fine)||0} штрафа</span></div>
+            <div><strong>Департамент</strong><br>${escapeHtml(entry.department||'Не указан')}</div>
+            <div><strong>Сотрудник</strong><br>${escapeHtml([entry.rank,entry.officer].filter(Boolean).join(' ')||'Не указан')}</div>
+            <div><strong>Дата выписки</strong><br>${escapeHtml(entry.issueDate?fmtDate(entry.issueDate):'Не указана')}</div>
+          </div>`;
+        const actions=document.createElement('div');
+        actions.className='case-actions';
+        const copyButton=document.createElement('button');
+        copyButton.type='button';copyButton.className='case-action';copyButton.textContent='Скопировать дело';
+        copyButton.addEventListener('click',async()=>{
+          const ok=await copyTextValue(caseText(entry));
+          copyButton.textContent=ok?'Скопировано':'Не удалось скопировать';
+          setTimeout(()=>{if(copyButton.isConnected)copyButton.textContent='Скопировать дело';},1300);
+        });
+        const deleteButton=document.createElement('button');
+        deleteButton.type='button';deleteButton.className='case-action delete';deleteButton.textContent='Удалить';
+        deleteButton.addEventListener('click',()=>{
+          if(!confirm(`Удалить дело: ${entry.citizen||'Без имени'}?`))return;
+          savedCases=savedCases.filter(item=>item.id!==entry.id);
+          saveCases();renderCases();
+        });
+        actions.append(copyButton,deleteButton);
+        card.appendChild(actions);
+        list.appendChild(card);
+      });
+    }
+    document.getElementById('addToCasesBtn').addEventListener('click',addCurrentCase);
     fineRange.addEventListener('input',()=>{document.getElementById('fineInput').value=Number(fineRange.value)||0;fineRangeValue.textContent=fineRange.disabled?'—':`$${Number(fineRange.value)||0}`;updatePreview()});
     termRange.addEventListener('input',()=>{document.getElementById('termInput').value=Number(termRange.value)||0;termRangeValue.textContent=String(Number(termRange.value)||0);updatePreview()});
     document.getElementById('fineInput').addEventListener('input',()=>{const max=Number(fineRange.max)||0;const v=Math.max(0,Math.min(Number(document.getElementById('fineInput').value)||0,max));fineRange.value=String(v);fineRangeValue.textContent=fineRange.disabled?'—':`$${v}`;});
@@ -1004,6 +1274,8 @@
         seen.add(l.code);
       }
       laws=editorDraft.map(normalizeLaw); saveLaws();
+      favoriteCodes=new Set([...favoriteCodes].filter(code=>laws.some(law=>law.code===code)));
+      saveFavoriteCodes();
       selected.clear(); refreshCategories(); render(); renderSelected(); calc(); updatePreview(); closeLawEditor();
     }
     document.getElementById('openLawEditor').addEventListener('click',openLawEditor);
@@ -1054,6 +1326,8 @@
         if(!confirm('Импортировать '+imported.length+' статей? Текущий Свод на этом устройстве будет заменён импортированным.'))return;
         laws=imported;
         saveLaws();
+        favoriteCodes=new Set([...favoriteCodes].filter(code=>laws.some(law=>law.code===code)));
+        saveFavoriteCodes();
         selected.clear();
         refreshCategories();
         render();
@@ -1176,7 +1450,11 @@
     });
     window.addEventListener('resize',()=>{if(snowEnabled)resizeSnowCanvas();});
 
-    syncIssueDate(); render();renderSelected();calc();updatePreview();
+    syncIssueDate(); render();renderSelected();calc();updatePreview();renderCases();initDevlog();
+    document.querySelectorAll('.topnav a').forEach(link=>link.addEventListener('click',()=>{
+      document.querySelectorAll('.topnav a').forEach(item=>item.classList.toggle('active',item===link));
+      if(link.getAttribute('href')==='#laws'&&showFavoritesOnly){showFavoritesOnly=false;render();}
+    }));
 
     /* ===== АНИМАЦИИ И ПАРАЛЛАКС ===== */
     const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1316,6 +1594,62 @@
       if(!t){ t=document.createElement('div'); t.className='toast'; document.body.appendChild(t); }
       t.textContent=text; t.classList.add('show');
       clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),2200);
+    }
+
+    /* Отрисовка и сворачивание немодального окна Девлога */
+    function initDevlog(){
+      const panel=document.getElementById('devlogPanel');
+      const entriesHost=document.getElementById('devlogEntries');
+      const toggle=document.getElementById('devlogToggle');
+      if(!panel||!entriesHost||!toggle)return;
+
+      if(!Array.isArray(DEVLOG_UPDATES)||DEVLOG_UPDATES.length===0){
+        const empty=document.createElement('p');
+        empty.className='devlog-empty';
+        empty.textContent='Пока обновлений нет.';
+        entriesHost.appendChild(empty);
+      }else{
+        const groups=new Map();
+        DEVLOG_UPDATES.forEach(update=>{
+          const date=String(update.date||'Без даты');
+          if(!groups.has(date))groups.set(date,[]);
+          groups.get(date).push(update);
+        });
+        groups.forEach((updates,date)=>{
+          const day=document.createElement('section');
+          day.className='devlog-day';
+          const dateLabel=document.createElement('h3');
+          dateLabel.className='devlog-date';
+          dateLabel.textContent=date;
+          day.appendChild(dateLabel);
+          updates.forEach(update=>{
+            const item=document.createElement('article');
+            item.className='devlog-entry';
+            const title=document.createElement('h3');
+            title.textContent=String(update.title||'Обновление');
+            const description=document.createElement('p');
+            description.textContent=String(update.description||'');
+            item.append(title,description);
+            day.appendChild(item);
+          });
+          entriesHost.appendChild(day);
+        });
+      }
+
+      const storageKey='departmenthelper_devlog_collapsed_v1';
+      let collapsed=false;
+      try{collapsed=localStorage.getItem(storageKey)==='1';}catch(error){}
+      const setCollapsed=value=>{
+        collapsed=Boolean(value);
+        panel.classList.toggle('collapsed',collapsed);
+        toggle.textContent=collapsed?'+':'−';
+        toggle.setAttribute('aria-expanded',collapsed?'false':'true');
+        toggle.setAttribute('aria-label',collapsed?'Развернуть девлог':'Свернуть девлог');
+        toggle.title=collapsed?'Развернуть':'Свернуть';
+        try{localStorage.setItem(storageKey,collapsed?'1':'0');}catch(error){}
+      };
+      toggle.addEventListener('click',()=>setCollapsed(!collapsed));
+      setCollapsed(collapsed);
     }
 
     /* подсветка активного пункта бокового навигатора при прокрутке */
