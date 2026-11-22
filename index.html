@@ -7,7 +7,7 @@
         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a)
     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114079224', 'ym');
 
     ym(114079224, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
@@ -529,6 +529,172 @@
       .fine-template-input{font-size:11px}
     }
 
+
+    /* ===== ПОШАГОВОЕ БЫСТРОЕ ЗАПОЛНЕНИЕ ШТРАФНОГО БЛАНКА ===== */
+    .quick-fill-top-button{border-color:#7e252a;color:#f0dfe0;background:linear-gradient(110deg,rgba(142,24,31,.25),#09090a)}
+    .quick-fill-backdrop{z-index:130}
+    .quick-fill-dialog{width:min(1000px,100%);max-height:94vh;display:flex;flex-direction:column;overflow:hidden;border:1px solid #55555b;background:#080809;box-shadow:0 25px 80px rgba(0,0,0,.75);transform:translateY(22px) scale(.98);opacity:0;transition:transform .3s cubic-bezier(.22,.61,.36,1),opacity .25s ease}
+    .quick-fill-backdrop.open .quick-fill-dialog{transform:none;opacity:1}
+    .quick-fill-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:20px 23px 16px;border-bottom:1px solid #27272b;background:linear-gradient(110deg,rgba(128,23,30,.18),rgba(10,10,12,.97) 58%)}
+    .quick-fill-kicker{display:block;margin-bottom:5px;color:#85858b;font-size:9px;font-weight:700;letter-spacing:.16em}
+    .quick-fill-head h2{margin:0;color:#ededee;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:25px;letter-spacing:.06em;text-transform:uppercase}
+    .quick-fill-head p{margin:6px 0 0;color:#8e8e94;font-size:12px;line-height:1.5}
+    .quick-fill-close{flex:0 0 32px;width:32px;height:32px;border:1px solid #3b3b40;background:#101012;color:#d5d5d7;font-size:24px;line-height:1;cursor:pointer}
+    .quick-fill-close:hover{border-color:#a32a31;color:#fff}
+    .quick-fill-progress-area{display:flex;align-items:center;gap:19px;padding:14px 23px;border-bottom:1px solid #242428;background:#0b0b0c}
+    .quick-fill-progress-ring{--qf-progress:25%;position:relative;flex:0 0 62px;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#b51f26 var(--qf-progress),#29292e 0);transition:background .25s ease}
+    .quick-fill-progress-ring:before{content:"";position:absolute;inset:5px;border-radius:50%;background:#0b0b0c}
+    .quick-fill-progress-core{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1px}
+    .quick-fill-progress-core strong{color:#f0f0f1;font-family:Georgia,serif;font-size:17px}
+    .quick-fill-progress-core span{color:#77777d;font-size:6px;font-weight:700;letter-spacing:.09em}
+    .quick-fill-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;flex:1}
+    .quick-fill-step{display:flex;align-items:center;gap:8px;min-width:0;color:#68686e;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .quick-fill-step b{flex:0 0 25px;width:25px;height:25px;display:grid;place-items:center;border:1px solid #333338;color:#76767c;font-size:9px}
+    .quick-fill-step.active{color:#ededee}
+    .quick-fill-step.active b{border-color:#a52a31;background:rgba(165,42,49,.15);color:#e9a1a5}
+    .quick-fill-step.done{color:#b7b7bb}
+    .quick-fill-step.done b{border-color:#5b6d55;color:#a8c49c}
+    .quick-fill-body{min-height:250px;overflow:auto;padding:21px 23px 24px;scrollbar-width:thin;scrollbar-color:#414147 transparent}
+    .quick-fill-step-title{margin:0 0 6px;color:#ededee;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
+    .quick-fill-step-description{margin:0 0 17px;color:#929298;font-size:12px;line-height:1.5}
+    .qf-search{width:100%;height:42px;margin:0 0 13px;padding:10px 12px;border:1px solid #34343a;background:#0c0c0e;color:#eee;outline:none}
+    .qf-search:focus,.qf-field:focus{border-color:#8b5559;box-shadow:0 0 0 2px rgba(181,31,38,.12)}
+    .qf-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .qf-category-card{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:66px;padding:13px 14px;border:1px solid #303035;background:#0b0b0c;color:#dfdfe1;text-align:left;cursor:pointer;transition:border-color .18s,background .18s,transform .18s}
+    .qf-category-card:hover{border-color:#7d3035;background:#110b0c;transform:translateY(-1px)}
+    .qf-category-card strong{display:block;font-size:13px;line-height:1.35}
+    .qf-category-card small{display:block;margin-top:4px;color:#7d7d84;font-size:10px}
+    .qf-category-count{flex:0 0 auto;color:#9e9ea4;font-family:Georgia,serif;font-size:16px}
+    .qf-law-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .qf-back-categories{border:0;border-bottom:1px solid #55555b;background:transparent;color:#bdbdc1;padding:3px 0;font-size:11px;cursor:pointer}
+    .qf-back-categories:hover{color:#fff;border-color:#a72b32}
+    .qf-current-category{color:#929298;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .qf-law-list{display:grid;gap:7px;max-height:315px;overflow:auto;padding-right:4px}
+    .qf-law-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 13px;border:1px solid #2b2b30;background:#0a0a0b}
+    .qf-law-card.selected{border-color:#79272d;background:rgba(122,31,38,.12);box-shadow:inset 3px 0 0 #9e1e25}
+    .qf-law-code{color:#dedee1;font-family:Georgia,serif;font-size:13px}
+    .qf-law-title{margin-top:4px;color:#e5e5e7;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:13px;font-weight:700;line-height:1.35}
+    .qf-law-description{margin-top:4px;color:#909096;font-size:11px;line-height:1.45}
+    .qf-law-penalty{margin-top:5px;color:#bcbcc0;font-size:10px}
+    .qf-select-law{min-width:84px;padding:8px 9px;border:1px solid #46464b;background:#101012;color:#cfcfd2;font-size:10px;font-weight:700;cursor:pointer}
+    .qf-law-card.selected .qf-select-law{border-color:#8e3036;background:#57191e;color:#fff}
+    .qf-selected-panel{margin-top:15px;padding:12px 13px;border:1px dashed #3a3a40;background:#0a0a0b}
+    .qf-selected-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;color:#bcbcc1;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .qf-selected-list{display:flex;flex-wrap:wrap;gap:6px}
+    .qf-selected-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 7px;border:1px solid #64242a;background:#160d0f;color:#e3c7c9;font-size:10px}
+    .qf-selected-chip button{border:0;background:transparent;color:#c48a8e;font-size:14px;line-height:1;cursor:pointer}
+    .qf-empty{padding:20px;border:1px dashed #38383d;color:#929298;text-align:center;font-size:12px;line-height:1.5}
+    .qf-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+    .qf-field-wrap{min-width:0}
+    .qf-field-wrap.full{grid-column:1/-1}
+    .qf-field{display:block;width:100%;min-width:0;height:42px;padding:10px 11px;border:1px solid #35353a;background:#0c0c0e;color:#ededee;outline:none}
+    .qf-field[readonly]{color:#8e8e94;background:#101012}
+    .qf-label{display:block;margin:0 0 6px;color:#98989e;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+    .qf-hint{margin-top:5px;color:#77777e;font-size:10px;line-height:1.45}
+    .qf-penalty-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:15px 0;padding:12px;border:1px solid #2e2e33;background:#0b0b0c}
+    .qf-penalty-summary div{color:#85858b;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .qf-penalty-summary strong{display:block;margin-top:5px;color:#eee;font-family:Georgia,serif;font-size:22px;font-weight:400;letter-spacing:0;text-transform:none}
+    .qf-warning{margin:10px 0;padding:10px 12px;border-left:3px solid #945b42;background:rgba(148,91,66,.1);color:#c4aaa0;font-size:11px;line-height:1.5}
+    .qf-document{padding:18px 19px;border:1px solid #414147;background:#0a0a0b;color:#e7e7e8;white-space:pre-wrap;overflow-wrap:anywhere;font-family:Georgia,"Times New Roman",serif;font-size:13px;line-height:1.75}
+    .qf-result-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+    .qf-template-note{margin:0 0 12px;color:#8d8d94;font-size:11px;line-height:1.5}
+    .quick-fill-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 22px;border-top:1px solid #29292e;background:#0e0e10}
+    .quick-fill-footer-right{display:flex;align-items:center;gap:8px}
+    .quick-fill-footer .btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+    @media(max-width:700px){
+      .quick-fill-head{padding:16px}
+      .quick-fill-progress-area{gap:12px;padding:12px 16px}
+      .quick-fill-progress-ring{flex-basis:52px;width:52px;height:52px}
+      .quick-fill-progress-core strong{font-size:15px}
+      .quick-fill-step{flex-direction:column;gap:4px;align-items:center;font-size:8px;text-align:center;letter-spacing:0}
+      .quick-fill-step b{width:22px;height:22px;flex-basis:22px}
+      .quick-fill-body{padding:17px 16px}
+      .quick-fill-footer{padding:12px 16px}
+      .quick-fill-footer .btn{padding:9px 10px;font-size:10px}
+    }
+    @media(max-width:520px){
+      .quick-fill-dialog{max-height:96vh}
+      .qf-category-grid{grid-template-columns:1fr}
+      .qf-fields{grid-template-columns:1fr}
+      .qf-field-wrap.full{grid-column:auto}
+      .qf-law-card{grid-template-columns:minmax(0,1fr) auto;padding:10px}
+      .qf-selected-chip{font-size:9px}
+      .quick-fill-footer-right{gap:6px}
+      .quick-fill-footer .btn{padding:8px 8px;font-size:9px}
+      .quick-fill-footer #quickFillRestart{max-width:92px;white-space:normal}
+    }
+
+    /* ===== ДОРАБОТКА БЫСТРОГО ЗАПОЛНЕНИЯ: ПЛОТНОСТЬ И СТАБИЛЬНАЯ ГЕОМЕТРИЯ ===== */
+    .quick-fill-dialog{
+      height:min(790px,calc(100vh - 36px));
+      min-height:570px;
+    }
+    .quick-fill-head{flex:0 0 91px;min-height:91px;align-items:center;padding-top:13px;padding-bottom:13px}
+    .quick-fill-progress-area{flex:0 0 82px;min-height:82px;padding-top:9px;padding-bottom:9px}
+    .quick-fill-body{flex:1 1 auto;min-height:0;padding-top:17px;padding-bottom:17px}
+    .quick-fill-footer{flex:0 0 62px;min-height:62px}
+    .qf-category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+    .qf-category-card{min-height:54px;padding:8px 11px;gap:8px}
+    .qf-category-card strong{font-size:12px}
+    .qf-category-card small{margin-top:2px;font-size:9px}
+    .qf-category-number{flex:0 0 34px;width:34px;color:#b9b9bd;font-family:Georgia,serif;font-size:18px;text-align:left}
+    .qf-category-card[data-qf-category="__favorites__"] .qf-category-number{color:#d5b36f}
+    .qf-category-count{font-size:13px}
+    .qf-law-list{gap:3px;max-height:350px;padding-right:3px}
+    .qf-law-card{
+      display:grid;grid-template-columns:78px minmax(0,1fr) minmax(76px,auto) 19px;gap:9px;align-items:center;
+      width:100%;min-height:38px;padding:6px 9px;border:1px solid #28282d;background:#09090a;color:inherit;text-align:left;
+      cursor:pointer;transition:background .14s,border-color .14s,box-shadow .14s;
+    }
+    .qf-law-card:hover{border-color:#56565c;background:#101012}
+    .qf-law-card.selected{border-color:#79272d;background:rgba(122,31,38,.15);box-shadow:inset 3px 0 0 #9e1e25}
+    .qf-law-code{font-size:11px;white-space:nowrap}
+    .qf-law-title{min-width:0;margin:0;font-size:12px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .qf-law-penalty{margin:0;color:#929298;font-size:9px;text-align:right;white-space:nowrap}
+    .qf-law-check{display:grid;place-items:center;width:17px;height:17px;border:1px solid #39393f;color:transparent;font-size:11px;line-height:1}
+    .qf-law-card.selected .qf-law-check{border-color:#96323a;background:#721d24;color:#fff}
+    .qf-selected-panel{margin-top:9px;padding:8px 10px}
+    .qf-selected-head{margin-bottom:6px;font-size:9px}
+    .qf-selected-chip{padding:3px 6px;font-size:9px}
+    .qf-description-accessible{display:none}
+    .qf-range-block{margin-top:13px;padding:13px 14px;border:1px solid #303036;background:#0b0b0c}
+    .qf-range-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .qf-range-head label{margin:0;color:#a4a4aa;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+    .qf-range-value{color:#ededee;font-family:Georgia,serif;font-size:22px;white-space:nowrap}
+    .qf-range{display:block;width:100%;margin:4px 0 6px;accent-color:#b51f26;cursor:pointer}
+    .qf-range:disabled{opacity:.35;cursor:not-allowed}
+    .qf-range-scale{display:flex;justify-content:space-between;gap:10px;color:#77777e;font-size:9px}
+    .qf-penalty-summary{margin:11px 0 8px;padding:9px 11px}
+    .qf-penalty-summary strong{font-size:19px}
+    .qf-warning{margin:8px 0;padding:8px 10px;font-size:10px}
+    .quick-fill-footer-right{margin-left:auto}
+    .quick-fill-footer #quickFillRestart{min-width:126px}
+    @media(max-width:700px){
+      .quick-fill-dialog{height:calc(100dvh - 16px);max-height:none;min-height:0}
+      .quick-fill-head{flex-basis:82px;min-height:82px;padding:10px 13px}
+      .quick-fill-head h2{font-size:20px}
+      .quick-fill-progress-area{flex-basis:72px;min-height:72px;padding:8px 13px}
+      .quick-fill-body{padding:13px}
+      .quick-fill-footer{flex-basis:58px;min-height:58px;padding:8px 10px}
+      .qf-category-grid{grid-template-columns:1fr}
+      .qf-law-card{grid-template-columns:68px minmax(0,1fr) auto 17px;gap:6px;padding:6px 7px}
+      .qf-law-title{font-size:11px}
+      .qf-law-penalty{font-size:8px}
+      .quick-fill-footer #quickFillRestart{min-width:0}
+    }
+    @media(max-height:650px) and (min-width:701px){
+      .quick-fill-dialog{height:calc(100vh - 20px);min-height:0}
+      .quick-fill-head{flex-basis:76px;min-height:76px}
+      .quick-fill-progress-area{flex-basis:68px;min-height:68px}
+      .quick-fill-footer{flex-basis:56px;min-height:56px}
+    }
+    @media(max-width:520px){
+      .quick-fill-footer .btn{font-size:9px;padding:8px 7px}
+      .quick-fill-footer #quickFillRestart{max-width:none;white-space:nowrap}
+    }
+
+    @media print{.quick-fill-backdrop{display:none!important}}
+
   </style>
 </head>
 <body>
@@ -556,12 +722,12 @@
         <a href="#cases">МОИ ДЕЛА</a>
       </nav>
       <div class="topbar-actions">
+        <button type="button" class="topbar-button quick-fill-top-button" id="openQuickFill">БЫСТРОЕ ЗАПОЛНЕНИЕ</button>
         <button type="button" class="topbar-button" id="snowToggle" aria-pressed="false">СНЕГ: ВЫКЛ</button>
         <button type="button" class="topbar-button editor-top-button" id="openLawEditor">РЕДАКТОР</button>
       </div>
     </div>
   </header>
-
 
   <main class="wrap page-layout no-print" id="top">
     <aside class="sidebar">
@@ -716,6 +882,38 @@
     </div>
   </main>
 
+  <div class="modal-backdrop quick-fill-backdrop" id="quickFillModal" aria-hidden="true">
+    <section class="quick-fill-dialog" role="dialog" aria-modal="true" aria-labelledby="quickFillTitle">
+      <header class="quick-fill-head">
+        <div>
+          <span class="quick-fill-kicker">DEPARTMENT HELPER · МАСТЕР ОФОРМЛЕНИЯ</span>
+          <h2 id="quickFillTitle">Быстрое заполнение</h2>
+          <p>Последовательно оформите обвинение и подготовьте штрафной бланк.</p>
+        </div>
+        <button type="button" class="quick-fill-close" id="quickFillClose" aria-label="Закрыть окно">×</button>
+      </header>
+      <div class="quick-fill-progress-area">
+        <div class="quick-fill-progress-ring" id="quickFillProgressRing" style="--qf-progress:25%">
+          <div class="quick-fill-progress-core"><strong id="quickFillProgressPercent">25%</strong><span>ГОТОВНОСТЬ</span></div>
+        </div>
+        <div class="quick-fill-steps" id="quickFillSteps">
+          <div class="quick-fill-step active" data-step="1"><b>01</b><span>Законы</span></div>
+          <div class="quick-fill-step" data-step="2"><b>02</b><span>Гражданин</span></div>
+          <div class="quick-fill-step" data-step="3"><b>03</b><span>Сотрудник</span></div>
+          <div class="quick-fill-step" data-step="4"><b>04</b><span>Бланк</span></div>
+        </div>
+      </div>
+      <div class="quick-fill-body" id="quickFillBody" aria-live="polite"></div>
+      <footer class="quick-fill-footer">
+        <button type="button" class="btn secondary" id="quickFillBack">Назад</button>
+        <div class="quick-fill-footer-right">
+          <button type="button" class="btn secondary" id="quickFillRestart">Начать заново</button>
+          <button type="button" class="btn" id="quickFillNext" disabled>Продолжить</button>
+        </div>
+      </footer>
+    </section>
+  </div>
+
   <div class="modal-backdrop" id="lawEditor" aria-hidden="true">
     <div class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
       <div class="editor-head">
@@ -767,6 +965,11 @@
       Для нового обновления скопируйте один объект { date, title, description }.
     */
     const DEVLOG_UPDATES = [
+      {
+        date: '22.11.2026',
+        title: 'Быстрое заполнение',
+        description: 'Добавлен пошаговый мастер оформления штрафного бланка: выбор статей из разных глав, данные гражданина и сотрудника, назначение санкций и формирование документа по действующему шаблону.'
+      },
       {
         date: '22.11.2026',
         title: 'СВОЙ ШАБЛОН БЛАНКОВ!',
@@ -948,7 +1151,7 @@
       categories.forEach((category,index)=>{
         const first=laws.find(l=>l.category===category);
         const match=first?String(first.code).match(/^([0-9]+)/):null;
-        const number=match?match[1]:String(index+1).padStart(2,'0');
+        const number=match?match[1]:String(categories.indexOf(category)+1).padStart(2,'0');
         const button=document.createElement('button');
         button.type='button';
         button.className='section-nav-item';
@@ -1002,6 +1205,7 @@
     function syncRanges(maxFine, maxTerm, unknownFine=false, preserve=false){
       const oldFine=Number(fineRange.value)||0, oldTerm=Number(termRange.value)||0;
       fineRange.max=String(maxFine);
+      fineRange.dataset.unknownFine=unknownFine?'1':'0';
       termRange.max=String(maxTerm);
       fineRange.disabled=unknownFine || maxFine<=0;
       termRange.disabled=maxTerm<=0;
@@ -1394,7 +1598,7 @@
     document.getElementById('addToCasesBtn').addEventListener('click',addCurrentCase);
     fineRange.addEventListener('input',()=>{document.getElementById('fineInput').value=Number(fineRange.value)||0;fineRangeValue.textContent=fineRange.disabled?'—':`$${Number(fineRange.value)||0}`;updatePreview()});
     termRange.addEventListener('input',()=>{document.getElementById('termInput').value=Number(termRange.value)||0;termRangeValue.textContent=String(Number(termRange.value)||0);updatePreview()});
-    document.getElementById('fineInput').addEventListener('input',()=>{const max=Number(fineRange.max)||0;const v=Math.max(0,Math.min(Number(document.getElementById('fineInput').value)||0,max));fineRange.value=String(v);fineRangeValue.textContent=fineRange.disabled?'—':`$${v}`;});
+    document.getElementById('fineInput').addEventListener('input',()=>{const max=Number(fineRange.max)||0;const raw=Math.max(0,Number(document.getElementById('fineInput').value)||0);const v=fineRange.dataset.unknownFine==='1'?raw:Math.min(raw,max);fineRange.value=String(v);fineRangeValue.textContent=fineRange.disabled?'—':`$${v}`;});
     document.getElementById('termInput').addEventListener('input',()=>{const max=Number(termRange.max)||0;const v=Math.max(0,Math.min(Number(document.getElementById('termInput').value)||0,max));termRange.value=String(v);termRangeValue.textContent=String(v);});
     document.querySelectorAll('.field').forEach(el=>el.addEventListener('input',updatePreview)); document.getElementById('department').addEventListener('change',updatePreview);
     document.getElementById('copyBtn').addEventListener('click',async()=>{const t=buildText();try{await navigator.clipboard.writeText(t);const b=document.getElementById('copyBtn'),old=b.textContent;b.textContent='Скопировано';setTimeout(()=>b.textContent=old,1200)}catch(e){alert('Не удалось скопировать автоматически. Выделите текст и скопируйте его вручную.')}});
@@ -1463,7 +1667,7 @@
         row.querySelector('.delete-law').addEventListener('click',()=>{editorDraft.splice(i,1);renderEditor();});
       });
     }
-    function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));}
+    function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));}
     function saveEditorDraft(){
       const seen=new Set();
       for(const l of editorDraft){
@@ -1651,6 +1855,305 @@
       if(!snowEnabled)startSnow();else blowSnowAway();
     });
     window.addEventListener('resize',()=>{if(snowEnabled)resizeSnowCanvas();});
+
+    /* ===== МАСТЕР «БЫСТРОЕ ЗАПОЛНЕНИЕ» ===== */
+    (function initQuickFill(){
+      const modal=document.getElementById('quickFillModal');
+      const body=document.getElementById('quickFillBody');
+      const openButton=document.getElementById('openQuickFill');
+      const closeButton=document.getElementById('quickFillClose');
+      const backButton=document.getElementById('quickFillBack');
+      const nextButton=document.getElementById('quickFillNext');
+      const restartButton=document.getElementById('quickFillRestart');
+      const progressRing=document.getElementById('quickFillProgressRing');
+      const progressPercent=document.getElementById('quickFillProgressPercent');
+      const stepsHost=document.getElementById('quickFillSteps');
+      const storageKey='departmenthelper_quick_fill_draft_v1';
+      const departmentSelect=document.getElementById('department');
+      let draft={step:1,view:'categories',category:'',search:'',codes:[],citizen:'',passport:'',officer:'',department:departmentSelect.value,rank:document.getElementById('rank').value||'сержант',fine:0,term:0};
+      let isOpen=false;
+
+      try{
+        const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
+        if(saved&&typeof saved==='object'){
+          draft={...draft,...saved};
+          draft.codes=Array.isArray(draft.codes)?draft.codes.map(String).filter(code=>laws.some(law=>law.code===code)):[];
+          draft.step=Math.max(1,Math.min(4,Number(draft.step)||1));
+          if(!['categories','articles'].includes(draft.view))draft.view='categories';
+          if(!Array.from(departmentSelect.options).some(option=>option.value===String(draft.department||'')))draft.department=departmentSelect.value;
+        }
+      }catch(error){}
+
+      function persist(){
+        try{localStorage.setItem(storageKey,JSON.stringify(draft));}
+        catch(error){/* мастер остаётся работоспособным до закрытия страницы */}
+      }
+      function qfSelectedLaws(){return draft.codes.map(code=>laws.find(law=>law.code===code)).filter(Boolean)}
+      function qfTermWord(value){
+        const n=Math.abs(Math.floor(Number(value)||0));
+        const lastTwo=n%100,last=n%10;
+        if(lastTwo>=11&&lastTwo<=14)return 'сроков';
+        if(last===1)return 'срок';
+        if(last>=2&&last<=4)return 'срока';
+        return 'сроков';
+      }
+      function qfLimits(){
+        const chosen=qfSelectedLaws();
+        let fine=0,term=0,unknownFine=false;
+        chosen.forEach(law=>{if(law.fineMax===null)unknownFine=true;else fine+=law.fineMax;term+=law.termMax||0;});
+        return {fine:Math.min(fine,750),term:Math.min(term,60),unknownFine,notes:chosen.flatMap(law=>[
+          ...(law.mode==='or'?[`Ст. ${articleLabel(law)} содержит альтернативную санкцию: одновременно применять штраф и арест нельзя.`]:[]),
+          ...(law.special?[`Ст. ${articleLabel(law)}: ${law.special}`]:[])
+        ])};
+      }
+      function qfStepHeader(title,description){return `<h3 class="quick-fill-step-title">${escapeHtml(title)}</h3><p class="quick-fill-step-description">${escapeHtml(description)}</p>`}
+      function qfSelectedMarkup(){
+        const chosen=qfSelectedLaws();
+        return `<section class="qf-selected-panel"><div class="qf-selected-head"><span>Выбранные статьи</span><span>${chosen.length}</span></div>${chosen.length?`<div class="qf-selected-list">${chosen.map(law=>`<span class="qf-selected-chip">${escapeHtml(articleLabel(law))}<button type="button" data-qf-remove="${escapeHtml(law.code)}" aria-label="Удалить ${escapeHtml(articleLabel(law))}">×</button></span>`).join('')}</div>`:'<div class="qf-hint">Пока не выбрано ни одной статьи.</div>'}</section>`;
+      }
+      function qfRenderCategories(){
+        const categories=[...new Set(laws.map(law=>law.category).filter(Boolean))];
+        const query=String(draft.search||'').trim().toLowerCase();
+        const filtered=categories.filter(category=>!query||laws.some(law=>law.category===category&&(`${law.code} ${law.title} ${law.text} ${law.category}`).toLowerCase().includes(query)));
+        const favoriteCount=laws.filter(law=>favoriteCodes.has(law.code)).length;
+        const favoriteCard=favoriteCount?[{name:'Избранные статьи',value:'__favorites__',count:favoriteCount,number:'★'}]:[];
+        const categoryCards=filtered.map((category,index)=>{
+          const first=laws.find(law=>law.category===category);
+          const match=first?String(first.code).match(/^([0-9]+)/):null;
+          // Mirrors the main page section navigation: number is derived from the first article in the chapter.
+          const number=match?match[1]:String(index+1).padStart(2,'0');
+          return {name:category,value:category,count:laws.filter(law=>law.category===category).length,number:number+'.'};
+        });
+        const cards=favoriteCard.concat(categoryCards);
+        body.innerHTML=qfStepHeader('Выберите главу законов','Выберите главу, затем отмечайте статьи одним нажатием. Можно добавить законы из нескольких глав.')+
+          `<input class="qf-search" id="qfCategorySearch" type="search" value="${escapeHtml(draft.search)}" placeholder="Поиск по своду законов…" aria-label="Поиск категорий и законов">`+
+          `<div class="qf-category-grid">${cards.length?cards.map(card=>`<button type="button" class="qf-category-card" data-qf-category="${escapeHtml(card.value)}"><span class="qf-category-number">${escapeHtml(card.number)}</span><span style="min-width:0;flex:1"><strong>${escapeHtml(card.name)}</strong><small>${card.value==='__favorites__'?'Часто используемые законы':'Статей в разделе'}</small></span><span class="qf-category-count">${card.count}</span></button>`).join(''):'<div class="qf-empty">Ничего не найдено. Попробуйте другое название или номер статьи.</div>'}</div>`+qfSelectedMarkup();
+        const search=body.querySelector('#qfCategorySearch');
+        search.addEventListener('input',()=>{
+          const cursor=search.selectionStart;
+          draft.search=search.value;persist();qfRenderCategories();
+          const nextSearch=body.querySelector('#qfCategorySearch');
+          nextSearch?.focus();if(nextSearch)nextSearch.setSelectionRange(cursor,cursor);
+        });
+        body.querySelectorAll('[data-qf-category]').forEach(button=>button.addEventListener('click',()=>{
+          draft.category=button.dataset.qfCategory;draft.view='articles';draft.search='';persist();qfRender();
+        }));
+        body.querySelectorAll('[data-qf-remove]').forEach(button=>button.addEventListener('click',()=>{
+          draft.codes=draft.codes.filter(code=>code!==button.dataset.qfRemove);persist();qfRenderCategories();qfUpdateButtons();
+        }));
+      }
+      function qfRenderArticles(){
+        const category=draft.category;
+        const query=String(draft.search||'').trim().toLowerCase();
+        const source=category==='__favorites__'?laws.filter(law=>favoriteCodes.has(law.code)):laws.filter(law=>law.category===category);
+        const filtered=source.filter(law=>!query||(`${law.code} ${articleLabel(law)} ${law.title} ${law.text}`).toLowerCase().includes(query));
+        const categoryName=category==='__favorites__'?'Избранные статьи':category;
+        body.innerHTML=qfStepHeader('Отметьте нужные статьи','Нажмите на строку закона, чтобы выбрать или снять выбор. Выбор сохраняется при переходе между главами.')+
+          `<div class="qf-law-toolbar"><button type="button" class="qf-back-categories" id="qfBackCategories">← Все главы</button><span class="qf-current-category">${escapeHtml(categoryName)}</span></div>`+
+          `<input class="qf-search" id="qfArticleSearch" type="search" value="${escapeHtml(draft.search)}" placeholder="Поиск по номеру или названию статьи…" aria-label="Поиск статьи">`+
+          `<div class="qf-law-list" aria-label="Список законов">${filtered.length?filtered.map(law=>{
+            const selectedNow=draft.codes.includes(law.code);
+            const description=[law.text||'Описание отсутствует.',law.special||''].filter(Boolean).join(' ');
+            return `<button type="button" class="qf-law-card${selectedNow?' selected':''}" data-qf-toggle="${escapeHtml(law.code)}" title="${escapeHtml(description)}" aria-pressed="${selectedNow?'true':'false'}"><span class="qf-law-code">${escapeHtml(articleLabel(law))}</span><span class="qf-law-title">${escapeHtml(law.title)}</span><span class="qf-law-penalty">${escapeHtml(penalty(law))}</span><span class="qf-law-check" aria-hidden="true">✓</span></button>`;
+          }).join(''):'<div class="qf-empty">В этой главе ничего не найдено.</div>'}</div>`+
+          qfSelectedMarkup();
+        body.querySelector('#qfBackCategories').addEventListener('click',()=>{draft.view='categories';draft.category='';draft.search='';persist();qfRender();});
+        const search=body.querySelector('#qfArticleSearch');
+        search.addEventListener('input',()=>{
+          const cursor=search.selectionStart;
+          const scrollTop=body.querySelector('.qf-law-list')?.scrollTop||0;
+          draft.search=search.value;persist();qfRenderArticles();
+          const nextSearch=body.querySelector('#qfArticleSearch');
+          nextSearch?.focus();if(nextSearch)nextSearch.setSelectionRange(cursor,cursor);
+          const nextList=body.querySelector('.qf-law-list');if(nextList)nextList.scrollTop=scrollTop;
+        });
+        body.querySelectorAll('[data-qf-toggle]').forEach(row=>row.addEventListener('click',()=>{
+          const code=row.dataset.qfToggle;
+          const scrollTop=body.querySelector('.qf-law-list')?.scrollTop||0;
+          draft.codes=draft.codes.includes(code)?draft.codes.filter(item=>item!==code):[...draft.codes,code];
+          persist();qfRenderArticles();qfUpdateButtons();
+          const nextList=body.querySelector('.qf-law-list');if(nextList)nextList.scrollTop=scrollTop;
+          const nextSearch=body.querySelector('#qfArticleSearch');nextSearch?.focus();
+        }));
+        body.querySelectorAll('[data-qf-remove]').forEach(button=>button.addEventListener('click',()=>{
+          const scrollTop=body.querySelector('.qf-law-list')?.scrollTop||0;
+          draft.codes=draft.codes.filter(code=>code!==button.dataset.qfRemove);persist();qfRenderArticles();qfUpdateButtons();
+          const nextList=body.querySelector('.qf-law-list');if(nextList)nextList.scrollTop=scrollTop;
+        }));
+      }
+      function qfRenderCitizen(){
+        body.innerHTML=qfStepHeader('Данные гражданина','Заполните сведения о лице, для которого оформляется штрафной бланк.')+
+          `<div class="qf-fields">
+            <div class="qf-field-wrap full"><label class="qf-label" for="qfCitizen">Имя и фамилия обвиняемого</label><input class="qf-field" id="qfCitizen" autocomplete="name" value="${escapeHtml(draft.citizen)}" placeholder="Джей Мэй"></div>
+            <div class="qf-field-wrap"><label class="qf-label" for="qfPassport">Номер паспорта</label><input class="qf-field" id="qfPassport" value="${escapeHtml(draft.passport)}" placeholder="123456"></div>
+          </div><p class="qf-hint">Номер паспорта можно оставить пустым, если он неизвестен.</p>`;
+        body.querySelector('#qfCitizen').addEventListener('input',event=>{draft.citizen=event.target.value;persist();qfUpdateButtons();});
+        body.querySelector('#qfPassport').addEventListener('input',event=>{draft.passport=event.target.value;persist();});
+      }
+      function qfRenderOfficer(){
+        const limits=qfLimits();
+        const departments=[...departmentSelect.options].map(option=>option.value);
+        if(!departments.includes(draft.department))draft.department=departmentSelect.value;
+        const warningMessages=[];
+        if(limits.unknownFine)warningMessages.push('Для одной или нескольких статей верхний предел штрафа не указан. Ползунок использует общий предел Свода — $750.');
+        if(limits.notes.length)warningMessages.push(...limits.notes.slice(0,3));
+        const fineSliderMax=limits.unknownFine?750:limits.fine;
+        const fineValue=Math.min(fineSliderMax,Math.max(0,Math.floor(Number(draft.fine)||0)));
+        const termValue=Math.min(limits.term,Math.max(0,Math.floor(Number(draft.term)||0)));
+        draft.fine=fineValue;draft.term=termValue;persist();
+        body.innerHTML=qfStepHeader('Данные сотрудника и наказание','Укажите сотрудника и подразделение. Размер штрафа и срок назначаются ползунками — вводить числа вручную не нужно.')+
+          `<div class="qf-fields">
+            <div class="qf-field-wrap"><label class="qf-label" for="qfOfficer">Имя и фамилия сотрудника</label><input class="qf-field" id="qfOfficer" value="${escapeHtml(draft.officer)}" placeholder="Виктор Барри"></div>
+            <div class="qf-field-wrap"><label class="qf-label" for="qfRank">Звание</label><input class="qf-field" id="qfRank" value="${escapeHtml(draft.rank)}" placeholder="сержант"></div>
+            <div class="qf-field-wrap full"><label class="qf-label" for="qfDepartment">Департамент</label><select class="qf-field" id="qfDepartment">${departments.map(value=>`<option value="${escapeHtml(value)}" ${value===draft.department?'selected':''}>${escapeHtml(value)}</option>`).join('')}</select></div>
+            <div class="qf-field-wrap full"><label class="qf-label" for="qfIssueDate">Дата выписки</label><input class="qf-field" id="qfIssueDate" readonly value="${escapeHtml(fmtDate(issueDateISO()))}"></div>
+          </div>
+          <div class="qf-penalty-summary"><div>Максимальный штраф<strong>${limits.unknownFine?'Общий предел $750':'$'+limits.fine}</strong></div><div>Максимальный срок<strong>${limits.term} сроков</strong></div></div>
+          ${warningMessages.length?`<div class="qf-warning">${warningMessages.map(escapeHtml).join('<br>')}</div>`:''}
+          <div class="qf-range-block">
+            <div class="qf-range-head"><label for="qfFine">Назначенный штраф</label><output class="qf-range-value" id="qfFineValue">$${fineValue}</output></div>
+            <input class="qf-range" id="qfFine" type="range" min="0" max="${fineSliderMax}" step="1" value="${fineValue}" ${fineSliderMax<=0?'disabled':''}>
+            <div class="qf-range-scale"><span>$0</span><span>$${fineSliderMax}</span></div>
+            <div class="qf-hint">${limits.unknownFine?'В одной или нескольких статьях максимум не определён; соблюдайте общий предел $750.':'Размер штрафа не превышает совокупный максимум выбранных статей.'}</div>
+          </div>
+          <div class="qf-range-block">
+            <div class="qf-range-head"><label for="qfTerm">Назначенный срок</label><output class="qf-range-value" id="qfTermValue">${termValue} ${qfTermWord(termValue)}</output></div>
+            <input class="qf-range" id="qfTerm" type="range" min="0" max="${limits.term}" step="1" value="${termValue}" ${limits.term<=0?'disabled':''}>
+            <div class="qf-range-scale"><span>0</span><span>${limits.term} ${qfTermWord(limits.term)}</span></div>
+            <div class="qf-hint">Размер срока не превышает совокупный максимум и общий предел Свода.</div>
+          </div>
+          <div class="qf-hint" style="margin-top:11px">Дата выписки и срок оплаты будут рассчитаны по тем же правилам, что и в стандартном штрафном бланке.</div>`;
+        const bind=(id,key)=>body.querySelector('#'+id).addEventListener('input',event=>{draft[key]=event.target.value;persist();});
+        bind('qfOfficer','officer');bind('qfRank','rank');
+        body.querySelector('#qfDepartment').addEventListener('change',event=>{draft.department=event.target.value;persist();});
+        body.querySelector('#qfFine').addEventListener('input',event=>{
+          const value=Math.min(fineSliderMax,Math.max(0,Math.round(Number(event.target.value)||0)));
+          draft.fine=value;body.querySelector('#qfFineValue').textContent='$'+value;persist();
+        });
+        body.querySelector('#qfTerm').addEventListener('input',event=>{
+          const value=Math.min(limits.term,Math.max(0,Math.round(Number(event.target.value)||0)));
+          draft.term=value;body.querySelector('#qfTermValue').textContent=value+' '+qfTermWord(value);persist();
+        });
+      }
+      function qfApplyToStandardForm(){
+        const chosen=qfSelectedLaws();
+        const limits=qfLimits();
+        selected.clear();chosen.forEach(law=>selected.add(law.code));
+        render();renderSelected();calc();
+        document.getElementById('citizenName').value=draft.citizen.trim();
+        document.getElementById('passport').value=draft.passport.trim();
+        document.getElementById('officerName').value=draft.officer.trim();
+        document.getElementById('rank').value=draft.rank.trim()||'сержант';
+        departmentSelect.value=draft.department;
+        syncIssueDate();
+        document.getElementById('articlesInput').value=chosen.map(articleLabel).join(', ');
+        const fineValue=Math.max(0,Math.floor(Number(draft.fine)||0));
+        const termValue=Math.min(limits.term,Math.max(0,Math.floor(Number(draft.term)||0)));
+        const fineSliderMax=limits.unknownFine?750:limits.fine;
+        const appliedFine=Math.min(fineSliderMax,fineValue);
+        document.getElementById('fineInput').value=String(appliedFine);
+        document.getElementById('termInput').value=String(termValue);
+        fineRange.max=String(fineSliderMax);fineRange.value=String(appliedFine);
+        fineRange.disabled=fineSliderMax<=0;
+        termRange.max=String(limits.term);termRange.value=String(termValue);termRange.disabled=limits.term<=0;
+        fineRangeValue.textContent='$'+appliedFine;
+        termRangeValue.textContent=String(termValue);
+        fineRangeMax.textContent='$'+fineSliderMax;termRangeMax.textContent=String(limits.term);
+        updatePreview();
+      }
+      function qfRenderResult(){
+        qfApplyToStandardForm();
+        const exactText=buildText();
+        body.innerHTML=qfStepHeader('Бланк готов','Ниже показан документ, сформированный действующим шаблоном сайта. При изменении пользовательского шаблона этот же шаблон применяется и здесь.')+
+          `<p class="qf-template-note">Используется текущий сохранённый шаблон штрафного бланка. Результат совпадает с текстом в обычном разделе «Помощник штрафного бланка».</p>
+          <div class="qf-document" id="qfDocumentPreview">${escapeHtml(exactText)}</div>
+          <div class="qf-result-actions"><button type="button" class="btn" id="qfCopy">Копировать бланк</button><button type="button" class="btn secondary" id="qfSaveCase">В мои дела</button></div>`;
+        body.querySelector('#qfCopy').addEventListener('click',async()=>{
+          // Берём тот же buildText(), который обслуживает обычный предпросмотр, копирование и печать.
+          const ok=await copyTextValue(buildText());
+          const button=body.querySelector('#qfCopy');
+          button.textContent=ok?'Скопировано':'Не удалось скопировать';
+          setTimeout(()=>{if(button.isConnected)button.textContent='Копировать бланк';},1400);
+        });
+        body.querySelector('#qfSaveCase').addEventListener('click',()=>{
+          if(!document.getElementById('citizenName').value.trim()||!document.getElementById('articlesInput').value.trim())return;
+          const before=savedCases.length;
+          addCurrentCase();
+          if(savedCases.length>before){const button=body.querySelector('#qfSaveCase');button.textContent='Сохранено в «Мои дела»';button.disabled=true;}
+        });
+      }
+      function qfUpdateProgress(){
+        const percent=Math.round(draft.step/4*100);
+        progressRing.style.setProperty('--qf-progress',percent+'%');
+        progressPercent.textContent=percent+'%';
+        stepsHost.querySelectorAll('[data-step]').forEach(item=>{
+          const step=Number(item.dataset.step);
+          item.classList.toggle('active',step===draft.step);
+          item.classList.toggle('done',step<draft.step);
+        });
+        backButton.disabled=draft.step===1;
+        nextButton.hidden=false;
+        restartButton.hidden=false;
+        nextButton.textContent=draft.step===3?'Сформировать бланк':draft.step===4?'Закрыть мастер':'Продолжить';
+        qfUpdateButtons();
+      }
+      function qfUpdateButtons(){
+        if(draft.step===1)nextButton.disabled=!draft.codes.length;
+        else if(draft.step===2)nextButton.disabled=!String(draft.citizen||'').trim();
+        else nextButton.disabled=false;
+      }
+      function qfRender(){
+        qfUpdateProgress();
+        if(draft.step===1){if(draft.view==='articles'&&draft.category)qfRenderArticles();else qfRenderCategories();}
+        else if(draft.step===2)qfRenderCitizen();
+        else if(draft.step===3)qfRenderOfficer();
+        else qfRenderResult();
+        qfUpdateProgress();
+      }
+      function open(){
+        if(isOpen)return;
+        isOpen=true;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+        draft.codes=draft.codes.filter(code=>laws.some(law=>law.code===code));
+        if(!draft.department||!Array.from(departmentSelect.options).some(option=>option.value===draft.department))draft.department=departmentSelect.value;
+        if(draft.view==='articles'&&draft.category!=='__favorites__'&&!laws.some(law=>law.category===draft.category)){draft.view='categories';draft.category='';}
+        persist();qfRender();
+        const focusTarget=body.querySelector('input,button,select');focusTarget?.focus();
+      }
+      function close(){
+        if(!isOpen)return;
+        isOpen=false;modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';persist();
+      }
+      function restart(){
+        if(!confirm('Начать заполнение заново? Выбранные статьи и введённые в мастере данные будут очищены.'))return;
+        draft={step:1,view:'categories',category:'',search:'',codes:[],citizen:'',passport:'',officer:'',department:departmentSelect.value,rank:'сержант',fine:0,term:0};
+        persist();qfRender();
+      }
+      function next(){
+        if(draft.step===1){if(!draft.codes.length)return;draft.step=2;}
+        else if(draft.step===2){draft.citizen=String(draft.citizen||'').trim();if(!draft.citizen){showToast('Укажите имя и фамилию гражданина.');return;}draft.step=3;}
+        else if(draft.step===3){
+          const limits=qfLimits();
+          const fineSliderMax=limits.unknownFine?750:limits.fine;
+          draft.fine=Math.min(fineSliderMax,Math.max(0,Math.floor(Number(draft.fine)||0)));
+          draft.term=Math.min(limits.term,Math.max(0,Math.floor(Number(draft.term)||0)));
+          draft.step=4;
+        }else if(draft.step===4){close();return;}
+        persist();qfRender();
+      }
+      function back(){
+        if(draft.step===1){if(draft.view==='articles'){draft.view='categories';draft.category='';draft.search='';persist();qfRender();}return;}
+        draft.step=Math.max(1,draft.step-1);persist();qfRender();
+      }
+      openButton.addEventListener('click',open);
+      closeButton.addEventListener('click',close);
+      backButton.addEventListener('click',back);
+      nextButton.addEventListener('click',next);
+      restartButton.addEventListener('click',restart);
+      modal.addEventListener('click',event=>{if(event.target===modal)close();});
+      document.addEventListener('keydown',event=>{if(event.key==='Escape'&&isOpen)close();});
+      // Draft can be resumed after reload; changes to the law book are reconciled on open.
+      persist();
+    })();
 
     syncIssueDate(); render();renderSelected();calc();updatePreview();renderCases();initDevlog();
     document.querySelectorAll('.topnav a').forEach(link=>link.addEventListener('click',()=>{
