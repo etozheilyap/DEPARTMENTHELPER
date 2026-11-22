@@ -221,6 +221,10 @@
     .article-title{margin:6px 0 4px;color:#e1e1e2;font-family:"Arial Narrow",Impact,Arial,sans-serif;font-size:14px;line-height:1.35}
     .article-text{color:#aaaab0;font-size:12px;line-height:1.5}
     .article-penalty{margin-top:7px;color:#dedee0;font-size:11px}
+    .copy-law-btn{flex:0 0 auto;margin-left:auto;padding:5px 8px;border:1px solid #46464b;background:#101012;color:#a9a9ad;border-radius:2px;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:.035em;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+    .copy-law-btn:hover{border-color:#8c292f;background:#190c0e;color:#fff}
+    .copy-law-btn:focus-visible{outline:1px solid #b51f26;outline-offset:2px}
+    .copy-law-btn.copied{border-color:#496247;color:#b6d5ad}
     .empty{padding:23px;border:1px dashed #38383c;color:#929297;text-align:center}
     .card{position:relative;overflow:hidden;border:1px solid #29292d;border-radius:0;background:rgba(9,9,10,.96);box-shadow:none}
     .card:after{display:none}
@@ -755,6 +759,40 @@
       if(l.fineMax===0) return t;
       return `${t} + ${f}`;
     }
+    async function copyLawToClipboard(law, button){
+      const value=`${articleLabel(law)} - ${law.title}`;
+      try{
+        try{
+          if(!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+          await navigator.clipboard.writeText(value);
+        }catch(clipboardError){
+          const textarea=document.createElement('textarea');
+          textarea.value=value;
+          textarea.setAttribute('readonly','');
+          textarea.style.position='fixed';
+          textarea.style.left='-9999px';
+          textarea.style.top='0';
+          document.body.appendChild(textarea);
+          textarea.focus();
+          textarea.select();
+          let copied=false;
+          try{copied=document.execCommand('copy');}
+          finally{textarea.remove();}
+          if(!copied) throw clipboardError;
+        }
+        button.textContent='Скопировано';
+        button.classList.add('copied');
+      }catch(error){
+        button.textContent='Ошибка';
+      }
+      clearTimeout(button._copyTimeout);
+      button._copyTimeout=setTimeout(()=>{
+        if(button.isConnected){
+          button.textContent='Скопировать';
+          button.classList.remove('copied');
+        }
+      },1300);
+    }
     function render(){
       const q=document.getElementById('lawSearch').value.trim().toLowerCase();
       const cat=categoryEl.value;
@@ -799,6 +837,17 @@
           d.className='article'+(selected.has(l.code)?' selected':'');
           const badge=l.code.startsWith('2.')||l.code.startsWith('6.')||l.code.startsWith('7.')||l.code.startsWith('8.')||l.code.startsWith('11.')||l.code.startsWith('12.')?'Код':'Статья';
           d.innerHTML='<div class="article-top"><span class="code">'+escapeHtml(articleLabel(l))+'</span><span class="badge">'+escapeHtml(badge)+'</span></div><div class="article-title">'+escapeHtml(l.title)+'</div><p class="article-text">'+escapeHtml(l.text)+'</p><div class="article-penalty">'+escapeHtml(penalty(l))+'</div>'+(l.special?'<div class="subtle" style="margin-top:6px">'+escapeHtml(l.special)+'</div>':'');
+          const copyButton=document.createElement('button');
+          copyButton.type='button';
+          copyButton.className='copy-law-btn';
+          copyButton.textContent='Скопировать';
+          copyButton.setAttribute('aria-label',`Скопировать закон ${articleLabel(l)} — ${l.title}`);
+          copyButton.addEventListener('click',event=>{
+            event.preventDefault();
+            event.stopPropagation();
+            copyLawToClipboard(l,copyButton);
+          });
+          d.querySelector('.article-top').appendChild(copyButton);
           d.addEventListener('click',()=>toggle(l.code));
           inner.appendChild(d);
         });
